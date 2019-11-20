@@ -6,22 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tofa.circular.R;
+import com.tofa.circular.customclass.AppAlertModel;
+
+import java.util.ArrayList;
 
 public class AppListAdapter extends BaseAdapter {
     Context context;
-    int logos[];
+    ArrayList<AppAlertModel> arrayList;
     LayoutInflater inflter;
-    public AppListAdapter(Context applicationContext, int[] logos) {
+    int listType;
+    public AppListAdapter(Context applicationContext, ArrayList<AppAlertModel> arrayList, int listType) {
         this.context = applicationContext;
-        this.logos = logos;
+        this.arrayList = arrayList;
+        this.listType = listType;
         inflter = (LayoutInflater.from(applicationContext));
     }
     @Override
     public int getCount() {
-        return logos.length;
+        return arrayList.size();
     }
     @Override
     public Object getItem(int i) {
@@ -42,11 +46,39 @@ public class AppListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.iv_app.setImageResource(logos[i]);
+
+        AppAlertModel model = arrayList.get(i);
+
+
+        if (listType==1){
+            viewHolder.iv_app.setImageResource(arrayList.get(i).imageDrawable);
+            if (model.isSelected){
+                viewHolder.iv_select.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.iv_select.setVisibility(View.INVISIBLE);
+            }
+
+        }else {
+            viewHolder.iv_select.setVisibility(View.GONE);
+            if (model.isSelected){
+                viewHolder.iv_app.setImageResource(arrayList.get(i).imageDrawableSelected);
+                viewHolder.iv_app.setBackground(context.getResources().getDrawable(R.drawable.back_app_list_item_orange));
+            }else {
+                viewHolder.iv_app.setImageResource(arrayList.get(i).imageDrawable);
+                viewHolder.iv_app.setBackground(context.getResources().getDrawable(R.drawable.back_app_list_item));
+            }
+        }
+
         viewHolder.iv_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewHolder.iv_select.setVisibility(View.VISIBLE);
+                for (AppAlertModel model1:arrayList){
+                    if (model1.isSelected){
+                        model1.isSelected = false;
+                    }
+                }
+                arrayList.get(i).isSelected = true;
+                notifyDataSetChanged();
             }
         });
         return convertView;
@@ -60,5 +92,4 @@ public class AppListAdapter extends BaseAdapter {
             iv_select = (ImageView) view.findViewById(R.id.iv_select);
         }
     }
-
 }

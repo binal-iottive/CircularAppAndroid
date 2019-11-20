@@ -14,12 +14,13 @@
         app:toolbarTitle="@string/new_alert">
 
         <ImageView
+            android:id="@+id/iv_add_alert"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="39dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="-40dp"
+            android:layout_marginLeft="-56dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/radio_right" />
+            android:src="@drawable/ic_check_black_24dp" />
     </com.tofa.circular.customclass.ToolbarView>
 
     <androidx.core.widget.NestedScrollView
@@ -46,7 +47,10 @@
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="4"
-        android:padding="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="15dp"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
 
@@ -54,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/all"
         android:background="@color/colorDarkGrey"
@@ -62,14 +66,16 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/tv_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/from_contact"
         android:background="@color/colorDarkGrey"
         android:textColor="#364249"
+        android:drawableRight="@drawable/ic_chevron_right_black_24dp"
         android:textSize="14sp" />
 
             <TextView
@@ -80,8 +86,21 @@
                 android:text="@string/repetition"
                 android:textColor="#38454C"
                 android:textSize="18sp" />
+            <com.tofa.circular.customclass.MyGridView
+                android:id="@+id/gv_repetType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorDarkGrey"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="4"
+                android:layout_marginBottom="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 </LinearLayout>

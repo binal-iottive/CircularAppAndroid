@@ -1,5 +1,6 @@
 package com.tofa.circular;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.tofa.circular.adapter.AlertsAdapter;
 import com.tofa.circular.customclass.AlertModel;
+import com.tofa.circular.customclass.AppAlertModel;
+import com.tofa.circular.customclass.Utils;
 
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
     private RecyclerView rlAlerts;
     private TextView tv_addAlert;
     private AlertsAdapter mAdapter;
-    private ArrayList<AlertModel> alertList = new ArrayList<>();
+    private ArrayList<AppAlertModel> alertList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +34,7 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
 
         tv_addAlert.setOnClickListener(this);
 
-        alertList.add(new AlertModel("Pnone call"));
-        alertList.add(new AlertModel("Pnone call"));
-        alertList.add(new AlertModel("Pnone call"));
-        mAdapter = new AlertsAdapter(alertList);
+        mAdapter = new AlertsAdapter(Utils.appAlertArraylist,AlertActivity.this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rlAlerts.setLayoutManager(mLayoutManager);
         rlAlerts.setItemAnimator(new DefaultItemAnimator());
@@ -46,8 +46,16 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.tv_addAlert:
                 Intent intent = new Intent(AlertActivity.this,AlertNewActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Utils.REQUEST_ADD_ALERT);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Utils.REQUEST_ADD_ALERT){
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
