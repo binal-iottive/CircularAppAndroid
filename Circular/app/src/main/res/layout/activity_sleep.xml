@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SleepActivity">
+
+    <com.tofa.circular.customclass.ToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbarIcon="@mipmap/ic_sleep"
+        app:toolbarTitle="@string/sleep_analysis" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="30dp">
+
+                <TextView
+                    android:id="@+id/txtSleepWakeUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/crdSleepOval"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/sleep_qualuty_score"
+                    android:textColor="@color/colorBlack" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdSleepOval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtSleepWakeUp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <com.tofa.circular.customclass.WaveProgressBar
+                            android:id="@+id/pbSleep"
+                            android:layout_width="125dp"
+                            android:layout_height="125dp"
+                            app:borderColor="@color/colorBlue"
+                            app:borderWidthSize="2dp"
+                            app:max="100"
+                            app:progress="83"
+                            app:strong="100"
+                            app:textColor="@color/colorBlack"
+                            app:waveColor="@color/colorAlphaBlue" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="@string/good"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/sleep_duration"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.tofa.circular.customclass.TimeChartView
+                    android:id="@+id/chartSleep"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:backgoundColor="@color/colorGrayBG"
+                    app:borderColor="@color/colorAlphaBlue"
+                    app:centerColor="@color/colorWhite"
+                    app:centerRadius="40"
+                    app:iconBottom="@mipmap/ic_sungray"
+                    app:iconLeft="@mipmap/ic_midnight"
+                    app:iconRight="@mipmap/ic_midday"
+                    app:iconTop="@mipmap/ic_moon"
+                    app:progressColor="@color/colorBlue"
+                    app:separatorColor="@color/colorBlack"
+                    app:separatorLength="10"
+                    app:separatorThickness="10"
+                    app:valueTextSpace="10" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/sleep_quality_details"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdDisturbance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_disturbance_detail"
+                    app:labelText="@string/disturbances"
+                    app:progress="45"
+                    app:progressMax="49" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdRealSleep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_real_sleep"
+                    app:labelText="@string/t_real_sleep"
+                    app:progress="92"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdTranq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_tranquility"
+                    app:labelText="@string/t_tranq"
+                    app:progress="60"
+                    app:progressBG="@drawable/pb_round_red"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdCircadian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_circidian"
+                    app:labelText="@string/t_circadian"
+                    app:progress="98"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdREM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_REM_sleep"
+                    app:labelText="@string/t_rem_sleep"
+                    app:progress="80"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdDeepSleep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_deep_sleep"
+                    app:labelText="@string/t_deep_sleep"
+                    app:progress="9"
+                    app:progressBG="@drawable/pb_round_red"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdTimeFall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_time_to_sleep"
+                    app:labelText="@string/t_time_to_sleep"
+                    app:progress="80"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdSleepDebt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_sleep_debt"
+                    app:labelText="@string/t_sleep_debt"
+                    app:progress="96"
+                    app:progressMax="100" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/sleep_detail"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorGrayBG"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/sleep_stages"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:checkedButton="@id/rbSleepToday"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbSleepToday"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_toggle"
+                    android:button="@android:color/transparent"
+                    android:minHeight="30dp"
+                    android:text="@string/today"
+                    android:textAllCaps="false"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbSleepWeek"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_toggle"
+                    android:button="@android:color/transparent"
+                    android:minHeight="30dp"
+                    android:text="@string/past_week"
+                    android:textAllCaps="false"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbSleepMonth"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_toggle"
+                    android:button="@android:color/transparent"
+                    android:minHeight="30dp"
+                    android:text="@string/past_month"
+                    android:textAllCaps="false"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+            </RadioGroup>
+
+            <include
+                layout="@layout/card_sleep_stages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:checkedButton="@id/rbSleepStages"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbSleepStages"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@drawable/btn_toggle_moon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbHeartRate"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@drawable/btn_toggle_heart"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbHRV"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@android:color/transparent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/hrv"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbSleepQualityScore"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@drawable/btn_toggle_wave"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbHRS"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@android:color/transparent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/hrs"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+
+                <RadioButton
+                    android:id="@+id/rbO2"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_large_toggle"
+                    android:button="@android:color/transparent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/spo2"
+                    android:textColor="@color/btn_toggle_blue_txt" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnSleepShare"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:background="@drawable/btn_share_border"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

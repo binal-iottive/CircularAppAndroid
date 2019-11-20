@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="0dp"
+    android:paddingEnd="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/txtMyring"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/my_ring"
+        android:textColor="@color/colorBlack" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.ramijemli.percentagechartview.PercentageChartView
+            android:id="@+id/pbMyRing"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            app:pcv_drawBackground="false"
+            app:pcv_drawBackgroundBar="false"
+            app:pcv_gradientAngle="0"
+            app:pcv_gradientColors="#FD8081, #AC7CD6"
+            app:pcv_gradientType="linear"
+            app:pcv_mode="ring"
+            app:pcv_orientation="counter_clockwise"
+            app:pcv_progress="75"
+            app:pcv_progressBarStyle="round"
+            app:pcv_progressBarThickness="3dp"
+            app:pcv_startAngle="180"
+            app:pcv_textSize="0sp" />
+
+        <TextView
+            android:id="@+id/lblMyRingProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</LinearLayout>

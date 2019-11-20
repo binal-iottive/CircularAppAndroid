@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityAnalysisActivity">
+
+    <com.tofa.circular.customclass.ToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbarIcon="@mipmap/ic_activity"
+        app:toolbarTitle="@string/activity_analysis" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="30dp">
+
+                <TextView
+                    android:id="@+id/txtActivityEnergy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/crdActivityOval"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/energy_score"
+                    android:textColor="@color/colorBlack" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdActivityOval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtActivityEnergy"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <com.tofa.circular.customclass.WaveProgressBar
+                            android:id="@+id/pbActivity"
+                            android:layout_width="125dp"
+                            android:layout_height="125dp"
+                            app:borderColor="@color/colorDarkRed"
+                            app:borderWidthSize="2dp"
+                            app:max="100"
+                            app:progress="85"
+                            app:strong="100"
+                            app:textColor="@color/colorBlack"
+                            app:waveColor="@color/colorAlphaRed" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="@string/good"
+                            android:textColor="@color/colorDarkRed"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/activity_duration"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.tofa.circular.customclass.TimeChartView
+                    android:id="@+id/chartViewActivityDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:backgoundColor="@color/colorGrayBG"
+                    app:borderColor="@color/colorAlphaRed"
+                    app:centerColor="@color/colorWhite"
+                    app:centerRadius="40"
+                    app:iconBottom="@mipmap/ic_sungray"
+                    app:iconLeft="@mipmap/ic_midnight"
+                    app:iconRight="@mipmap/ic_midday"
+                    app:iconTop="@mipmap/ic_moon"
+                    app:progressColor="@color/colorDarkRed"
+                    app:separatorColor="@color/colorBlack"
+                    app:separatorLength="10"
+                    app:separatorThickness="10"
+                    app:valueTextSpace="10" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/daily_metrics"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_steps_taken"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    app:labelText="Steps taken (nb)"
+                    app:labelValue="9.200"
+                    app:statusIcon="@mipmap/ic_shoes_red" />
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_walking_equivalency"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    app:labelText="Walking equivalency (km)"
+                    app:labelValue="5.4"
+                    app:statusIcon="@mipmap/ic_km" />
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_calories_burns"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    app:labelText="Calories burned (kcal)"
+                    app:labelValue="1010"
+                    app:statusIcon="@mipmap/ic_fire_red" />
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_active_minutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    app:labelText="Active minutes (min)"
+                    app:labelValue="157"
+                    app:statusIcon="@mipmap/ic_sport_red" />
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_vo2_max"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    app:labelText="VO2 max (ml/kg/min)"
+                    app:labelValue="35"
+                    app:statusIcon="@mipmap/ic_lung" />
+
+                <com.tofa.circular.customclass.StatusCardView
+                    android:id="@+id/scv_hr_max"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:labelText="HR max (bpm)"
+                    app:labelValue="123"
+                    app:statusIcon="@mipmap/ic_heart_red" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/energy_score_details"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdRecovery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_disturbance_detail"
+                    app:labelText="Recovery"
+                    app:progress="50"
+                    app:progressBG="@drawable/pb_round_red"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdWakeupScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/wake_up_score"
+                    app:labelText="@string/wake_up_score"
+                    app:progress="96"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdHeartRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_tranquility"
+                    app:labelText="Heart rate variability"
+                    app:progress="68"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdRestingHeartRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_circidian"
+                    app:labelText="Resting heart rate"
+                    app:progress="25"
+                    app:progressBG="@drawable/pb_round_red"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdSleepQuality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_REM_sleep"
+                    app:labelText="Sleep quality"
+                    app:progress="83"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdSleepBalance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_deep_sleep"
+                    app:labelText="Sleep balance"
+                    app:progress="90"
+                    app:progressMax="100" />
+
+                <com.tofa.circular.customclass.ProgressCardView
+                    android:id="@+id/crdActivityVolume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:detailText="@string/d_time_to_sleep"
+                    app:labelText="Activity volume"
+                    app:progress="80"
+                    app:progressMax="100" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/activity_details"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/activity_intensity"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:checkedButton="@id/rbActivityToday"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbActivityToday"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_toggle_red"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:minHeight="30dp"
+                        android:text="@string/today"
+                        android:textAllCaps="false"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbActivityWeek"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_toggle_red"
+                        android:button="@android:color/transparent"
+                        android:minHeight="30dp"
+                        android:text="@string/past_week"
+                        android:textAllCaps="false"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbActivityMonth"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_toggle_red"
+                        android:button="@android:color/transparent"
+                        android:minHeight="30dp"
+                        android:text="@string/past_month"
+                        android:textAllCaps="false"
+                        android:textColor="@color/btn_toggle_red_txt" />
+                </RadioGroup>
+
+                <include
+                    layout="@layout/card_sleep_stages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp" />
+
+                <com.hopenlib.flextools.FlexRadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:checkedButton="@id/rbActivityStages"
+                    android:orientation="horizontal"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center">
+
+                    <RadioButton
+                        android:id="@+id/rbActivityStages"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_sport"
+                        android:checked="true"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbHeartRate"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_fire"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbHRV"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_heart_red"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbActivityQualityScore"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@android:color/transparent"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/hrv"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbHRS"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_time"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbO2"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_wave_red"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbO3"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_shoes"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rbO4"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@drawable/btn_toggle_sofa"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textColor="@color/btn_toggle_red_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rb45"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_large_toggle_red"
+                        android:button="@android:color/transparent"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/spo2"
+                        android:textColor="@color/btn_toggle_red_txt" />
+                </com.hopenlib.flextools.FlexRadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_heart_rate"
+                android:textColor="@color/colorBlack"
+                android:layout_margin="20dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:contentPadding="20dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/play_button"
+                            android:layout_gravity="center_horizontal"/>
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_heart_red"
+                            android:layout_marginTop="20dp"
+                            android:layout_gravity="center_horizontal"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:text="75"
+                            android:layout_marginTop="7dp"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="25sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:text="bpm"
+                            android:layout_marginTop="7dp"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btnActivityShare"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:gravity="bottom|right"
+                    android:background="@drawable/btn_share_border"
+                    android:textColor="@color/colorBlack" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

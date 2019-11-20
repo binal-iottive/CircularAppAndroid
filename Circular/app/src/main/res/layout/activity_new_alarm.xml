@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NewAlarmActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarMain"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/colorGrayBG"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/btnNewAlarmBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@mipmap/ic_alarm" />
+
+            <TextView
+                android:id="@+id/txtNewAlarmTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/new_alarm"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/btnNewAlarmApply"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_check_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TimePicker
+                android:id="@+id/timePickerNewAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:theme="@style/NumberPickerStyle"
+                android:timePickerMode="spinner"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/other"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmEditVibration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmEditVibration"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/logo"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:id="@+id/lblNewAlarmEditVibration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_vibration"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repeat"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmRepeat"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/every_day"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmLabel"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/alarm"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmSnooze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+
+                <TextView
+                    android:id="@+id/lblNewAlarmSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/snooze"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmSnooze"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:text="@string/off"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmSmartSnooze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+
+                <TextView
+                    android:id="@+id/lblNewAlarmSmartSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smart_snooze"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmSmartSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmSmartSnooze"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:text="@string/off"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btnNewAlarmSmartAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+
+                <TextView
+                    android:id="@+id/lblNewAlarmSmartAlarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smart_alarm"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmSmartAlarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmSmartAlarm"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:text="@string/off"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnNewAlarmDelete"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
+                android:layout_marginEnd="75dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btn_small_blue"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
+                android:text="@string/delete_alarm"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

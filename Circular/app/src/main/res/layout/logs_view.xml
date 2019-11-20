@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorGrayBG"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/lblLogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDisabledButton" />
+
+    <Button
+        android:id="@+id/btnLogClose"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_close_black_24dp" />
+
+    <TextView
+        android:id="@+id/lblStartLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogClose"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/lblEndLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogClose"
+        android:layout_alignEnd="@id/tpLog"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp" />
+
+    <com.tofa.circular.customclass.TimeProgressView
+        android:id="@+id/tpLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblStartLog"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/lblLogTime"
+        app:barHeight="10dp"
+        app:emptySegmentBackground="@color/colorAlphaBlue"
+        app:showStartEndLabel="true"
+        app:startEndTextColor="@color/colorBlack"
+        app:startEndTextSize="12sp" />
+
+    <TextView
+        android:id="@+id/lblLogTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblStartLog"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorBlack" />
+
+</RelativeLayout>

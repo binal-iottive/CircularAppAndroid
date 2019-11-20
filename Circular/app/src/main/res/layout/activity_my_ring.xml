@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyRingActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarMain"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorGrayBG"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/btnNewAlarmBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/my_ring"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp">
+
+        <com.ramijemli.percentagechartview.PercentageChartView
+            android:id="@+id/pbMyRing"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_centerInParent="true"
+            app:pcv_drawBackground="false"
+            app:pcv_drawBackgroundBar="false"
+            app:pcv_gradientAngle="0"
+            app:pcv_gradientColors="#FD8081, #AC7CD6"
+            app:pcv_gradientType="linear"
+            app:pcv_mode="ring"
+            app:pcv_orientation="counter_clockwise"
+            app:pcv_progress="75"
+            app:pcv_progressBarStyle="round"
+            app:pcv_progressBarThickness="12dp"
+            app:pcv_startAngle="180"
+            app:pcv_textSize="0sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblMyRingProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/batterry"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pbMyRing"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="@string/kate_s_us_10"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblMyRingSleepMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_mode"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/lblMyRingSleepMode"
+                    android:layout_alignParentEnd="true"
+                    android:checkedButton="@id/rbUserInfoWeightKg"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoWeightKg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_gray_left"
+                        android:button="@android:color/transparent"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:paddingStart="15dp"
+                        android:paddingTop="7dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="7dp"
+                        android:text="@string/on"
+                        android:textColor="@drawable/radio_gray_text"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoWieghtLb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_gray_right"
+                        android:button="@android:color/transparent"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:paddingStart="15dp"
+                        android:paddingTop="7dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="7dp"
+                        android:text="@string/off"
+                        android:textColor="@drawable/radio_gray_text"
+                        android:textSize="12sp" />
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblMyRingSetup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setup_a_new_ring"
+                    android:textColor="@color/colorBlack" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblMyRingSetup"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/logo"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/firmware"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmRepeat"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/firm_ver"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bootloader"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtNewAlarmLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmLabel"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/bootloader_ver"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mac_address"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txtMyRingMac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmSnooze"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/mac_value"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lytSoftReset"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblNewAlarmSmartSnooze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/soft_reset"
+                    android:textColor="@color/colorBlack" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblNewAlarmSmartSnooze"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/logo"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lytHardReset"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorDarkGrey"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/lblMyRingHard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/factory_reset"
+                    android:textColor="@color/colorBlack" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblMyRingHard"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/logo"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tofa.circular.AlertActivity">
+
+    <com.tofa.circular.customclass.ToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbarIcon="@mipmap/ic_alert"
+        app:toolbarTitle="@string/alerts" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/add_new_source_below"
+        android:textColor="#38454C"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGrayBG"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_addAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_add_alert"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/add_an_alert"
+            android:textColor="#657884"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rlAlerts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

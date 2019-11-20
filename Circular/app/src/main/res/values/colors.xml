@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#3960F7</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#364249</color>
+    <color name="colorGrayBG">#EEEEEE</color>
+    <color name="colorDarkGrey">#EFEFEF</color>
+    <color name="colorOrange">#FC551A</color>
+    <color name="colorDisabledButton">#657884</color>
+    <color name="colorDark">#001871</color>
+    <color name="colorTextGray">#657884</color>
+    <color name="colorRed">#FF3D00</color>
+    <color name="colorBlue">#3996F7</color>
+    <color name="colorAlphaBlue">#593996F7</color>
+    <color name="colorLightBlue">#117CF3</color>
+    <color name="colorDarkBlue">#1830AE</color>
+    <color name="colorGreen">#2BD866</color>
+    <color name="colorDivider">#979797</color>
+    <color name="colorDarkRed">#E00A0A</color>
+    <color name="colorAlphaRed">#59E00A0A</color>
+    <color name="cardview_dark_background" tools:ignore="PrivateResource">#424242</color>
+    <color name="cardview_light_background" tools:ignore="PrivateResource">#ffffff</color>
+    <color name="cardview_shadow_end_color" tools:ignore="PrivateResource">#03000000</color>
+    <color name="cardview_shadow_start_color" tools:ignore="PrivateResource">#37000000</color>
+</resources>

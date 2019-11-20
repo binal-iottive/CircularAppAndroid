@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tofa.circular">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".AlertNewActivity"></activity>
+        <activity android:name=".AlertActivity" />
+        <activity android:name=".ActivityAnalysisActivity" />
+        <activity android:name=".EditLogsActivity" />
+        <activity android:name=".SleepActivity" />
+        <activity android:name=".EditVibrationActivity" />
+        <activity android:name=".NewAlarmActivity" />
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".AddCircleActivity" />
+        <activity android:name=".MyRingActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".ForgotActivity" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".FirstPageActivity" />
+        <activity
+            android:name=".LoadingActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".nrfUARTv2.UARTActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".nrfUARTv2.DeviceListActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <service
+            android:name=".nrfUARTv2.UartService"
+            android:enabled="true" />
+    </application>
+
+</manifest>

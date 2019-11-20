@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AlarmActivity">
+
+    <com.tofa.circular.customclass.ToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbarIcon="@mipmap/ic_alarm"
+        app:toolbarTitle="@string/alarm_clock" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="30dp">
+
+                <TextView
+                    android:id="@+id/txtAlarmWakeUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/crdAlarmOval"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/wake_up_score"
+                    android:textColor="@color/colorBlack" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdAlarmOval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtAlarmWakeUp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <com.tofa.circular.customclass.WaveProgressBar
+                            android:id="@+id/pbMyRing"
+                            android:layout_width="125dp"
+                            android:layout_height="125dp"
+                            app:borderColor="@color/colorBlue"
+                            app:borderWidthSize="2dp"
+                            app:max="100"
+                            app:progress="75"
+                            app:strong="100"
+                            app:textColor="@color/colorBlack"
+                            app:waveColor="@color/colorAlphaBlue" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="@string/excellent"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crdAlarmScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_ble_gd_rounded2"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/btnAlarmClose"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_close"
+                        android:cropToPadding="false" />
+
+                    <TextView
+                        android:id="@+id/txtAlamTIme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btnAlarmClose"
+                        android:layout_alignEnd="@id/chartAlarmScore"
+                        android:text="@string/_07_12"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chartAlarmScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_below="@id/txtAlamTIme"
+                        android:layout_marginStart="-10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginBottom="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/chartAlarmScore"
+                        android:padding="10dp"
+                        android:text="@string/d_wokeup"
+                        android:textColor="@color/colorWhite" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/programed_alarms"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdAlarm1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:cardBackgroundColor="@color/colorGreen"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:text="@string/_07_00"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorDivider" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/txtAlarm1Title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:text="@string/alarm"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtAlarm1Time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/txtAlarm1Title"
+                                android:text="@string/weekdays"
+                                android:textColor="@color/colorBlack" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm1S"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/btnAlarm1On"
+                                android:background="@drawable/btn_toggle"
+                                android:checked="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/s"
+                                android:textOn="@string/s" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm1On"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/btn_toggle"
+                                android:checked="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textAllCaps="false"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/off"
+                                android:textOn="@string/on" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdAlarm2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    app:cardBackgroundColor="@color/colorRed"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:text="@string/_10_20"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorDivider" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/txtAlarm2Title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:text="@string/sleep_in"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtAlarm2Time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/txtAlarm2Title"
+                                android:text="@string/mon_sat"
+                                android:textColor="@color/colorBlack" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm2S"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/btnAlarm2On"
+                                android:background="@drawable/btn_toggle"
+                                android:checked="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/s"
+                                android:textOn="@string/s" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm2On"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/btn_toggle"
+                                android:checked="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textAllCaps="false"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/off"
+                                android:textOn="@string/on" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crdAlarm3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    app:cardBackgroundColor="@color/colorBlue"
+                    app:cardCornerRadius="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:text="@string/_10_50"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorDivider" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/txtAlarm3Title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:text="@string/quick_access"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtAlarm3Time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/txtAlarm3Title"
+                                android:text="@string/every_day"
+                                android:textColor="@color/colorBlack" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm3S"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/btnAlarm3On"
+                                android:background="@drawable/btn_toggle"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/s"
+                                android:textOn="@string/s" />
+
+                            <ToggleButton
+                                android:id="@+id/btnAlarm3On"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/btn_toggle"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:padding="2dp"
+                                android:textAllCaps="false"
+                                android:textColor="@color/btn_toggle_txt"
+                                android:textOff="@string/off"
+                                android:textOn="@string/on" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/btnNewAlarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_large_gray_transp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/add_an_alarm"
+                        android:textColor="@color/colorTextGray"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/week_overview"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <GridView
+                    android:id="@+id/grdAlarmDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:horizontalSpacing="1dp"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="7"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    tools:ignore="NestedScrolling" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

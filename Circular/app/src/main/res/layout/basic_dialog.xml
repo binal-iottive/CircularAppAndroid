@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:drawable/screen_background_dark_transparent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="20dp"
+        app:contentPadding="-7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_title_warning"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txtBasicDialogTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtBasicDialogSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtBasicDialogDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/colorBlack" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp">
+
+                    <Button
+                        android:id="@+id/btnBasicDialogBack"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="75dp"
+                        android:layout_height="40dp"
+                        android:layout_toStartOf="@id/spacerBasicDialog"
+                        android:background="@drawable/btn_large_gray_border"
+                        android:text="@string/back"
+                        android:textColor="@color/colorBlack" />
+
+                    <Space
+                        android:id="@+id/spacerBasicDialog"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <Button
+                        android:id="@+id/btnBasicDialogOK"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="75dp"
+                        android:layout_height="40dp"
+                        android:layout_toEndOf="@id/spacerBasicDialog"
+                        android:background="@drawable/btn_large_gray_border"
+                        android:text="@string/ok"
+                        android:textColor="@color/colorBlack" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

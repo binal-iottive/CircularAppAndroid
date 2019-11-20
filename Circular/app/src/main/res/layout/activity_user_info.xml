@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayBG"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/tell_us"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/what_gender"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgUserInfoGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:checkedButton="@id/rmUserInfoFemale"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/btn_toggle_orange"
+                        android:button="@android:drawable/screen_background_light_transparent"
+                        android:paddingStart="20dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/male"
+                        android:textColor="@color/btn_toggle_orange_txt" />
+
+                    <RadioButton
+                        android:id="@+id/rmUserInfoFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_toggle_orange"
+                        android:button="@android:color/transparent"
+                        android:paddingStart="20dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/female"
+                        android:textColor="@color/btn_toggle_orange_txt" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/when_born"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edtUserInfoBorn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/date_format"
+                    android:inputType="date"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    tools:targetApi="o" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp">
+
+                <TextView
+                    android:id="@+id/lblUserInfoWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_weight"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgUserInfoWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblUserInfoWeight"
+                    android:layout_alignParentEnd="true"
+                    android:checkedButton="@+id/rbUserInfoWeightKg"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoWeightKg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_left"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/kg"
+                        android:textColor="@drawable/radio_text"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoWieghtLb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_right"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/lb"
+                        android:textColor="@drawable/radio_text"
+                        android:textSize="12sp" />
+                </RadioGroup>
+
+                <in.goodiebag.carouselpicker.CarouselPicker
+                    android:id="@+id/carouselUserInfoWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lblUserInfoWeight"
+                    android:layout_marginTop="10dp"
+                    app:items_visible="five" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp">
+
+                <TextView
+                    android:id="@+id/lblUserInfoHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_height"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgUserInfoHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/lblUserInfoHeight"
+                    android:layout_alignParentEnd="true"
+                    android:checkedButton="@+id/rbUserInfoHeighCm"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoHeighCm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_left"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/cm"
+                        android:textColor="@drawable/radio_text"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbUserInfoHeightFt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_right"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="2dp"
+                        android:text="@string/ft"
+                        android:textColor="@drawable/radio_text"
+                        android:textSize="12sp" />
+                </RadioGroup>
+
+                <in.goodiebag.carouselpicker.CarouselPicker
+                    android:id="@+id/carouselUserInfoHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lblUserInfoHeight"
+                    android:layout_marginTop="10dp"
+                    app:items_visible="five" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/btnUserInfoNext"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

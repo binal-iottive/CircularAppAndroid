@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditLogsActivity">
+
+    <com.tofa.circular.customclass.ToolbarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolbarIcon="@mipmap/ic_edit_log"
+        app:toolbarTitle="@string/edit_logs" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/sleep_duration"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGrayBG"
+                android:orientation="vertical">
+
+                <com.tofa.circular.customclass.TimeChartView
+                    android:id="@+id/chartSleepLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:backgoundColor="@color/colorGrayBG"
+                    app:borderColor="@color/colorAlphaBlue"
+                    app:centerColor="@color/colorWhite"
+                    app:centerRadius="40"
+                    app:iconBottom="@mipmap/ic_sungray"
+                    app:iconLeft="@mipmap/ic_midnight"
+                    app:iconRight="@mipmap/ic_midday"
+                    app:iconTop="@mipmap/ic_moon"
+                    app:progressColor="@color/colorBlue"
+                    app:separatorColor="@color/colorBlack"
+                    app:separatorLength="10"
+                    app:separatorThickness="10"
+                    app:valueTextSpace="10" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/edit_sleep_logs"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <com.tofa.circular.customclass.LogView
+                android:id="@+id/lvLog1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:endText="Wake up"
+                app:endValue="07:12"
+                app:logTitle="Log 1"
+                app:startText="Start to sleep"
+                app:startValue="11:05"
+                app:timeText="08:07" >
+
+            </com.tofa.circular.customclass.LogView>
+
+            <com.tofa.circular.customclass.LogView
+                android:id="@+id/lvLog2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:endText="Nap end"
+                app:endValue="15:01"
+                app:logTitle="Log 2"
+                app:startText="Nap start"
+                app:startValue="14:05"
+                app:timeText="00:56" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

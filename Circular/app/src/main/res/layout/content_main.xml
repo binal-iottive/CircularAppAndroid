@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorGrayBG"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/lytMainMyCircles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/my_circles"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/btnMainAddCircle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/imgMainAddCircle"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:contentDescription="@string/logo"
+                            app:srcCompat="@mipmap/ic_gear" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxWidth="50dp"
+                            android:minLines="2"
+                            android:text="@string/add_circle"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnMainAlarm"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/imgMainAlarm"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:contentDescription="@string/logo"
+                            app:srcCompat="@mipmap/ic_alarm" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxWidth="50dp"
+                            android:minLines="2"
+                            android:text="@string/alarm_clock"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnMainSleepAnalysis"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/imgMainSleepAnalysis"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:contentDescription="@string/logo"
+                            app:srcCompat="@mipmap/ic_sleep" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxWidth="50dp"
+                            android:minLines="2"
+                            android:text="@string/sleep_analysis"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnMainActivityAnalysis"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/imgMainActivityAnalysis"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:contentDescription="@string/logo"
+                            app:srcCompat="@mipmap/ic_activity" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxWidth="50dp"
+                            android:minLines="2"
+                            android:text="@string/activity_analysis"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnMainAlert"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/imgMainAlert"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:contentDescription="@string/logo"
+                            app:srcCompat="@mipmap/ic_alert" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxWidth="50dp"
+                            android:minLines="2"
+                            android:text="@string/alert"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lytMainQuickAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:divider="@color/colorGrayBG"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <ToggleButton
+                android:id="@+id/tglMainSleep"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/btn_toggle_blue"
+                android:textAllCaps="false"
+                android:textColor="@color/btn_toggle_txt"
+                android:textOff="@string/sleep_mode_off"
+                android:textOn="@string/sleep_mode_on" />
+
+            <ToggleButton
+                android:id="@+id/tglMainAlarm"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack"
+                android:textOff="@string/_9_00_am_off"
+                android:textOn="@string/_9_00_am_on" />
+
+            <Button
+                android:id="@+id/btnMainCalendar"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="@string/calendar"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lytMainWeather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/bg_orange_gd_rounded"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@mipmap/ic_sun" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/good_morning"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_today"
+                    android:textColor="@color/colorGrayBG" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnMainCloseWeather"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0"
+                android:adjustViewBounds="true"
+                android:background="@drawable/ic_close"
+                android:cropToPadding="false" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/lytMainSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/crdMainSleep"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_white_rounded"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/logo"
+                        app:srcCompat="@mipmap/ic_icondark" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/duly_noted"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/logo"
+                        app:srcCompat="@drawable/ic_expand_less_black_24dp"
+                        tools:ignore="VectorDrawableCompat" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrayBG" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cause_ttl"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="13sp" />
+
+                    <com.hopenlib.flextools.FlexRadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:addStatesFromChildren="true"
+                        app:alignContent="stretch"
+                        app:alignItems="stretch"
+                        app:flexCheckedButton="@+id/rbUserInfoWeightKg"
+                        app:flexWrap="wrap">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/temparature"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/anxiety"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/medication"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/late_alcohol"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/late_caffeine"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/pain"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/blue_light"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/late_meal"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/lack_of_activity"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/out_of_schedule"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/sickness"
+                            android:textColor="@color/btn_toggle_txt" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/btn_toggle"
+                            android:button="@android:color/transparent"
+                            android:paddingStart="12dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/other"
+                            android:textColor="@color/btn_toggle_txt" />
+                    </com.hopenlib.flextools.FlexRadioGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crdMainSleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/colorPrimary">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/lblMainSleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="@string/sleep"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblMainDisturbances"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@id/lblMainSleep"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/disturbances"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:background="@color/colorGrayBG" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_access_time_black_24dp"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:text="@string/_3hr_ago"
+                        android:textColor="@color/colorDisabledButton" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/sleep_status"
+                        android:textColor="@color/colorBlack" />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chartMainSleep"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginBottom="20dp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/colorBlack" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/yesterday"
+                android:textColor="@color/colorDisabledButton"
+                android:textSize="8sp"
+                tools:ignore="SmallSp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/colorBlack" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/crdMainActivity"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_white_rounded"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/logo"
+                        app:srcCompat="@mipmap/ic_icondark" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/fix"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/logo"
+                        app:srcCompat="@drawable/ic_expand_less_black_24dp"
+                        tools:ignore="VectorDrawableCompat" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrayBG" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activate_step"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/btn_small_orange_border"
+                            android:text="@string/yes"
+                            android:textColor="@color/colorOrange" />
+
+                        <Button
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:background="@drawable/btn_small_orange"
+                            android:text="@string/no"
+                            android:textColor="@color/colorWhite" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crdMainActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:cardBackgroundColor="@color/colorOrange">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/lblMainActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="@string/activity"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/lblSteps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@id/lblMainActivity"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/steps"
+                            android:textColor="@color/colorOrange"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="0"
+                        android:background="@color/colorGrayBG" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_access_time_black_24dp"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:text="@string/_5_00_pm"
+                        android:textColor="@color/colorDisabledButton" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/activity_status"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

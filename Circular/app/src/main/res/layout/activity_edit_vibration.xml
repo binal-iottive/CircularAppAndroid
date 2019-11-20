@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditVibrationActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarMain"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/colorGrayBG"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/btnNewAlarmBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_close_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/edit_vibration"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/btnNewAlarmApply"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/ic_check_black_24dp"
+                tools:ignore="VectorDrawableCompat" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/intensity"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:background="@color/colorDarkGrey"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/lblNewAlarmEditVibration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/intensity"
+                android:textColor="@color/colorBlack" />
+
+            <SeekBar
+                android:id="@+id/seekBarVibrationIntensity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_toEndOf="@id/lblNewAlarmEditVibration"
+                android:max="100"
+                android:progress="75"
+                android:progressTint="@color/colorBlue"
+                android:thumbTint="@color/colorBlue"
+                tools:targetApi="lollipop" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/vibration_type"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listviewVibrationType"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorWhite"
+        android:dividerHeight="2dp" />
+
+</LinearLayout>
