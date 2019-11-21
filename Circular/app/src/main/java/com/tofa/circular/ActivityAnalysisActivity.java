@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -12,12 +14,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.tofa.circular.customclass.GraphUtils;
 import com.tofa.circular.customclass.ProgressCardView;
 import com.tofa.circular.customclass.StatusCardView;
 import com.tofa.circular.customclass.TimeChartData;
 import com.tofa.circular.customclass.TimeChartDataSeparatorType;
 import com.tofa.circular.customclass.TimeChartView;
+import com.tofa.circular.customclass.Utils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -28,12 +33,32 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     private StatusCardView scv_steps_taken, scv_walking_equivalency, scv_calories_burns, scv_active_minutes,
             scv_vo2_max, scv_hr_max;
     private TimeChartView chartViewActivityDuration;
+    private LineChart mHRChart;
 
     static ActivityAnalysisActivity instance;
-    public static ActivityAnalysisActivity getInstance()
-    {
+
+    public static ActivityAnalysisActivity getInstance() {
         return instance;
     }
+
+    float[] hrList = new float[]{50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +75,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         ((ProgressCardView) findViewById(R.id.crdSleepBalance)).setValueFormatter(staticValueFormater("Excelent"));
         ((ProgressCardView) findViewById(R.id.crdActivityVolume)).setValueFormatter(staticValueFormater("Excelent"));
 
+        writeLiveOnOff("LV");
         //new AsyncCaller().execute();
     }
 
@@ -60,6 +86,8 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         scv_active_minutes = findViewById(R.id.scv_active_minutes);
         scv_vo2_max = findViewById(R.id.scv_vo2_max);
         scv_hr_max = findViewById(R.id.scv_hr_max);
+        mHRChart = findViewById(R.id.mHRChart);
+        GraphUtils.loadHRGraph(mHRChart, ActivityAnalysisActivity.this);
 
         sleepAnalysisChart = findViewById(R.id.lineSleep);
         sleepAnalysisChart.getDescription().setEnabled(false);
@@ -67,17 +95,69 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
 
         chartViewActivityDuration = findViewById(R.id.chartViewActivityDuration);
         ArrayList<TimeChartData> clockPieHelperArrayList = new ArrayList<>();
-        clockPieHelperArrayList.add(createData(11,5,13,5,
+        clockPieHelperArrayList.add(createData(11, 5, 13, 5,
                 TimeChartDataSeparatorType.BOTH,
                 "Activity start", "Activity end"));
         chartViewActivityDuration.setDate(clockPieHelperArrayList);
+
+        mHRChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                addDataToChart(0);
+            }
+        });
+    }
+
+    public void addLiveData(String notifyValue) {
+        if (notifyValue.contains("LVhr")) {
+            addDataToChart(notifyValue);
+        } else {
+            String filtered = notifyValue.substring(notifyValue.lastIndexOf("/") + 1);
+            int value = Integer.parseInt(filtered,16);
+            if (notifyValue.contains("Dstp")) {
+                scv_steps_taken.setValue(value+"");
+            } else if (notifyValue.contains("Dwlk")) {
+                scv_walking_equivalency.setValue(value+"");
+            } else if (notifyValue.contains("Dcal")) {
+                scv_calories_burns.setValue(value+"");
+            } else if (notifyValue.contains("Dact")) {
+                scv_active_minutes.setValue(value+"");
+            } else if (notifyValue.contains("Dvoz")) {
+                scv_vo2_max.setValue(value+"");
+            } else if (notifyValue.contains("Dhrl")) {
+                scv_hr_max.setValue(value+"");
+            }
+        }
+    }
+
+    public void writeLiveOnOff(String command){
+        byte[] value = new byte[0];
+        try {
+            value = command.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MainActivity.mService.writeRXCharacteristic(value);
+    }
+
+    public void addDataToChart(String hrValue) {
+        GraphUtils.addValueToChart(mHRChart, GraphUtils.convertHrRawDataToChartData(hrValue), ActivityAnalysisActivity.this);
+      /*  new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (i<hrList.length) {
+                    GraphUtils.addValueToChart(mHRChart, hrList[i], ActivityAnalysisActivity.this);
+                    addDataToChart(i + 1);
+                }
+            }
+        }, 200);*/
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         instance = null;
-
+        writeLiveOnOff("lv");
+        super.onDestroy();
     }
 
     public static byte[] hexStringToByteArray(String s) {
@@ -85,19 +165,17 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                    + Character.digit(s.charAt(i + 1), 16));
         }
         return data;
     }
 
-    private class AsyncCaller extends AsyncTask<Void, Integer, Void>
-    {
+    private class AsyncCaller extends AsyncTask<Void, Integer, Void> {
         LineChart theChart = ActivityAnalysisActivity.this.sleepAnalysisChart;
 
         @Override
         protected Void doInBackground(Void... params) {
-            for ( int i=0; i<1000; i++ )
-            {
+            for (int i = 0; i < 1000; i++) {
 
                 try {
                     Random rand = new Random();
@@ -120,13 +198,12 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
             //String HexStr = String.format("%02X", n[0]);
             String HexStr = Integer.toHexString(n[0]);
             System.out.println(n[0]);
-            int needZero = 6-HexStr.length();
-            for ( int i=0; i<needZero; i++ )
-            {
-                HexStr = "0"+HexStr;
+            int needZero = 6 - HexStr.length();
+            for (int i = 0; i < needZero; i++) {
+                HexStr = "0" + HexStr;
             }
-            HexStr = "R"+HexStr;
-            if ( MainActivity.getInstance() != null && MainActivity.getInstance().mService != null )
+            HexStr = "R" + HexStr;
+            if (MainActivity.getInstance() != null && MainActivity.getInstance().mService != null)
                 MainActivity.getInstance().mService.forceExtra(HexStr.getBytes());
         }
 
@@ -143,8 +220,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         }
     }
 
-    public void addDataSleep(Integer n)
-    {
+    public void addDataSleep(Integer n) {
         LineData data = sleepAnalysisChart.getData();
 
         if (data == null) {
@@ -192,6 +268,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         lineChart.invalidate();
         */
     }
+
     private TimeChartData createData(int startHour, int startMin, int endHour, int endMin,
                                      TimeChartDataSeparatorType separatorType,
                                      String startLabel, String endLabel) {
@@ -202,7 +279,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     }
 
     private ProgressCardView.ProgressValueFormater staticValueFormater(String text) {
-        ProgressCardView.ProgressValueFormater valueFormater = new ProgressCardView.ProgressValueFormater(){
+        ProgressCardView.ProgressValueFormater valueFormater = new ProgressCardView.ProgressValueFormater() {
             @Override
             public String getFormattedValue(int value) {
                 return text;
@@ -212,13 +289,14 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     }
 
     private ProgressCardView.ProgressValueFormater percentValueFormater(int max) {
-        ProgressCardView.ProgressValueFormater valueFormater = new ProgressCardView.ProgressValueFormater(){
+        ProgressCardView.ProgressValueFormater valueFormater = new ProgressCardView.ProgressValueFormater() {
             @Override
             public String getFormattedValue(int value) {
-                @SuppressLint("DefaultLocale") String percent = String.format("%.0f",(float) value /  max * 100);
+                @SuppressLint("DefaultLocale") String percent = String.format("%.0f", (float) value / max * 100);
                 return percent + "%";
             }
         };
         return valueFormater;
     }
+
 }

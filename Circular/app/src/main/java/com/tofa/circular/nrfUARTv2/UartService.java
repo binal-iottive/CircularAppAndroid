@@ -314,6 +314,20 @@ public class UartService extends Service {
 
     }
 
+    public  void enableNotifyHeartRateMeasurement() {
+        BluetoothGattCharacteristic characteristic = mBluetoothGatt
+                .getService(RX_SERVICE_UUID)
+                .getCharacteristic(TX_CHAR_UUID);
+
+        BluetoothGattDescriptor descriptor =
+                characteristic.getDescriptor(CCCD);
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        mBluetoothGatt.writeDescriptor(descriptor);
+        mBluetoothGatt.setCharacteristicNotification(characteristic, true);
+    }
+
+
+
     public void writeRXCharacteristic(byte[] value)
     {
         BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);

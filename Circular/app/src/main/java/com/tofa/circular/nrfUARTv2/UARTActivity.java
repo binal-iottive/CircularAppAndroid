@@ -46,8 +46,6 @@ public class UARTActivity extends Activity implements RadioGroup.OnCheckedChange
     public static final int UART_PROFILE_DISCONNECTED = 21;
     public static final int STATE_OFF = 10;
 
-    TextView mRemoteRssiVal;
-    RadioGroup mRg;
     private int mState = UART_PROFILE_DISCONNECTED;
     private ListView messageListView;
     private ArrayAdapter<String> listAdapter;
@@ -108,8 +106,6 @@ public class UARTActivity extends Activity implements RadioGroup.OnCheckedChange
         btnSend=(Button) findViewById(R.id.sendButton);
         edtMessage = (EditText) findViewById(R.id.sendText);
 
-
-
         // Handle Disconnect & Connect button
         btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +164,6 @@ public class UARTActivity extends Activity implements RadioGroup.OnCheckedChange
 
     private Handler mHandler = new Handler() {
         @Override
-
         //Handler events that received from UART service
         public void handleMessage(Message msg) {
 

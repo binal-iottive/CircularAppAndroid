@@ -53,13 +53,11 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.navigation.NavigationView;
 import com.ramijemli.percentagechartview.PercentageChartView;
 import com.tofa.circular.customclass.SaveSharedPreference;
-import com.tofa.circular.nrfUARTv2.DeviceListActivity;
 import com.tofa.circular.nrfUARTv2.UARTActivity;
 import com.tofa.circular.nrfUARTv2.UartService;
 import com.tofa.circular.renderer.BarChartCustomRenderer;
 import com.tofa.circular.renderer.ColoredLabelXAxisRenderer;
 
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -298,6 +296,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    private PercentageChartView batteryChargeView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -305,15 +305,15 @@ public class MainActivity extends AppCompatActivity
         MenuItem menuItem = menu.getItem(0);
         menuItem.setActionView(R.layout.my_ring);
         View view = menuItem.getActionView();
-        PercentageChartView pg = view.findViewById(R.id.pbMyRing);
+         batteryChargeView = view.findViewById(R.id.pbMyRing);
         TextView lblProgress = view.findViewById(R.id.lblMyRingProgress);
-        lblProgress.setText(String.format("%s", (int) pg.getProgress()));
+        lblProgress.setText(String.format("%s", (int) batteryChargeView.getProgress()));
 
 
         TextView lblTextMyRing = view.findViewById(R.id.txtMyring);
-        lblTextMyRing.setText(String.format("%s", (int) pg.getProgress()));
+        lblTextMyRing.setText(String.format("%s", (int) batteryChargeView.getProgress()));
 
-        pg.setOnProgressChangeListener(progress -> lblProgress.setText(String.format("%s", (int) progress)));
+        batteryChargeView.setOnProgressChangeListener(progress -> lblProgress.setText(String.format("%s", (int) progress)));
 
         view.setOnClickListener(view1 -> startActivity(new Intent(MainActivity.this, MyRingActivity.class)));
         return true;
@@ -405,30 +405,29 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             }
-
             //*********************//
             if (action.equals(UartService.ACTION_GATT_DISCONNECTED)) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
-                        Log.d(TAG, "UART_DISCONNECT_MSG");
-                        UARTActivity.getInstance().getBtnConnectDisconnect().setText("Connect");
-                        UARTActivity.getInstance().getEdtMessage().setEnabled(false);
-                        UARTActivity.getInstance().getBtnSend().setEnabled(false);
-                        ((TextView) UARTActivity.getInstance().findViewById(R.id.deviceName)).setText("Not Connected");
-                        UARTActivity.getInstance().getListAdapter().add("["+currentDateTimeString+"] Disconnected to: "+ MainActivity.mDevice.getName());
-                        UARTActivity.getInstance().setState(UART_PROFILE_DISCONNECTED);
-                        MainActivity.mService.close();
-                        //setUiState();
+                if (UARTActivity.getInstance()!=null){
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
+                            Log.d(TAG, "UART_DISCONNECT_MSG");
+                            UARTActivity.getInstance().getBtnConnectDisconnect().setText("Connect");
+                            UARTActivity.getInstance().getEdtMessage().setEnabled(false);
+                            UARTActivity.getInstance().getBtnSend().setEnabled(false);
+                            ((TextView) UARTActivity.getInstance().findViewById(R.id.deviceName)).setText("Not Connected");
+                            UARTActivity.getInstance().getListAdapter().add("["+currentDateTimeString+"] Disconnected to: "+ MainActivity.mDevice.getName());
+                            UARTActivity.getInstance().setState(UART_PROFILE_DISCONNECTED);
+                            MainActivity.mService.close();
+                            //setUiState();
 
-                    }
-                });
+                        }
+                    });
+                }
             }
-
-
             //*********************//
             if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
-                MainActivity.mService.enableTXNotification();
+                MainActivity.mService.enableNotifyHeartRateMeasurement();
             }
             //*********************//
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
@@ -440,6 +439,11 @@ public class MainActivity extends AppCompatActivity
                             String text = new String(txValue, "UTF-8");
                             String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                             System.out.println("["+currentDateTimeString+"] RX: "+text);
+                            if (text.contains("BAT")){
+                                String filtered = text.replace("BAT","");
+                                int value = Integer.parseInt(filtered);
+                                batteryChargeView.setProgress(value,true);
+                            }
                             if ( UARTActivity.getInstance() != null )
                             {
                                 UARTActivity.getInstance().getListAdapter().add("["+currentDateTimeString+"] RX: "+text);
@@ -447,10 +451,11 @@ public class MainActivity extends AppCompatActivity
                             }
                             if ( ActivityAnalysisActivity.getInstance() != null )
                             {
-                                String hex = text.substring(1,text.length());
-                                Integer integer = Integer.parseInt(hex,16);
+//                                String hex = text.substring(1,text.length());
+//                                Integer integer = Integer.parseInt(hex,16);
 
-                                ActivityAnalysisActivity.getInstance().addDataSleep(integer);
+//                                ActivityAnalysisActivity.getInstance().addDataSleep(integer);
+                                ActivityAnalysisActivity.getInstance().addLiveData(text);
                             }
                             else if ( AlarmActivity.getInstance() != null )
                             {

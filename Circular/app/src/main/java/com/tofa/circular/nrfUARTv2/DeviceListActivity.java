@@ -176,7 +176,7 @@ public class DeviceListActivity extends Activity {
                 ScanFilter filter = new ScanFilter.Builder()
                         .setServiceUuid(new ParcelUuid(UartService.RX_SERVICE_UUID))
                         .build();
-//
+//                filters.add(filter);
                 registerCallBack();
                 if (mLEScanner != null) {
                     mLEScanner.startScan(filters, settings, mScanCallback);

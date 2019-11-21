@@ -505,12 +505,13 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="5dp"
-                    app:contentPadding="20dp">
+                    app:cardCornerRadius="5dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp">
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
@@ -541,6 +542,11 @@
                             android:layout_marginTop="7dp"
                             android:layout_gravity="center_horizontal"
                             android:textSize="14sp"/>
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/mHRChart"
+                            android:layout_width="fill_parent"
+                            android:layout_height="100dp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <Button
