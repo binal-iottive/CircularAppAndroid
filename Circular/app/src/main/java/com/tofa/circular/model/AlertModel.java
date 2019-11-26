@@ -1,4 +1,4 @@
-package com.tofa.circular.customclass;
+package com.tofa.circular.model;
 
 import androidx.annotation.NonNull;
 

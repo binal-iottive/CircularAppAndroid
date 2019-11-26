@@ -219,7 +219,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
 
                     try {
                         byte[] value = strTx.getBytes("UTF-8");
-                        //MainActivity.mService.writeRXCharacteristic(value);
+                        MainActivity.mService.writeRXCharacteristic(value);
                     } catch (UnsupportedEncodingException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

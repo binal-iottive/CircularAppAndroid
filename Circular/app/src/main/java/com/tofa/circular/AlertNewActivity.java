@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tofa.circular.adapter.AppListAdapter;
-import com.tofa.circular.customclass.AppAlertModel;
+import com.tofa.circular.model.AppAlertModel;
 import com.tofa.circular.customclass.Utils;
 
 import java.util.ArrayList;

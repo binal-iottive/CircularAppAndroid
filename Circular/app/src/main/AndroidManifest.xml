@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AlertNewActivity"></activity>
+        <activity android:name=".CombinedChartActivity"></activity>
+        <activity android:name=".AlertNewActivity" />
         <activity android:name=".AlertActivity" />
         <activity android:name=".ActivityAnalysisActivity" />
         <activity android:name=".EditLogsActivity" />
@@ -52,6 +53,10 @@
         <service
             android:name=".nrfUARTv2.UartService"
             android:enabled="true" />
+        <service
+            android:name=".sqldatabase.InsertDataService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

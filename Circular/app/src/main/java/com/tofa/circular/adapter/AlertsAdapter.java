@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tofa.circular.R;
-import com.tofa.circular.customclass.AppAlertModel;
+import com.tofa.circular.model.AppAlertModel;
 import com.tofa.circular.customclass.Utils;
 
 import java.util.ArrayList;

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.tofa.circular.R;
 import com.tofa.circular.adapter.ListCheckAdapter;
 import com.tofa.circular.customclass.DialogType;
+import com.tofa.circular.customclass.NonScrollListView;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class CheckListDialog {
         changeTitleBG();
 
         listCheckAdapter = new ListCheckAdapter((Activity) context, list, true, checkedDefault);
-        ListView listView = view.findViewById(R.id.listviewChecklistDialog);
+        NonScrollListView listView = view.findViewById(R.id.listviewChecklistDialog);
         listView.setAdapter(listCheckAdapter);
 
         btnPositive = view.findViewById(R.id.btnChecklistDialogOK);

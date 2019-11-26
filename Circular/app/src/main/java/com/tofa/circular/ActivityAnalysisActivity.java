@@ -5,35 +5,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import android.widget.RadioGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.tofa.circular.adapter.ActivityDetailGraphDescriptionAdapter;
+import com.tofa.circular.customclass.BarChartUtils;
 import com.tofa.circular.customclass.GraphUtils;
+import com.tofa.circular.customclass.NonScrollListView;
 import com.tofa.circular.customclass.ProgressCardView;
 import com.tofa.circular.customclass.StatusCardView;
 import com.tofa.circular.customclass.TimeChartData;
 import com.tofa.circular.customclass.TimeChartDataSeparatorType;
 import com.tofa.circular.customclass.TimeChartView;
 import com.tofa.circular.customclass.Utils;
+import com.tofa.circular.model.DetailGraphDescriptionModel;
+import com.tofa.circular.sqldatabase.DatabaseHelperTable;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.tofa.circular.customclass.Utils.insertDataArrayList;
 import static java.lang.Thread.sleep;
 
-public class ActivityAnalysisActivity extends AppCompatActivity {
-    private LineChart sleepAnalysisChart;
+public class ActivityAnalysisActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+    private LineChart lineChart;
     private StatusCardView scv_steps_taken, scv_walking_equivalency, scv_calories_burns, scv_active_minutes,
             scv_vo2_max, scv_hr_max;
     private TimeChartView chartViewActivityDuration;
     private LineChart mHRChart;
+    private BarChart barChart;
+    private NonScrollListView lv_chart_detail;
+    private RadioGroup rg_activity_intensity;
 
     static ActivityAnalysisActivity instance;
 
@@ -42,22 +51,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     }
 
     float[] hrList = new float[]{50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,
-    };
+            50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50, 50, 70, 100, 120, 140, 160, 160, 140, 100, 70, 60, 50,};
 
 
     @Override
@@ -76,7 +70,8 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         ((ProgressCardView) findViewById(R.id.crdActivityVolume)).setValueFormatter(staticValueFormater("Excelent"));
 
         writeLiveOnOff("LV");
-        //new AsyncCaller().execute();
+        Utils.startInsertDataService(ActivityAnalysisActivity.this);
+        new AsyncCaller().execute();
     }
 
     private void initUI() {
@@ -86,12 +81,15 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         scv_active_minutes = findViewById(R.id.scv_active_minutes);
         scv_vo2_max = findViewById(R.id.scv_vo2_max);
         scv_hr_max = findViewById(R.id.scv_hr_max);
+        lv_chart_detail = findViewById(R.id.lv_chart_detail);
         mHRChart = findViewById(R.id.mHRChart);
+        barChart = findViewById(R.id.barChart);
+        rg_activity_intensity = findViewById(R.id.rg_activity_intensity);
         GraphUtils.loadHRGraph(mHRChart, ActivityAnalysisActivity.this);
 
-        sleepAnalysisChart = findViewById(R.id.lineSleep);
-        sleepAnalysisChart.getDescription().setEnabled(false);
-        sleepAnalysisChart.setDrawGridBackground(false);
+        lineChart = findViewById(R.id.lineChart);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setDrawGridBackground(false);
 
         chartViewActivityDuration = findViewById(R.id.chartViewActivityDuration);
         ArrayList<TimeChartData> clockPieHelperArrayList = new ArrayList<>();
@@ -100,12 +98,8 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
                 "Activity start", "Activity end"));
         chartViewActivityDuration.setDate(clockPieHelperArrayList);
 
-        mHRChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                addDataToChart(0);
-            }
-        });
+        rg_activity_intensity.setOnCheckedChangeListener(this);
+        addActiveMinuteGraph("Today");
     }
 
     public void addLiveData(String notifyValue) {
@@ -114,39 +108,73 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         } else {
             String filtered = notifyValue.substring(notifyValue.lastIndexOf("/") + 1);
             int value = Integer.parseInt(filtered,16);
+            String tableName = "";
             if (notifyValue.contains("Dstp")) {
                 scv_steps_taken.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_STEPS;
             } else if (notifyValue.contains("Dwlk")) {
+                value = value/100;
                 scv_walking_equivalency.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_WALINKG;
             } else if (notifyValue.contains("Dcal")) {
                 scv_calories_burns.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_CALORIES;
             } else if (notifyValue.contains("Dact")) {
                 scv_active_minutes.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_ACTIVE;
             } else if (notifyValue.contains("Dvoz")) {
                 scv_vo2_max.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_VO2;
             } else if (notifyValue.contains("Dhrl")) {
                 scv_hr_max.setValue(value+"");
+                tableName = DatabaseHelperTable.TABLE_NAME_HR;
             }
+            insertDataArrayList.add(new DatabaseHelperTable(tableName,Utils.getCurrentDate(),Utils.getCurrentTime(),value+""));
+        }
+    }
+
+    private void addActiveMinuteGraph(String clickedtype){
+        if (clickedtype.equals("Today")){
+            BarChartUtils.loadBarChart(barChart,"Todays");
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals("Week")){
+            BarChartUtils.loadBarChart(barChart,"week");
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
+            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
+            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",R.color.colorDarkRed));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList);
+            lv_chart_detail.setAdapter(mAdapter);
         }
     }
 
     public void writeLiveOnOff(String command){
-        byte[] value = new byte[0];
-        try {
-            value = command.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if ( MainActivity.mService != null && MainActivity.mDevice != null ) {
+            byte[] value = new byte[0];
+            try {
+                value = command.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            MainActivity.mService.writeRXCharacteristic(value);
         }
-        MainActivity.mService.writeRXCharacteristic(value);
     }
 
     public void addDataToChart(String hrValue) {
         GraphUtils.addValueToChart(mHRChart, GraphUtils.convertHrRawDataToChartData(hrValue), ActivityAnalysisActivity.this);
-      /*  new Handler().postDelayed(new Runnable() {
+ /*       new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (i<hrList.length) {
-                    GraphUtils.addValueToChart(mHRChart, hrList[i], ActivityAnalysisActivity.this);
+                    Log.d("addDataToChart==>",hrList[i]+"");
+                    BarChartUtils.addValueToChart(barChart, hrList[i], ActivityAnalysisActivity.this);
                     addDataToChart(i + 1);
                 }
             }
@@ -157,6 +185,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     protected void onDestroy() {
         instance = null;
         writeLiveOnOff("lv");
+        Utils.stopInsertDataService(ActivityAnalysisActivity.this);
         super.onDestroy();
     }
 
@@ -170,16 +199,30 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         return data;
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (radioGroup.getCheckedRadioButtonId()){
+            case R.id.rbActivityToday:
+                addActiveMinuteGraph("Today");
+                break;
+
+            case R.id.rbActivityWeek:
+                addActiveMinuteGraph("Week");
+                break;
+
+            case R.id.rbActivityMonth:
+                break;
+        }
+    }
+
     private class AsyncCaller extends AsyncTask<Void, Integer, Void> {
-        LineChart theChart = ActivityAnalysisActivity.this.sleepAnalysisChart;
+        LineChart theChart = ActivityAnalysisActivity.this.lineChart;
 
         @Override
         protected Void doInBackground(Void... params) {
             for (int i = 0; i < 1000; i++) {
-
                 try {
                     Random rand = new Random();
-
                     int n = rand.nextInt(70000);
                     publishProgress(n);
                     sleep(500);
@@ -192,19 +235,19 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... n) {
-            //ActivityAnalysisActivity.this.addDataSleep(n[0]);
+            ActivityAnalysisActivity.this.addDataSleep(n[0]);
             // send to uart
             //MainActivity.getInstance().mService.sendBroadcast();
             //String HexStr = String.format("%02X", n[0]);
-            String HexStr = Integer.toHexString(n[0]);
-            System.out.println(n[0]);
+//            String HexStr = Integer.toHexString(n[0]);
+           /* System.out.println(n[0]);
             int needZero = 6 - HexStr.length();
             for (int i = 0; i < needZero; i++) {
                 HexStr = "0" + HexStr;
             }
             HexStr = "R" + HexStr;
             if (MainActivity.getInstance() != null && MainActivity.getInstance().mService != null)
-                MainActivity.getInstance().mService.forceExtra(HexStr.getBytes());
+                MainActivity.getInstance().mService.forceExtra(HexStr.getBytes());*/
         }
 
         @Override
@@ -221,11 +264,11 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
     }
 
     public void addDataSleep(Integer n) {
-        LineData data = sleepAnalysisChart.getData();
+        LineData data = lineChart.getData();
 
         if (data == null) {
             data = new LineData();
-            sleepAnalysisChart.setData(data);
+            lineChart.setData(data);
         }
 
         ILineDataSet set = data.getDataSetByIndex(0);
@@ -251,13 +294,13 @@ public class ActivityAnalysisActivity extends AppCompatActivity {
         data.notifyDataChanged();
 
         // let the chart know it's data has changed
-        sleepAnalysisChart.notifyDataSetChanged();
+        lineChart.notifyDataSetChanged();
 
-        sleepAnalysisChart.setVisibleXRangeMaximum(6);
+        lineChart.setVisibleXRangeMaximum(6);
         //chart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
 //
 //            // this automatically refreshes the chart (calls invalidate())
-        sleepAnalysisChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
 
         /*
         LineChart lineChart = findViewById(R.id.lineSleep);

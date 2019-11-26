@@ -77,7 +77,7 @@ public class SleepActivity extends AppCompatActivity {
 
         ((ProgressCardView) findViewById(R.id.crdSleepDebt)).setValueFormatter(staticValueFormater("-11 min"));
 
-        LineChart chart = findViewById(R.id.lineSleep);
+        LineChart chart = findViewById(R.id.lineChart);
         List<Entry> entries = new ArrayList<>();
         entries.add(new Entry(0, 3));
         entries.add(new Entry(1, 1));
