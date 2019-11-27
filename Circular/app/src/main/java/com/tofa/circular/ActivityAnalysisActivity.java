@@ -3,20 +3,19 @@ package com.tofa.circular;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.hopenlib.flextools.FlexRadioGroup;
 import com.tofa.circular.adapter.ActivityDetailGraphDescriptionAdapter;
 import com.tofa.circular.customclass.BarChartUtils;
 import com.tofa.circular.customclass.GraphUtils;
+import com.tofa.circular.customclass.LineChartUtils;
 import com.tofa.circular.customclass.NonScrollListView;
 import com.tofa.circular.customclass.ProgressCardView;
 import com.tofa.circular.customclass.StatusCardView;
@@ -29,12 +28,11 @@ import com.tofa.circular.sqldatabase.DatabaseHelperTable;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static com.tofa.circular.customclass.Utils.insertDataArrayList;
 import static java.lang.Thread.sleep;
 
-public class ActivityAnalysisActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class ActivityAnalysisActivity extends AppCompatActivity implements FlexRadioGroup.OnCheckedChangeListener,RadioGroup.OnCheckedChangeListener{
     private LineChart lineChart;
     private StatusCardView scv_steps_taken, scv_walking_equivalency, scv_calories_burns, scv_active_minutes,
             scv_vo2_max, scv_hr_max;
@@ -43,6 +41,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
     private BarChart barChart;
     private NonScrollListView lv_chart_detail;
     private RadioGroup rg_activity_intensity;
+    private FlexRadioGroup flexRadioGroup;
+    private TextView tv_grapth_title;
+    private String chartAction;
+    private String chartType;
 
     static ActivityAnalysisActivity instance;
 
@@ -71,7 +73,6 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
 
         writeLiveOnOff("LV");
         Utils.startInsertDataService(ActivityAnalysisActivity.this);
-        new AsyncCaller().execute();
     }
 
     private void initUI() {
@@ -85,11 +86,11 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
         mHRChart = findViewById(R.id.mHRChart);
         barChart = findViewById(R.id.barChart);
         rg_activity_intensity = findViewById(R.id.rg_activity_intensity);
+        flexRadioGroup = findViewById(R.id.flexRadioGroup);
+        tv_grapth_title = findViewById(R.id.tv_grapth_title);
         GraphUtils.loadHRGraph(mHRChart, ActivityAnalysisActivity.this);
 
         lineChart = findViewById(R.id.lineChart);
-        lineChart.getDescription().setEnabled(false);
-        lineChart.setDrawGridBackground(false);
 
         chartViewActivityDuration = findViewById(R.id.chartViewActivityDuration);
         ArrayList<TimeChartData> clockPieHelperArrayList = new ArrayList<>();
@@ -99,7 +100,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
         chartViewActivityDuration.setDate(clockPieHelperArrayList);
 
         rg_activity_intensity.setOnCheckedChangeListener(this);
-        addActiveMinuteGraph("Today");
+        flexRadioGroup.setOnCheckedChangeListener(this);
+        chartAction = GraphUtils.CHART_ACTION_ACTITY_INTENSITY;
+        chartType = GraphUtils.CHART_TYPE_PAST_WEEK;
+        addActivityInyensityGraph(chartType);
     }
 
     public void addLiveData(String notifyValue) {
@@ -133,26 +137,9 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
         }
     }
 
-    private void addActiveMinuteGraph(String clickedtype){
-        if (clickedtype.equals("Today")){
-            BarChartUtils.loadBarChart(barChart,"Todays");
-            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",0));
-            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",0));
-            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",0));
 
-            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList);
-            lv_chart_detail.setAdapter(mAdapter);
-        }else if (clickedtype.equals("Week")){
-            BarChartUtils.loadBarChart(barChart,"week");
-            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
-            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
-            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",R.color.colorDarkRed));
+    private void addCaloriesBurnGraph(String clickedtype){
 
-            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList);
-            lv_chart_detail.setAdapter(mAdapter);
-        }
     }
 
     public void writeLiveOnOff(String command){
@@ -203,113 +190,105 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (radioGroup.getCheckedRadioButtonId()){
             case R.id.rbActivityToday:
-                addActiveMinuteGraph("Today");
+                chartType = GraphUtils.CHART_TYPE_PAST_WEEK;
                 break;
 
             case R.id.rbActivityWeek:
-                addActiveMinuteGraph("Week");
+                chartType = GraphUtils.CHART_TYPE_PAST_MONTH;
                 break;
 
             case R.id.rbActivityMonth:
+                chartType = GraphUtils.CHART_TYPE_ALL;
+                break;
+        }
+
+        if (chartAction.equals(GraphUtils.CHART_ACTION_ACTITY_INTENSITY)){
+            addActivityInyensityGraph(chartType);
+        }else  if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)){
+            addCaloriesBurnedGraph(chartType);
+        }else  if (chartAction.equals(GraphUtils.CHART_ACTION_HR_MAX)){
+            addHeartRateMaxGraph(chartType);
+        }else  if (chartAction.equals(GraphUtils.CHART_ACTION_HRV)){
+            addHRVGraph(chartType);
+        }else  if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
+            addActiveMinutesGraph(chartType);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(FlexRadioGroup group, int checkedId) {
+        switch (group.getCheckedRadioButtonId()){
+            case R.id.rbActivityStages:
+                tv_grapth_title.setText(R.string.activity_intensity);
+                chartAction = GraphUtils.CHART_ACTION_ACTITY_INTENSITY;
+                setToadyWeekMonthRadioText();
+                addActivityInyensityGraph(chartType);
+                break;
+
+            case R.id.rbHeartRate:
+                tv_grapth_title.setText(R.string.calories_burned);
+                chartAction = GraphUtils.CHART_ACTION_CALORIES_BURN;
+                setWeekMonthAllRadiotext();
+                addCaloriesBurnedGraph(chartType);
+                break;
+
+            case R.id.rbHRV:
+                tv_grapth_title.setText(R.string.heart_rate);
+                chartAction = GraphUtils.CHART_ACTION_HR_MAX;
+                setToadyWeekMonthRadioText();
+                addHeartRateMaxGraph(chartType);
+                break;
+
+            case R.id.rbActivityQualityScore:
+                tv_grapth_title.setText(R.string.heart_rate_variability);
+                chartAction = GraphUtils.CHART_ACTION_HRV;
+                setWeekMonthAllRadiotext();
+                addHRVGraph(chartType);
+                break;
+
+            case R.id.rbHRS:
+                tv_grapth_title.setText(R.string.active_monutes);
+                chartAction = GraphUtils.CHART_ACTION_ACTIVE_MINUTES;
+                setWeekMonthAllRadiotext();
+                addActiveMinutesGraph(chartType);
+                break;
+
+            case R.id.rbO2:
+                tv_grapth_title.setText(R.string.energy_levels);
+                chartAction = GraphUtils.CHART_ACTION_ENERGY_LEVEL;
+                setWeekMonthAllRadiotext();
+                break;
+
+            case R.id.rbO3:
+                tv_grapth_title.setText(R.string.number_of_steps);
+                chartAction = GraphUtils.CHART_ACTION_BOOT_STEPS;
+                setWeekMonthAllRadiotext();
+                break;
+
+            case R.id.rbO4:
+                tv_grapth_title.setText(R.string.resting_heart_rate);
+                chartAction = GraphUtils.CHART_ACTION_RESTING_HR;
+                setWeekMonthAllRadiotext();
+                break;
+
+            case R.id.rb45:
+                tv_grapth_title.setText(R.string.blood_oxygen_level);
+                chartAction = GraphUtils.CHART_ACTION_RESTING_SPO2;
+                setToadyWeekMonthRadioText();
                 break;
         }
     }
 
-    private class AsyncCaller extends AsyncTask<Void, Integer, Void> {
-        LineChart theChart = ActivityAnalysisActivity.this.lineChart;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            for (int i = 0; i < 1000; i++) {
-                try {
-                    Random rand = new Random();
-                    int n = rand.nextInt(70000);
-                    publishProgress(n);
-                    sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... n) {
-            ActivityAnalysisActivity.this.addDataSleep(n[0]);
-            // send to uart
-            //MainActivity.getInstance().mService.sendBroadcast();
-            //String HexStr = String.format("%02X", n[0]);
-//            String HexStr = Integer.toHexString(n[0]);
-           /* System.out.println(n[0]);
-            int needZero = 6 - HexStr.length();
-            for (int i = 0; i < needZero; i++) {
-                HexStr = "0" + HexStr;
-            }
-            HexStr = "R" + HexStr;
-            if (MainActivity.getInstance() != null && MainActivity.getInstance().mService != null)
-                MainActivity.getInstance().mService.forceExtra(HexStr.getBytes());*/
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
+    private void setToadyWeekMonthRadioText(){
+        ((RadioButton) rg_activity_intensity.getChildAt(0)).setText(R.string.today);
+        ((RadioButton) rg_activity_intensity.getChildAt(1)).setText(R.string.past_week);
+        ((RadioButton) rg_activity_intensity.getChildAt(2)).setText(R.string.past_month);
     }
 
-    public void addDataSleep(Integer n) {
-        LineData data = lineChart.getData();
-
-        if (data == null) {
-            data = new LineData();
-            lineChart.setData(data);
-        }
-
-        ILineDataSet set = data.getDataSetByIndex(0);
-
-        if (set == null) {
-            set = new LineDataSet(null, "DataSet 1");
-            //set.setLineWidth(2.5f);
-            //set.setCircleRadius(4.5f);
-            //set.setColor(Color.rgb(240, 99, 99));
-            //set.setCircleColor(Color.rgb(240, 99, 99));
-            //set.setHighLightColor(Color.rgb(190, 190, 190));
-            //set.setAxisDependency(AxisDependency.LEFT);
-            set.setValueTextSize(10f);
-            data.addDataSet(set);
-        }
-
-        // choose a random dataSet
-        int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
-        ILineDataSet randomSet = data.getDataSetByIndex(randomDataSetIndex);
-        float value = (float) (Math.random() * 50) + 50f * (randomDataSetIndex + 1);
-
-        data.addEntry(new Entry(randomSet.getEntryCount(), n), randomDataSetIndex);
-        data.notifyDataChanged();
-
-        // let the chart know it's data has changed
-        lineChart.notifyDataSetChanged();
-
-        lineChart.setVisibleXRangeMaximum(6);
-        //chart.setVisibleYRangeMaximum(15, AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
-        lineChart.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
-
-        /*
-        LineChart lineChart = findViewById(R.id.lineSleep);
-        System.out.println(entries.size());
-        entries.add(new Entry(entries.size()-1,n));
-       // lineChart.getLineData().getDataSets().get(0).addEntry(new Entry(lineChart.getLineData().getEntryCount(),n));
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
-        */
+    private void setWeekMonthAllRadiotext(){
+        ((RadioButton) rg_activity_intensity.getChildAt(0)).setText(R.string.past_week);
+        ((RadioButton) rg_activity_intensity.getChildAt(1)).setText(R.string.past_month);
+        ((RadioButton) rg_activity_intensity.getChildAt(2)).setText(R.string.all);
     }
 
     private TimeChartData createData(int startHour, int startMin, int endHour, int endMin,
@@ -342,4 +321,181 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements Radio
         return valueFormater;
     }
 
+    private void addActivityInyensityGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            BarChartUtils.loadBarChart(barChart,GraphUtils.CHART_TYPE_TODAYS,chartAction);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_WEEK);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
+            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
+            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",R.color.colorDarkRed));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_MONTH);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
+            modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
+            modelArrayList.add(new DetailGraphDescriptionModel("High","57 min",R.color.colorDarkRed));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
+
+    private void addHeartRateMaxGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            BarChartUtils.loadBarChart(barChart,GraphUtils.CHART_TYPE_TODAYS,chartAction);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("day average","70bpm",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR max","70bpm",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR min","70bpm",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_WEEK);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","70bpm",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR max","70bpm",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR min","70bpm",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_MONTH);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Weekly average","70bpm",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR max","70bpm",0));
+            modelArrayList.add(new DetailGraphDescriptionModel("HR min","70bpm",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
+
+    private void addCaloriesBurnedGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 kcal",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 kcal",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("Week total","1570 kcal",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 kcal",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 kcal",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("Week total","1570 kcal",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Monthaly average","1570 kcal",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("All time total","1570 kcal",0));
+
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
+    private void addHRVGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 bpm",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 bpm",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 bpm",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 bpm",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Monthaly average","1570 bpm",R.color.colorAlphaRed));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
+
+    private void addActiveMinutesGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
 }

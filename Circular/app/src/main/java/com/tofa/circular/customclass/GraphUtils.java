@@ -12,8 +12,22 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 public class GraphUtils {
-    private static float[] SampleA = {0f,0f};
-    private static float[] SampleB = {0f,0f};
+    public static final String CHART_ACTION_ACTITY_INTENSITY = "CHART_ACTION_ACTITY_INTENSITY";
+    public static final String CHART_ACTION_CALORIES_BURN = "CHART_ACTION_CALORIES_BURN";
+    public static final String CHART_ACTION_HR_MAX = "CHART_ACTION_HR_MAX";
+    public static final String CHART_ACTION_HRV= "CHART_ACTION_HRV";
+    public static final String CHART_ACTION_ACTIVE_MINUTES= "CHART_ACTION_ACTIVE_MINUTES";
+    public static final String CHART_ACTION_ENERGY_LEVEL= "CHART_ACTION_ENERGY_LEVEL";
+    public static final String CHART_ACTION_BOOT_STEPS= "CHART_ACTION_BOOT_STEPS";
+    public static final String CHART_ACTION_RESTING_HR= "CHART_ACTION_RESTING_HR";
+    public static final String CHART_ACTION_RESTING_SPO2= "CHART_ACTION_RESTING_SPO2";
+    public static final String CHART_TYPE_PAST_WEEK = "CHART_TYPE_PAST_WEEK";
+    public static final String CHART_TYPE_PAST_MONTH = "CHART_TYPE_PAST_MONTH";
+    public static final String CHART_TYPE_TODAYS = "CHART_TYPE_TODAYS";
+    public static final String CHART_TYPE_ALL = "CHART_TYPE_ALL";
+    public static final String[] weeksLabel = new String[] {"S", "M", "T", "W", "T", "F", "S"};
+    public static final String[] monthsLabel = new String[] {"week1", "week2", "week3", "week4"};
+    public static String[] yAxisLabelActiveMinutes= new String[]{"","30min","1h","1h 30"};
     private static float graphMinValueHr = 0;
     private static float graphMaxValueHr = 0;
     public static void loadHRGraph(LineChart mChart, Context context) {

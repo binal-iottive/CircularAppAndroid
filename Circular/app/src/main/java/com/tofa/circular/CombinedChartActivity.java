@@ -4,15 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.WindowManager;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -31,9 +27,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -42,8 +36,8 @@ import static com.tofa.circular.customclass.BarChartUtils.loadBarChart;
 
 public class CombinedChartActivity extends AppCompatActivity {
     private CombinedChart mChart;
-    private  int itemcount = 12;
-    protected String[] mMonths = new String[] {"S", "M", "T", "W", "T", "F", "S"};
+    private static int itemcount = 12;
+    protected static String[] mWeeks = new String[] {"S", "M", "T", "W", "T", "F", "S"};
     private LineChart lineChart;
     private BarChart barChart, barChartWeek;
 
@@ -91,14 +85,14 @@ public class CombinedChartActivity extends AppCompatActivity {
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return mMonths[(int) value];
+                return mWeeks[(int) value];
             }
         });
 
         CombinedData data = new CombinedData();
         loadLineChart(lineChart);
-        loadBarChart(barChart,"Todays");
-        loadBarChart(barChartWeek,"week");
+        loadBarChart(barChart,"Todays", "");
+        loadBarChart(barChartWeek,"week", "");
 //        data.setData(generateLineData());
 //        data.setData(generateBarData());
 //        data.setData(generateBubbleData());
@@ -212,18 +206,17 @@ public class CombinedChartActivity extends AppCompatActivity {
         return bd;
     }
 
-    protected float getRandom(float range, float startsfrom) {
+    protected static float getRandom(float range, float startsfrom) {
         return (float) (Math.random() * range) + startsfrom;
     }
 
 
 
-    private LineData generateLineData() {
+    public static  LineData generateLineData() {
         itemcount = 7;
         LineData d = new LineData();
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
-
         for (int index = 0; index < itemcount; index++)
             entries.add(new Entry(index + 0.5f, getRandom(50, 50)));
 
@@ -241,7 +234,7 @@ public class CombinedChartActivity extends AppCompatActivity {
         return d;
     }
 
-    private void loadLineChart(LineChart mChart){
+    public static void loadLineChart(LineChart mChart){
 
         LimitLine ll1 = new LimitLine(80f, "");
         ll1.setLineWidth(3f);
@@ -283,21 +276,23 @@ public class CombinedChartActivity extends AppCompatActivity {
         });
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setLabelCount(7,true);
         xAxis.setDrawAxisLine(true);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setGranularity(1f);
+        xAxis.setAxisMinimum(0);
+        xAxis.setLabelCount(7,true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
         xAxis.setDrawGridLines(false);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return mMonths[(int) value];
+//                return mWeeks[(int) value];
+                return (int) value+"";
             }
         });
         mChart.setData(generateLineData());
         mChart.getLegend().setEnabled(false);
         mChart.setDescription(null);
+        mChart.notifyDataSetChanged();
         mChart.invalidate();
     }
 
