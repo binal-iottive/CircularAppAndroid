@@ -3,6 +3,9 @@ package com.tofa.circular.sqldatabase;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import com.tofa.circular.customclass.Utils;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import androidx.annotation.Nullable;
@@ -29,6 +32,13 @@ public class InsertDataService extends Service {
             @Override
             public void run() {
                 try {
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),10000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),9000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),11000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),10000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),9000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),11000+""));
+
                     if (insertDataArrayList !=null && insertDataArrayList.size() > 0){
                         for (int i = 0; i< insertDataArrayList.size(); i++){
                             if (insertDataArrayList.get(0) != null && insertDataArrayList.size()>0) {
@@ -46,7 +56,7 @@ public class InsertDataService extends Service {
                 }
             }
         };
-        timer.schedule(hourlyTask, 0l, 1000);
+        timer.schedule(hourlyTask, 0l, 5000);
     }
 
     @Override

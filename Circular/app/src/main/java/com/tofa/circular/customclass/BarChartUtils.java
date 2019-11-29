@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
 
 public class BarChartUtils {
-    public static void loadBarChart(BarChart mChart, String type, String chartAction) {
+    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<String> entries) {
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.setFocusable(false);
@@ -81,12 +81,12 @@ public class BarChartUtils {
         if (type.equals(GraphUtils.CHART_TYPE_TODAYS)){
 //            setAxisLabelsToday(mChart);
             mChart.setVisibleXRangeMinimum(90);
-            addValueToChart(mChart,90,100, "Todays",chartAction);
+            addValueToChart(mChart,90,100, "Todays",chartAction,entries);
         }
         if (type.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
             mChart.setVisibleXRangeMinimum(7);
             setAxisLabelsWeeks(mChart,chartAction);
-            addValueToChart(mChart,7,2, "week",chartAction);
+            addValueToChart(mChart,7,2, "week",chartAction,entries);
         }
         mChart.notifyDataSetChanged();
         mChart.invalidate();
@@ -116,6 +116,20 @@ public class BarChartUtils {
                         return "";
                     }
                     return  (int) value+"";
+                }
+            });
+        }else if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
+            leftAxis.setAxisMinimum(0f);
+            leftAxis.setGranularity(4f);
+            leftAxis.setAxisMaximum(12f);
+            leftAxis.setLabelCount(4, true);
+            leftAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    if ((int) value==0){
+                        return "";
+                    }
+                    return  (int) value+"k";
                 }
             });
         }else {
@@ -154,12 +168,19 @@ public class BarChartUtils {
         }
     }
 
-    public static void addValueToChart(BarChart mChart, int length, int range, String graphType, String chartAction) {
+    public static void addValueToChart(BarChart mChart, int length, int range, String graphType, String chartAction, ArrayList<String> entries) {
         mChart.setVisibleXRangeMaximum(length);
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < length; index++)
-            yVals1.add(new BarEntry(index + 0.3f, getRandom(range, 1)));
+        for (int index = 0; index < entries.size(); index++) {
+//            yVals1.add(new BarEntry(index + 0.3f, getRandom(range, 1)));
+
+            if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
+                yVals1.add(new BarEntry(index + 0.3f, Float.parseFloat(entries.get(index))/1000));
+            }else {
+                yVals1.add(new BarEntry(index + 0.3f, Float.parseFloat(entries.get(index))));
+            }
+        }
 
         BarDataSet set1;
         set1 = new BarDataSet(yVals1, "");
@@ -186,7 +207,7 @@ public class BarChartUtils {
         }
         mChart.setData(data);
         BarChartCustomRenderer barChartCustomRenderer = new BarChartCustomRenderer(mChart, mChart.getAnimator(), mChart.getViewPortHandler());
-        barChartCustomRenderer.setRadius(20);
+        barChartCustomRenderer.setRadius(15);
         mChart.setRenderer(barChartCustomRenderer);
     }
 

@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.util.ArrayList;
+
 public class GraphUtils {
     public static final String CHART_ACTION_ACTITY_INTENSITY = "CHART_ACTION_ACTITY_INTENSITY";
     public static final String CHART_ACTION_CALORIES_BURN = "CHART_ACTION_CALORIES_BURN";
@@ -28,6 +30,8 @@ public class GraphUtils {
     public static final String[] weeksLabel = new String[] {"S", "M", "T", "W", "T", "F", "S"};
     public static final String[] monthsLabel = new String[] {"week1", "week2", "week3", "week4"};
     public static String[] yAxisLabelActiveMinutes= new String[]{"","30min","1h","1h 30"};
+    public static String[] xAxisLabel= new String[]{"10h","12h","14h","16h","18h","20h","22h"};
+
     private static float graphMinValueHr = 0;
     private static float graphMaxValueHr = 0;
     public static void loadHRGraph(LineChart mChart, Context context) {

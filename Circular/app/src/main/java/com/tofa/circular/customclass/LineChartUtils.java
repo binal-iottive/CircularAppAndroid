@@ -6,6 +6,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -16,10 +17,12 @@ import java.util.ArrayList;
 import static com.tofa.circular.customclass.BarChartUtils.getRandom;
 import static com.tofa.circular.customclass.GraphUtils.monthsLabel;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
+import static com.tofa.circular.customclass.GraphUtils.xAxisLabel;
 
 public class LineChartUtils {
 
-    public static void loadLineChart(LineChart mChart, String actionType, String chartType) {
+    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<String> entrylist) {
+        int listSize = entrylist.size();
         LimitLine ll1 = new LimitLine(11f, "");
         ll1.setLineWidth(3f);
         ll1.enableDashedLine(10f, 10f, 0f);
@@ -43,10 +46,10 @@ public class LineChartUtils {
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
-        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)|| actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
+        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
             leftAxis.addLimitLine(ll1);
             leftAxis.addLimitLine(ll2);
-        }else {
+        } else {
             leftAxis.removeAllLimitLines();
         }
 
@@ -78,41 +81,85 @@ public class LineChartUtils {
                 leftAxis.setAxisMaximum(100f);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
+
+            case GraphUtils.CHART_ACTION_ACTIVE_MINUTES:
+                leftAxis.setAxisMinimum(0f);
+                leftAxis.setGranularity(50f);
+                leftAxis.setAxisMaximum(150f);
+                leftAxis.setLabelCount(4, true);
+                break;
+
+            case GraphUtils.CHART_ACTION_BOOT_STEPS:
+                leftAxis.setAxisMinimum(0f);
+                leftAxis.setGranularity(23.3f);
+                leftAxis.setAxisMaximum(69.9f);// this replaces setStartAtZero(true)
+                leftAxis.setLabelCount(4, true);
+                break;
         }
 
         leftAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                if (actionType.equals(GraphUtils.CHART_ACTION_ACTITY_INTENSITY)){
+                if (actionType.equals(GraphUtils.CHART_ACTION_ACTITY_INTENSITY)) {
                     return GraphUtils.yAxisLabelActiveMinutes[(int) value / 30];
-                }else  if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)){
-                    return (int) value+" k";
-                }else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)){
-                    if ((int) value == 40){
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
+                    if ((int) value == 40) {
                         return "";
                     }
-                    return (int) value+"";
-                }else {
-                    if ((int) value == 25){
+                    return (int) value + " k";
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
+                    if ((int) value == 40) {
                         return "";
                     }
-                    return (int) value+"";
+                    return (int) value + "";
+                }else if (actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)) {
+                    if ((int) value==0){
+                        return "";
+                    }
+                    return  (int) value+"";
+                } else {
+                    if ((int) value == 25) {
+                        return "";
+                    }
+                    return (int) value + "";
                 }
             }
         });
 
         XAxis xAxis = mChart.getXAxis();
-        if (chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)) {
-            xAxis.setLabelCount(7, true);
-        } else if (chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH)) {
-            xAxis.setLabelCount(4, true);
-        }
         xAxis.setDrawAxisLine(true);
         xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
+        if (chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)) {
+            xAxis.setLabelCount(7, true);
+            xAxis.setDrawLabels(true);
+            xAxis.setAxisMaximum(7f);
+            mChart.setVisibleXRangeMinimum(7);
+            mChart.setVisibleXRangeMaximum(7);
+        } else if (chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH)) {
+            xAxis.setAxisMaximum(3.5f);
+            xAxis.setDrawLabels(true);
+            xAxis.setLabelCount(4, true);
+            mChart.setVisibleXRangeMinimum(4);
+            mChart.setVisibleXRangeMaximum(4);
+        } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
+           /* if (listSize==0){
+                xAxis.setDrawLabels(false);
+            }else {
+                xAxis.setDrawLabels(true);
+            }*/
+            xAxis.setDrawLabels(true);
+            xAxis.setAxisMaximum(90f);
+            xAxis.setLabelCount(7, true);
+        }else if (chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
+            xAxis.setAxisMaximum(listSize);
+            xAxis.setDrawLabels(false);
+            mChart.setVisibleXRangeMaximum(100);
+            mChart.setVisibleXRangeMinimum(100);
+            mChart.setVisibleXRangeMaximum(100);
+        }
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -120,30 +167,50 @@ public class LineChartUtils {
                     return weeksLabel[(int) value];
                 } else if (chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH) && (int) value < monthsLabel.length) {
                     return monthsLabel[(int) value];
+                } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
+                    return xAxisLabel[(int) value / (90 / 6)];
                 } else {
-                    return "";
+                   return "";
                 }
             }
         });
 
-        mChart.setData(generateLineData(chartType,actionType));
+        mChart.setData(generateLineData(chartType, actionType,entrylist));
         mChart.getLegend().setEnabled(false);
         mChart.setDescription(null);
         mChart.invalidate();
     }
 
-    public static LineData generateLineData(String chartType, String actionType) {
+    public static LineData generateLineData(String chartType, String actionType, ArrayList<String> entrylist) {
         int itemcount = 7;
         if (chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)) {
             itemcount = 7;
         } else if (chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH)) {
             itemcount = 4;
+        } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
+            itemcount = entrylist.size();
+        }else if (chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
+            itemcount = entrylist.size();
         }
 
         LineData d = new LineData();
         ArrayList<Entry> entries = new ArrayList<Entry>();
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(index + 0.5f, getRandom(15, 40)));
+       /* if (chartType.equals(GraphUtils.CHART_TYPE_ALL)
+                || chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)
+                || chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            for (int index = 0; index < itemcount; index++)
+                entries.add(new Entry(index + 0.5f, Float.parseFloat(entrylist.get(index))));
+        }else {
+            for (int index = 0; index < itemcount; index++)
+                entries.add(new Entry(index + 0.5f, getRandom(90, 40)));
+        }*/
+        for (int index = 0; index < entrylist.size(); index++) {
+            if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
+                entries.add(new Entry(index + 0.5f, Float.parseFloat(entrylist.get(index))/1000));
+            }else {
+                entries.add(new Entry(index + 0.5f, Float.parseFloat(entrylist.get(index))));
+            }
+        }
 
         LineDataSet set = new LineDataSet(entries, "");
         set.setColor(Color.parseColor("#E00A0A"));
@@ -155,9 +222,18 @@ public class LineChartUtils {
         set.setDrawValues(false);
         set.setDrawIcons(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        if ((actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) && chartType.equals(GraphUtils.CHART_TYPE_TODAYS))
+                || (actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES) && chartType.equals(GraphUtils.CHART_TYPE_ALL))
+                || (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) && chartType.equals(GraphUtils.CHART_TYPE_ALL))
+                || (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS) && chartType.equals(GraphUtils.CHART_TYPE_ALL))) {
+            set.setDrawCircles(false);
+            set.enableDashedLine(5f, 5f, 0f);
+        }
         d.addDataSet(set);
 
-        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)|| actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)|| actionType.equals(GraphUtils.CHART_ACTION_HRV)) {
+        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
+                || actionType.equals(GraphUtils.CHART_ACTION_HRV )|| actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
+                || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
             return d;
         }
 
@@ -192,5 +268,4 @@ public class LineChartUtils {
         d.addDataSet(set2);
         return d;
     }
-
 }

@@ -10,10 +10,18 @@ import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.util.Log;
+
+import com.tofa.circular.customclass.Utils;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -56,6 +64,182 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.insert(tableName, null, values);
         db.close();
         return id;
+    }
+
+    public ArrayList<String> getAllTableData(String tableName) {
+//        ArrayList<DatabaseHelperTable> notes = new ArrayList<>();
+        ArrayList<String> allData = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + tableName;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+          /*      DatabaseHelperTable note = new DatabaseHelperTable();
+                note.setId(cursor.getInt(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_ID)));
+                note.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_DATE)));
+                note.setTime(cursor.getLong(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_TIME)));
+                note.setValue(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                notes.add(note);*/
+
+                allData.add(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return allData;
+    }
+
+    public ArrayList<String> getLastWeekData(String tableName){
+        String[] lastWeek = Utils.getPastWeekDate();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> weekData = new ArrayList<>();
+        for (int i=0;i<lastWeek.length;i++){
+            String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+                    + tableName + " WHERE "
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    + " = '"
+                    + lastWeek[i]
+                    + "'";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String avgValue =cursor.getString(cursor.getColumnIndex("AVG(value)"));
+                    if (avgValue!=null){
+                        weekData.add(avgValue);
+                    }else {
+                        weekData.add("0");
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        db.close();
+        return weekData;
+    }
+
+    public ArrayList<String> getLastWeekDataSteps(String tableName){
+        String[] lastWeek = Utils.getPastWeekDate();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> weekData = new ArrayList<>();
+        for (int i=0;i<lastWeek.length;i++){
+            String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+                    + tableName + " WHERE "
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    + " = '"
+                    + lastWeek[i]
+                    + "'";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String avgValue =cursor.getString(cursor.getColumnIndex("MAX(value)"));
+                    if (avgValue!=null){
+                        weekData.add(avgValue);
+                    }else {
+                        weekData.add("0");
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        db.close();
+        return weekData;
+    }
+
+    public ArrayList<String> getLastMonthData(String tableName){
+        String[] lastWeek = Utils.getLastMonthWeekDate();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> weekData = new ArrayList<>();
+        for (int i=0;i<4;i++){
+            String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+                    + tableName
+                    + " WHERE "
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    +" BETWEEN '"
+                    + lastWeek[i]
+                    + "' AND '"
+                    + lastWeek[i+1]
+                    +"'";
+                   /* + "' ORDER BY '"
+                    +  DatabaseHelperTable.COLUMN_STEPS_VALUE
+                    +"' ASC"*/;
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String avgValue =cursor.getString(cursor.getColumnIndex("AVG(value)"));
+                    if (avgValue!=null){
+                        weekData.add(avgValue);
+                    }else {
+                        weekData.add("0");
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        db.close();
+        return weekData;
+    }
+
+    public ArrayList<String> getLastMonthDataSteps(String tableName){
+        String[] lastWeek = Utils.getLastMonthAllDate();
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> monthData = new ArrayList<>();
+        for (int i=0;i<28;i++){
+            String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+                    + tableName + " WHERE "
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    + " = '"
+                    + lastWeek[i]
+                    + "'";
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String avgValue =cursor.getString(cursor.getColumnIndex("MAX(value)"));
+                    if (avgValue!=null){
+                        monthData.add(avgValue);
+                    }else {
+                        monthData.add("0");
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        db.close();
+
+        int count = 0;
+        float valueSum = 0;
+        ArrayList<String> weekdata = new ArrayList<>();
+        for (int i=0; i<monthData.size();i++){
+            valueSum = valueSum+ Float.parseFloat(monthData.get(i));
+            count = count+1;
+            if (count==7){
+                weekdata.add(valueSum+"");
+                count = 0;
+                valueSum = 0;
+            }
+        }
+        return weekdata;
+    }
+
+    public ArrayList<String> getTodaysData(String tableName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> todayData = new ArrayList<>();
+        String todayDate = Utils.getCurrentDate();
+            String selectQuery = "SELECT  * FROM " + tableName
+                    + " WHERE "
+                    + DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    + " = '"
+                    + todayDate
+                    + "' ORDER BY '"
+                    + DatabaseHelperTable.COLUMN_ACTIVE_TIME
+                    + "' ASC";
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    todayData.add(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                } while (cursor.moveToNext());
+            }
+        db.close();
+        return todayData;
     }
 
     public void delete(int rowId) {

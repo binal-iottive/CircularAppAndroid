@@ -24,6 +24,7 @@ import com.tofa.circular.customclass.TimeChartDataSeparatorType;
 import com.tofa.circular.customclass.TimeChartView;
 import com.tofa.circular.customclass.Utils;
 import com.tofa.circular.model.DetailGraphDescriptionModel;
+import com.tofa.circular.sqldatabase.DatabaseHelper;
 import com.tofa.circular.sqldatabase.DatabaseHelperTable;
 
 import java.io.UnsupportedEncodingException;
@@ -47,6 +48,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
     private String chartType;
 
     static ActivityAnalysisActivity instance;
+    private DatabaseHelper db;
 
     public static ActivityAnalysisActivity getInstance() {
         return instance;
@@ -62,6 +64,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         instance = this;
         setContentView(R.layout.activity_analysis);
 
+        db = new DatabaseHelper(this);
         initUI();
         ((ProgressCardView) findViewById(R.id.crdRecovery)).setValueFormatter(staticValueFormater("Medium"));
         ((ProgressCardView) findViewById(R.id.crdWakeupScore)).setValueFormatter(percentValueFormater(100));
@@ -212,6 +215,8 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             addHRVGraph(chartType);
         }else  if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
             addActiveMinutesGraph(chartType);
+        }else  if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
+            addNumberOfStpesGraph(chartType);
         }
     }
 
@@ -263,6 +268,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
                 tv_grapth_title.setText(R.string.number_of_steps);
                 chartAction = GraphUtils.CHART_ACTION_BOOT_STEPS;
                 setWeekMonthAllRadiotext();
+                addNumberOfStpesGraph(chartType);
                 break;
 
             case R.id.rbO4:
@@ -325,7 +331,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
             lineChart.setVisibility(View.GONE);
             barChart.setVisibility(View.VISIBLE);
-            BarChartUtils.loadBarChart(barChart,GraphUtils.CHART_TYPE_TODAYS,chartAction);
+            BarChartUtils.loadBarChart(barChart,GraphUtils.CHART_TYPE_TODAYS,chartAction,new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",0));
             modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",0));
@@ -336,7 +342,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_WEEK);
+            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_WEEK, new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
             modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
@@ -348,7 +354,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_MONTH);
+            LineChartUtils.loadLineChart(lineChart,GraphUtils.CHART_ACTION_ACTITY_INTENSITY,GraphUtils.CHART_TYPE_PAST_MONTH,  new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Low","1 hrs 07 min",R.color.colorYellow));
             modelArrayList.add(new DetailGraphDescriptionModel("Medium","37 min",R.color.colorOrange));
@@ -361,9 +367,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
 
     private void addHeartRateMaxGraph(String clickedtype){
         if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
-            lineChart.setVisibility(View.GONE);
-            barChart.setVisibility(View.VISIBLE);
-            BarChartUtils.loadBarChart(barChart,GraphUtils.CHART_TYPE_TODAYS,chartAction);
+            ArrayList<String> todayData = db.getTodaysData(DatabaseHelperTable.TABLE_NAME_HR);
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_TODAYS, todayData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("day average","70bpm",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
@@ -373,9 +380,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
             lv_chart_detail.setAdapter(mAdapter);
         }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            ArrayList<String> weekData = db.getLastWeekData(DatabaseHelperTable.TABLE_NAME_HR);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_WEEK);
+            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_WEEK,  weekData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","70bpm",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
@@ -384,11 +392,11 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
 
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
             lv_chart_detail.setAdapter(mAdapter);
-        }
-        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+        } else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            ArrayList<String> monthData = db.getLastMonthData(DatabaseHelperTable.TABLE_NAME_HR);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_MONTH);
+            LineChartUtils.loadLineChart(lineChart,chartAction,GraphUtils.CHART_TYPE_PAST_MONTH,  monthData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Weekly average","70bpm",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","70bpm",R.color.colorAlphaBlue));
@@ -402,9 +410,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
 
     private void addCaloriesBurnedGraph(String clickedtype){
         if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            ArrayList<String> weekData = db.getLastWeekData(DatabaseHelperTable.TABLE_NAME_CALORIES);
             lineChart.setVisibility(View.GONE);
             barChart.setVisibility(View.VISIBLE);
-            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction);
+            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction,weekData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 kcal",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 kcal",R.color.colorAlphaBlue));
@@ -413,9 +422,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
             lv_chart_detail.setAdapter(mAdapter);
         }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            ArrayList<String> monthData = db.getLastMonthData(DatabaseHelperTable.TABLE_NAME_CALORIES);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,  monthData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 kcal",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 kcal",R.color.colorAlphaBlue));
@@ -425,9 +435,10 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             lv_chart_detail.setAdapter(mAdapter);
         }
         else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            ArrayList<String> allData = db.getAllTableData(DatabaseHelperTable.TABLE_NAME_CALORIES);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,  allData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Monthaly average","1570 kcal",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("All time total","1570 kcal",0));
@@ -440,7 +451,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,  new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 bpm",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 bpm",R.color.colorAlphaBlue));
@@ -449,7 +460,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,  new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","1570 bpm",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","1570 bpm",R.color.colorAlphaBlue));
@@ -459,7 +470,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,  new ArrayList<String>());
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Monthaly average","1570 bpm",R.color.colorAlphaRed));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
@@ -467,20 +478,23 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         }
     }
 
+
     private void addActiveMinutesGraph(String clickedtype){
         if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            ArrayList<String> weekData = db.getLastWeekData(DatabaseHelperTable.TABLE_NAME_ACTIVE);
             lineChart.setVisibility(View.GONE);
             barChart.setVisibility(View.VISIBLE);
-            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction);
+            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction, weekData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
             lv_chart_detail.setAdapter(mAdapter);
         }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            ArrayList<String> monthData = db.getLastMonthData(DatabaseHelperTable.TABLE_NAME_ACTIVE);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,monthData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
@@ -488,12 +502,50 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             lv_chart_detail.setAdapter(mAdapter);
         }
         else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            ArrayList<String> allData = db.getAllTableData(DatabaseHelperTable.TABLE_NAME_ACTIVE);
             barChart.setVisibility(View.GONE);
             lineChart.setVisibility(View.VISIBLE);
-            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,allData);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
             modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+    }
+
+    private void addNumberOfStpesGraph(String clickedtype){
+        if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
+            ArrayList<String> weekData = db.getLastWeekDataSteps(DatabaseHelperTable.TABLE_NAME_STEPS);
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            BarChartUtils.loadBarChart(barChart,clickedtype,chartAction, weekData);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("Week Toatal","121",0));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }else if (clickedtype.equals(GraphUtils.CHART_TYPE_PAST_MONTH)){
+            ArrayList<String> monthData = db.getLastMonthDataSteps(DatabaseHelperTable.TABLE_NAME_STEPS);
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,monthData);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("Weekly average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Baseline","121",R.color.colorAlphaBlue));
+            modelArrayList.add(new DetailGraphDescriptionModel("Week Toatal","121",0));
+            ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
+            lv_chart_detail.setAdapter(mAdapter);
+        }
+        else if (clickedtype.equals(GraphUtils.CHART_TYPE_ALL)){
+            ArrayList<String> allData = db.getAllTableData(DatabaseHelperTable.TABLE_NAME_STEPS);
+            barChart.setVisibility(View.GONE);
+            lineChart.setVisibility(View.VISIBLE);
+            LineChartUtils.loadLineChart(lineChart,chartAction,clickedtype,allData);
+            ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
+            modelArrayList.add(new DetailGraphDescriptionModel("monthly average","110",R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("All time total","121",0));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this,modelArrayList,chartAction);
             lv_chart_detail.setAdapter(mAdapter);
         }
