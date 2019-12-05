@@ -9,6 +9,7 @@ import com.tofa.circular.sqldatabase.DatabaseHelperTable;
 import com.tofa.circular.sqldatabase.InsertDataService;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,5 +123,18 @@ public class Utils {
         }
         Log.d("getLastMonthWeekDate==>", Arrays.toString(datesList));
         return datesList;
+    }
+
+    public static long dateToMS(String givenDateString){
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormate);
+        try {
+            Date mDate = sdf.parse(givenDateString);
+            long timeInMilliseconds = mDate.getTime();
+            return timeInMilliseconds;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return System.currentTimeMillis();
     }
 }

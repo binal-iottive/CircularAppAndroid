@@ -6,7 +6,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -21,7 +20,7 @@ import static com.tofa.circular.customclass.GraphUtils.xAxisLabel;
 
 public class LineChartUtils {
 
-    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<String> entrylist) {
+    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<String> entrylist, float averageValue) {
         int listSize = entrylist.size();
         LimitLine ll1 = new LimitLine(11f, "");
         ll1.setLineWidth(3f);
@@ -30,7 +29,7 @@ public class LineChartUtils {
         ll1.setTextSize(5f);
         ll1.setLineColor(Color.parseColor("#593996F7"));
 
-        LimitLine ll2 = new LimitLine(13f, "");
+        LimitLine ll2 = new LimitLine(averageValue, "");
         ll2.setLineWidth(3f);
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -46,8 +45,11 @@ public class LineChartUtils {
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
+        leftAxis.removeAllLimitLines();
         if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
-            leftAxis.addLimitLine(ll1);
+            if (!chartType.equals(GraphUtils.CHART_TYPE_ALL)){
+                leftAxis.addLimitLine(ll1);
+            }
             leftAxis.addLimitLine(ll2);
         } else {
             leftAxis.removeAllLimitLines();
@@ -62,10 +64,26 @@ public class LineChartUtils {
                 break;
 
             case GraphUtils.CHART_ACTION_CALORIES_BURN:
-                leftAxis.setAxisMinimum(0f);
-                leftAxis.setGranularity(5f);
-                leftAxis.setAxisMaximum(15f);// this replaces setStartAtZero(true)
-                leftAxis.setLabelCount(4, true);
+                if (chartType.equals(GraphUtils.CHART_TYPE_ALL)){
+                    leftAxis.setAxisMinimum(0.5f);
+                    leftAxis.setGranularity(0.5f);
+                    leftAxis.setAxisMaximum(2f);
+                    leftAxis.setLabelCount(4, true);
+                  /*  leftAxis.setValueFormatter(new ValueFormatter() {
+                        @Override
+                        public String getFormattedValue(float value) {
+                            if (value == 0.5){
+                                return "";
+                            }
+                            return  value+"k";
+                        }
+                    });*/
+                }else {
+                    leftAxis.setAxisMinimum(0f);
+                    leftAxis.setGranularity(5f);
+                    leftAxis.setAxisMaximum(15f);// this replaces setStartAtZero(true)
+                    leftAxis.setLabelCount(4, true);
+                }
                 break;
 
             case GraphUtils.CHART_ACTION_HR_MAX:
@@ -102,7 +120,19 @@ public class LineChartUtils {
             public String getFormattedValue(float value) {
                 if (actionType.equals(GraphUtils.CHART_ACTION_ACTITY_INTENSITY)) {
                     return GraphUtils.yAxisLabelActiveMinutes[(int) value / 30];
-                } else if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)) {
+                    if (chartType.equals(GraphUtils.CHART_TYPE_ALL)){
+                        if (value == 0.5){
+                            return "";
+                        }
+                        return  value+" k";
+                    }else {
+                        if ((int) value == 0) {
+                            return "";
+                        }
+                        return (int) value + " k";
+                    }
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
                     if ((int) value == 40) {
                         return "";
                     }
@@ -154,8 +184,7 @@ public class LineChartUtils {
         }else if (chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
             xAxis.setAxisMaximum(listSize);
             xAxis.setDrawLabels(false);
-            mChart.setVisibleXRangeMaximum(100);
-            mChart.setVisibleXRangeMinimum(100);
+            mChart.setVisibleXRangeMinimum(5);
             mChart.setVisibleXRangeMaximum(100);
         }
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

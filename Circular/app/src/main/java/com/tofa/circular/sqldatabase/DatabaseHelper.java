@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.tofa.circular.customclass.GraphUtils;
 import com.tofa.circular.customclass.Utils;
 
 import java.io.File;
@@ -70,6 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        ArrayList<DatabaseHelperTable> notes = new ArrayList<>();
         ArrayList<String> allData = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + tableName;
+        String selectQueryAverage = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+                + tableName;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -86,6 +89,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 allData.add(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
             } while (cursor.moveToNext());
         }
+
+        Cursor cursorAverage = db.rawQuery(selectQueryAverage, null);
+        if (cursorAverage.moveToFirst()) {
+            do {
+                String avgValue =cursorAverage.getString(cursorAverage.getColumnIndex("AVG(value)"));
+                if (avgValue!=null){
+                    GraphUtils.graphAllDataAverageVlaue = Float.parseFloat(avgValue);
+                }else {
+                    GraphUtils.graphAllDataAverageVlaue = 0;
+                }
+            } while (cursorAverage.moveToNext());
+        }
+
         db.close();
         return allData;
     }
@@ -149,14 +165,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String> weekData = new ArrayList<>();
         for (int i=0;i<4;i++){
+            long date1 = Utils.dateToMS(lastWeek[i]);
+            long date2 = Utils.dateToMS(lastWeek[i+1]);
             String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName
                     + " WHERE "
-                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_TIME
                     +" BETWEEN '"
-                    + lastWeek[i]
+                    + date1
                     + "' AND '"
-                    + lastWeek[i+1]
+                    + date2
                     +"'";
                    /* + "' ORDER BY '"
                     +  DatabaseHelperTable.COLUMN_STEPS_VALUE
@@ -240,6 +258,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         db.close();
         return todayData;
+    }
+
+    public ArrayList<String> getAllDailyData(String tableName) {
+        ArrayList<DatabaseHelperTable> allData = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + tableName  + " ORDER BY '"
+                + DatabaseHelperTable.COLUMN_ACTIVE_TIME
+                + "' ASC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                DatabaseHelperTable note = new DatabaseHelperTable();
+                note.setId(cursor.getInt(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_ID)));
+                note.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_DATE)));
+                note.setTime(cursor.getLong(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_TIME)));
+                note.setValue(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                allData.add(note);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+
+        ArrayList<String> dailyMaxdatalist = new ArrayList<>();
+        for (int i=0;i<allData.size();i++){
+            if (i+1 < allData.size()){
+                if (!allData.get(i).getDate().equals(allData.get(i+1).getDate())){
+                    dailyMaxdatalist.add(allData.get(i).value);
+                }
+            }else {
+                dailyMaxdatalist.add(allData.get(i).value);
+            }
+
+        }
+        return dailyMaxdatalist;
     }
 
     public void delete(int rowId) {

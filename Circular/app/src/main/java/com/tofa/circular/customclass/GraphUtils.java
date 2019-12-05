@@ -34,6 +34,7 @@ public class GraphUtils {
 
     private static float graphMinValueHr = 0;
     private static float graphMaxValueHr = 0;
+    public static float graphAllDataAverageVlaue = 0;
     public static void loadHRGraph(LineChart mChart, Context context) {
 
         mChart.setNoDataText("");

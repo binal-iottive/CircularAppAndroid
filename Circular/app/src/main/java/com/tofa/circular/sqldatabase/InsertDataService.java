@@ -32,12 +32,9 @@ public class InsertDataService extends Service {
             @Override
             public void run() {
                 try {
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),10000+""));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),9000+""));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),11000+""));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),10000+""));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),9000+""));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_STEPS, Utils.getCurrentDate(),Utils.getCurrentTime(),11000+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_CALORIES, "5-Dec-2019",Utils.getCurrentTime(),1.5+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_CALORIES, "5-Dec-2019",Utils.getCurrentTime(),1.8+""));
+//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_CALORIES, "5-Dec-2019",Utils.getCurrentTime(),1.4+""));
 
                     if (insertDataArrayList !=null && insertDataArrayList.size() > 0){
                         for (int i = 0; i< insertDataArrayList.size(); i++){

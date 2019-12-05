@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
 
 public class BarChartUtils {
-    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<String> entries) {
+    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<String> entries, float averageValue) {
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.setFocusable(false);
@@ -85,14 +85,14 @@ public class BarChartUtils {
         }
         if (type.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
             mChart.setVisibleXRangeMinimum(7);
-            setAxisLabelsWeeks(mChart,chartAction);
+            setAxisLabelsWeeks(mChart,chartAction,type,entries);
             addValueToChart(mChart,7,2, "week",chartAction,entries);
         }
         mChart.notifyDataSetChanged();
         mChart.invalidate();
     }
 
-    public static void setAxisLabelsWeeks(BarChart mChart, String chartAction){
+    public static void setAxisLabelsWeeks(BarChart mChart, String chartAction, String type, ArrayList<String> entries){
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAxisMaximum(7f);
         xAxis.setLabelCount(7,true);
@@ -154,9 +154,20 @@ public class BarChartUtils {
             ll1.enableDashedLine(10f, 10f, 0f);
             ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
             ll1.setTextSize(5f);
-            ll1.setLineColor(Color.parseColor("#593996F7"));
+            ll1.setLineColor(Color.parseColor("#593996F7"));//baseLine
 
-            LimitLine ll2 = new LimitLine(1.6f, "");
+            float averageValue=0;
+            if (!type.equals(GraphUtils.CHART_TYPE_ALL)){
+                float sum=0;
+                for (int index = 0; index < entries.size(); index++) {
+                    sum = sum+ Float.parseFloat(entries.get(index));
+                }
+                averageValue = sum/entries.size();
+            }else {
+                averageValue = GraphUtils.graphAllDataAverageVlaue;
+            }
+
+            LimitLine ll2 = new LimitLine(averageValue, "");
             ll2.setLineWidth(3f);
             ll2.enableDashedLine(10f, 10f, 0f);
             ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
