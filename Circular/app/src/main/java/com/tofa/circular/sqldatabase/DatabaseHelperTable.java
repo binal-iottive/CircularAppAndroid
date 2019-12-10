@@ -38,12 +38,20 @@ public class DatabaseHelperTable {
     public static final String COLUMN_HR_TIME = "time";
     public static final String COLUMN_HR_VALUE = "value";
 
+    public static final String TABLE_NAME_HRV= "HRV";
+    public static final String TABLE_NAME_ENERGY_LEVEL= "ENERGY_LEVEL";
+    public static final String TABLE_NAME_RESTING_HR= "RESTING_HR";
+    public static final String TABLE_NAME_SPO2= "SPO2";
+
+    public static final String COLUMN_DEFAULT_TIMESTAMP = "default_timestamp";
+
     public static final String CREATE_TABLE_STEPS =
             "CREATE TABLE " + TABLE_NAME_STEPS + "("
                     + COLUMN_STEPS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_STEPS_DATE + " BLOB,"
                     + COLUMN_STEPS_TIME + " BLOB,"
-                    + COLUMN_STEPS_VALUE + " TEXT"
+                    + COLUMN_STEPS_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public static final String CREATE_TABLE_WALINKG =
@@ -51,7 +59,8 @@ public class DatabaseHelperTable {
                     + COLUMN_WALINKG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_WALINKG_DATE + " BLOB,"
                     + COLUMN_WALINKG_TIME + " BLOB,"
-                    + COLUMN_WALINKG_VALUE + " TEXT"
+                    + COLUMN_WALINKG_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public static final String CREATE_TABLE_ACTIVE =
@@ -59,7 +68,8 @@ public class DatabaseHelperTable {
                     + COLUMN_ACTIVE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_ACTIVE_DATE + " BLOB,"
                     + COLUMN_ACTIVE_TIME + " BLOB,"
-                    + COLUMN_ACTIVE_VALUE + " TEXT"
+                    + COLUMN_ACTIVE_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public static final String CREATE_TABLE_CALORIES =
@@ -67,7 +77,8 @@ public class DatabaseHelperTable {
                     + COLUMN_CALORIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_CALORIES_DATE + " BLOB,"
                     + COLUMN_CALORIES_TIME + " BLOB,"
-                    + COLUMN_CALORIES_VALUE + " TEXT"
+                    + COLUMN_CALORIES_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public static final String CREATE_TABLE_VO2 =
@@ -75,7 +86,8 @@ public class DatabaseHelperTable {
                     + COLUMN_VO2_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_VO2_DATE + " BLOB,"
                     + COLUMN_VO2_TIME + " BLOB,"
-                    + COLUMN_VO2_VALUE + " TEXT"
+                    + COLUMN_VO2_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public static final String CREATE_TABLE_HR =
@@ -83,7 +95,44 @@ public class DatabaseHelperTable {
                     + COLUMN_HR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_HR_DATE + " BLOB,"
                     + COLUMN_HR_TIME + " BLOB,"
-                    + COLUMN_HR_VALUE + " TEXT"
+                    + COLUMN_HR_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + ")";
+
+    public static final String CREATE_TABLE_HRV =
+            "CREATE TABLE " + TABLE_NAME_HRV + "("
+                    + COLUMN_HR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_HR_DATE + " BLOB,"
+                    + COLUMN_HR_TIME + " BLOB,"
+                    + COLUMN_HR_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + ")";
+
+    public static final String CREATE_TABLE_ENERGY_LEVEL =
+            "CREATE TABLE " + TABLE_NAME_ENERGY_LEVEL + "("
+                    + COLUMN_HR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_HR_DATE + " BLOB,"
+                    + COLUMN_HR_TIME + " BLOB,"
+                    + COLUMN_HR_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + ")";
+
+    public static final String CREATE_TABLE_RESTING_HR =
+            "CREATE TABLE " + TABLE_NAME_RESTING_HR + "("
+                    + COLUMN_HR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_HR_DATE + " BLOB,"
+                    + COLUMN_HR_TIME + " BLOB,"
+                    + COLUMN_HR_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + ")";
+
+    public static final String CREATE_TABLE_SPO2 =
+            "CREATE TABLE " + TABLE_NAME_SPO2 + "("
+                    + COLUMN_HR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_HR_DATE + " BLOB,"
+                    + COLUMN_HR_TIME + " BLOB,"
+                    + COLUMN_HR_VALUE + " BLOB,"
+                    + COLUMN_DEFAULT_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ")";
 
     public DatabaseHelperTable() {
@@ -94,14 +143,14 @@ public class DatabaseHelperTable {
     public String date;
     public long time;
 
-    public DatabaseHelperTable(String dataType, String date, long time, String value) {
+    public DatabaseHelperTable(String dataType, String date, long time, float value) {
         this.dataType = dataType;
         this.date = date;
         this.time = time;
         this.value = value;
     }
 
-    public String value;
+    public float value;
 
     public int getId() {
         return id;
@@ -127,11 +176,11 @@ public class DatabaseHelperTable {
         this.time = time;
     }
 
-    public String getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(float value) {
         this.value = value;
     }
 }

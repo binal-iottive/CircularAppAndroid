@@ -20,7 +20,7 @@ import static com.tofa.circular.customclass.GraphUtils.xAxisLabel;
 
 public class LineChartUtils {
 
-    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<String> entrylist, float averageValue) {
+    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<Float> entrylist, float averageValue) {
         int listSize = entrylist.size();
         LimitLine ll1 = new LimitLine(11f, "");
         ll1.setLineWidth(3f);
@@ -173,11 +173,6 @@ public class LineChartUtils {
             mChart.setVisibleXRangeMinimum(4);
             mChart.setVisibleXRangeMaximum(4);
         } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
-           /* if (listSize==0){
-                xAxis.setDrawLabels(false);
-            }else {
-                xAxis.setDrawLabels(true);
-            }*/
             xAxis.setDrawLabels(true);
             xAxis.setAxisMaximum(90f);
             xAxis.setLabelCount(7, true);
@@ -210,7 +205,7 @@ public class LineChartUtils {
         mChart.invalidate();
     }
 
-    public static LineData generateLineData(String chartType, String actionType, ArrayList<String> entrylist) {
+    public static LineData generateLineData(String chartType, String actionType, ArrayList<Float> entrylist) {
         int itemcount = 7;
         if (chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)) {
             itemcount = 7;
@@ -235,9 +230,9 @@ public class LineChartUtils {
         }*/
         for (int index = 0; index < entrylist.size(); index++) {
             if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
-                entries.add(new Entry(index + 0.5f, Float.parseFloat(entrylist.get(index))/1000));
+                entries.add(new Entry(index + 0.5f, (entrylist.get(index))/1000));
             }else {
-                entries.add(new Entry(index + 0.5f, Float.parseFloat(entrylist.get(index))));
+                entries.add(new Entry(index + 0.5f, (entrylist.get(index))));
             }
         }
 

@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity
             }
             //*********************//
             if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
-                MainActivity.mService.enableNotifyHeartRateMeasurement();
+                MainActivity.mService.enableTXNotification();
             }
             //*********************//
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {

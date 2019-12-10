@@ -23,7 +23,7 @@ public class Utils {
     public static ArrayList<DatabaseHelperTable> insertDataArrayList = new ArrayList<>();
     public static final int REQUEST_ADD_ALERT = 1;
     public static final int REQUEST_CONTACT_PICKER = 2;
-    public static final String dateFormate = "dd-MMM-yyyy";
+    public static final String dateFormate = "yyyy-MM-dd";
 
     public static String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
@@ -125,10 +125,15 @@ public class Utils {
         return datesList;
     }
 
-    public static long dateToMS(String givenDateString){
+    public static long dateToMS(String givenDateString, int type) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormate);
         try {
             Date mDate = sdf.parse(givenDateString);
+            if (type == 0) {
+                mDate = (subtractDays(mDate, -1));
+            } else {
+                mDate = (subtractDays(mDate, 1));
+            }
             long timeInMilliseconds = mDate.getTime();
             return timeInMilliseconds;
         } catch (ParseException e) {
@@ -136,5 +141,13 @@ public class Utils {
         }
 
         return System.currentTimeMillis();
+    }
+
+    public static Date subtractDays(Date date, int days) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+
+        return cal.getTime();
     }
 }

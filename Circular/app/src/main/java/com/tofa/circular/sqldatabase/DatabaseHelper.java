@@ -43,6 +43,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DatabaseHelperTable.CREATE_TABLE_ACTIVE);
         db.execSQL(DatabaseHelperTable.CREATE_TABLE_VO2);
         db.execSQL(DatabaseHelperTable.CREATE_TABLE_HR);
+        db.execSQL(DatabaseHelperTable.CREATE_TABLE_HRV);
+        db.execSQL(DatabaseHelperTable.CREATE_TABLE_ENERGY_LEVEL);
+        db.execSQL(DatabaseHelperTable.CREATE_TABLE_RESTING_HR);
+        db.execSQL(DatabaseHelperTable.CREATE_TABLE_SPO2);
     }
 
     @Override
@@ -53,10 +57,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_ACTIVE);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_VO2);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_HR);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_HRV);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_ENERGY_LEVEL);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_RESTING_HR);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHelperTable.TABLE_NAME_SPO2);
         onCreate(db);
     }
 
-    public long insertStepsTakenData(String tableName, String Date, long Time, String value) {
+    public long insertStepsTakenData(String tableName, String Date, long Time, float value) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperTable.COLUMN_STEPS_DATE, Date);
@@ -67,9 +75,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public ArrayList<String> getAllTableData(String tableName) {
+    public ArrayList<Float> getAllTableData(String tableName) {
 //        ArrayList<DatabaseHelperTable> notes = new ArrayList<>();
-        ArrayList<String> allData = new ArrayList<>();
+        ArrayList<Float> allData = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + tableName;
         String selectQueryAverage = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                 + tableName;
@@ -86,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 note.setValue(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
                 notes.add(note);*/
 
-                allData.add(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                allData.add(cursor.getFloat(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
             } while (cursor.moveToNext());
         }
 
@@ -101,15 +109,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             } while (cursorAverage.moveToNext());
         }
-
         db.close();
         return allData;
     }
 
-    public ArrayList<String> getLastWeekData(String tableName){
+    public ArrayList<Float> getLastWeekData(String tableName){
         String[] lastWeek = Utils.getPastWeekDate();
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> weekData = new ArrayList<>();
+        ArrayList<Float> weekData = new ArrayList<>();
         for (int i=0;i<lastWeek.length;i++){
             String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName + " WHERE "
@@ -120,12 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    String avgValue =cursor.getString(cursor.getColumnIndex("AVG(value)"));
-                    if (avgValue!=null){
-                        weekData.add(avgValue);
-                    }else {
-                        weekData.add("0");
-                    }
+                    float avgValue =cursor.getFloat(cursor.getColumnIndex("AVG(value)"));
+                    weekData.add(avgValue);
                 } while (cursor.moveToNext());
             }
         }
@@ -133,10 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return weekData;
     }
 
-    public ArrayList<String> getLastWeekDataSteps(String tableName){
+    public ArrayList<Float> getLastWeekDataSteps(String tableName){
         String[] lastWeek = Utils.getPastWeekDate();
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> weekData = new ArrayList<>();
+        ArrayList<Float> weekData = new ArrayList<>();
         for (int i=0;i<lastWeek.length;i++){
             String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName + " WHERE "
@@ -147,12 +150,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    String avgValue =cursor.getString(cursor.getColumnIndex("MAX(value)"));
-                    if (avgValue!=null){
-                        weekData.add(avgValue);
-                    }else {
-                        weekData.add("0");
-                    }
+                    float avgValue =cursor.getFloat(cursor.getColumnIndex("MAX(value)"));
+                    weekData.add(avgValue);
                 } while (cursor.moveToNext());
             }
         }
@@ -160,35 +159,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return weekData;
     }
 
-    public ArrayList<String> getLastMonthData(String tableName){
+    public ArrayList<Float> getLastMonthData(String tableName){
         String[] lastWeek = Utils.getLastMonthWeekDate();
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> weekData = new ArrayList<>();
+        ArrayList<Float> weekData = new ArrayList<>();
         for (int i=0;i<4;i++){
-            long date1 = Utils.dateToMS(lastWeek[i]);
-            long date2 = Utils.dateToMS(lastWeek[i+1]);
-            String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+            long date1 = Utils.dateToMS(lastWeek[i],0);
+            long date2 = Utils.dateToMS(lastWeek[i+1],1);
+            String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName
                     + " WHERE "
-                    +  DatabaseHelperTable.COLUMN_ACTIVE_TIME
+                    +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
                     +" BETWEEN '"
-                    + date1
+                    + lastWeek[i]
                     + "' AND '"
-                    + date2
+                    + lastWeek[i+1]
                     +"'";
-                   /* + "' ORDER BY '"
-                    +  DatabaseHelperTable.COLUMN_STEPS_VALUE
-                    +"' ASC"*/;
 
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    String avgValue =cursor.getString(cursor.getColumnIndex("AVG(value)"));
-                    if (avgValue!=null){
-                        weekData.add(avgValue);
-                    }else {
-                        weekData.add("0");
-                    }
+                    float avgValue =cursor.getFloat(cursor.getColumnIndex("MAX(value)"));
+                    weekData.add(avgValue);
                 } while (cursor.moveToNext());
             }
         }
@@ -196,10 +188,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return weekData;
     }
 
-    public ArrayList<String> getLastMonthDataSteps(String tableName){
+    public ArrayList<Float> getLastMonthDataSteps(String tableName){
         String[] lastWeek = Utils.getLastMonthAllDate();
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> monthData = new ArrayList<>();
+        ArrayList<Float> monthData = new ArrayList<>();
         for (int i=0;i<28;i++){
             String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName + " WHERE "
@@ -211,12 +203,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    String avgValue =cursor.getString(cursor.getColumnIndex("MAX(value)"));
-                    if (avgValue!=null){
-                        monthData.add(avgValue);
-                    }else {
-                        monthData.add("0");
-                    }
+                    float avgValue =cursor.getFloat(cursor.getColumnIndex("MAX(value)"));
+                    monthData.add(avgValue);
                 } while (cursor.moveToNext());
             }
         }
@@ -224,12 +212,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = 0;
         float valueSum = 0;
-        ArrayList<String> weekdata = new ArrayList<>();
+        ArrayList<Float> weekdata = new ArrayList<>();
         for (int i=0; i<monthData.size();i++){
-            valueSum = valueSum+ Float.parseFloat(monthData.get(i));
+            valueSum = valueSum+ monthData.get(i);
             count = count+1;
             if (count==7){
-                weekdata.add(valueSum+"");
+                weekdata.add(valueSum);
                 count = 0;
                 valueSum = 0;
             }
@@ -237,10 +225,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return weekdata;
     }
 
-    public ArrayList<String> getTodaysData(String tableName){
+    public ArrayList<Float> getTodaysData(String tableName){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> todayData = new ArrayList<>();
+        ArrayList<Float> todayData = new ArrayList<>();
         String todayDate = Utils.getCurrentDate();
+        if (todayDate.startsWith("0")){
+            todayDate = todayDate.substring(1,todayDate.length());
+        }
             String selectQuery = "SELECT  * FROM " + tableName
                     + " WHERE "
                     + DatabaseHelperTable.COLUMN_ACTIVE_DATE
@@ -253,14 +244,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    todayData.add(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                    todayData.add(cursor.getFloat(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
                 } while (cursor.moveToNext());
             }
         db.close();
         return todayData;
     }
 
-    public ArrayList<String> getAllDailyData(String tableName) {
+    public ArrayList<Float> getAllDailyData(String tableName) {
         ArrayList<DatabaseHelperTable> allData = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + tableName  + " ORDER BY '"
                 + DatabaseHelperTable.COLUMN_ACTIVE_TIME
@@ -275,13 +266,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 note.setId(cursor.getInt(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_ID)));
                 note.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_DATE)));
                 note.setTime(cursor.getLong(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_TIME)));
-                note.setValue(cursor.getString(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
+                note.setValue(cursor.getFloat(cursor.getColumnIndex(DatabaseHelperTable.COLUMN_ACTIVE_VALUE)));
                 allData.add(note);
             } while (cursor.moveToNext());
         }
         db.close();
 
-        ArrayList<String> dailyMaxdatalist = new ArrayList<>();
+        ArrayList<Float> dailyMaxdatalist = new ArrayList<>();
         for (int i=0;i<allData.size();i++){
             if (i+1 < allData.size()){
                 if (!allData.get(i).getDate().equals(allData.get(i+1).getDate())){

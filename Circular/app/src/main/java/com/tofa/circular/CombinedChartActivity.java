@@ -91,8 +91,8 @@ public class CombinedChartActivity extends AppCompatActivity {
 
         CombinedData data = new CombinedData();
         loadLineChart(lineChart);
-        loadBarChart(barChart,"Todays", "", new ArrayList<String>(), 0);
-        loadBarChart(barChartWeek,"week", "", new ArrayList<String>(), 0);
+        loadBarChart(barChart,"Todays", "", new ArrayList<Float>(), 0);
+        loadBarChart(barChartWeek,"week", "", new ArrayList<Float>(), 0);
 //        data.setData(generateLineData());
 //        data.setData(generateBarData());
 //        data.setData(generateBubbleData());
