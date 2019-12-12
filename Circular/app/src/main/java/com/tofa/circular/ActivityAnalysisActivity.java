@@ -123,7 +123,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
                 float value1 = ((float)value) / 1000;
                 scv_walking_equivalency.setValue(value1 + "");
                 tableName = DatabaseHelperTable.TABLE_NAME_WALINKG;
-            } else if (notifyValue.contains("Dcal")) {
+            } else if (notifyValue.contains("Dca")) {
                 scv_calories_burns.setValue(value + "");
                 tableName = DatabaseHelperTable.TABLE_NAME_CALORIES;
             } else if (notifyValue.contains("Dact")) {
@@ -157,9 +157,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         }
     }
 
-
     private void addCaloriesBurnGraph(String clickedtype) {
-
     }
 
     public void writeLiveOnOff(String command) {

@@ -148,6 +148,7 @@ public class BarChartUtils {
             });
         }
 
+        leftAxis.removeAllLimitLines();
         if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)
                 || chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
                 || chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)
