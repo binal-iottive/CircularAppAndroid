@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
 
 public class BarChartUtils {
-    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<Float> entries, float averageValue) {
+    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<Float> entries, float averageValue, float baselinevalue) {
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.setFocusable(false);
@@ -85,14 +85,14 @@ public class BarChartUtils {
         }
         if (type.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
             mChart.setVisibleXRangeMinimum(7);
-            setAxisLabelsWeeks(mChart,chartAction,type,entries,averageValue);
+            setAxisLabelsWeeks(mChart,chartAction,type,entries,averageValue, baselinevalue);
             addValueToChart(mChart,7,2, "week",chartAction,entries);
         }
         mChart.notifyDataSetChanged();
         mChart.invalidate();
     }
 
-    public static void setAxisLabelsWeeks(BarChart mChart, String chartAction, String type, ArrayList<Float> entries, float averageValue){
+    public static void setAxisLabelsWeeks(BarChart mChart, String chartAction, String type, ArrayList<Float> entries, float averageValue, float baselinevalue){
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAxisMaximum(7f);
         xAxis.setLabelCount(7,true);
@@ -148,8 +148,12 @@ public class BarChartUtils {
             });
         }
 
-        if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)){
-            LimitLine ll1 = new LimitLine(1.5f, "");
+        if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)
+                || chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
+                || chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)
+                || chartAction.equals(GraphUtils.CHART_ACTION_RESTING_HR)
+                || chartAction.equals(GraphUtils.CHART_ACTION_RESTING_SPO2)){
+            LimitLine ll1 = new LimitLine(baselinevalue, "");
             ll1.setLineWidth(3f);
             ll1.enableDashedLine(10f, 10f, 0f);
             ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);

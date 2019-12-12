@@ -70,7 +70,11 @@ public class ActivityDetailGraphDescriptionAdapter extends BaseAdapter {
         }else if (listType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)
                 || listType.equals(GraphUtils.CHART_ACTION_HR_MAX)
                 || listType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
-                || listType.equals(GraphUtils.CHART_ACTION_HRV)) {
+                || listType.equals(GraphUtils.CHART_ACTION_HRV)
+                || listType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)
+                || listType.equals(GraphUtils.CHART_ACTION_ENERGY_LEVEL)
+                || listType.equals(GraphUtils.CHART_ACTION_RESTING_HR)
+                || listType.equals(GraphUtils.CHART_ACTION_RESTING_SPO2)) {
             viewHolder.cv_alertColor.setVisibility(View.GONE);
             if (model.desColor == 0) {
                 viewHolder.tv_dot_tine.setVisibility(View.GONE);

@@ -20,9 +20,9 @@ import static com.tofa.circular.customclass.GraphUtils.xAxisLabel;
 
 public class LineChartUtils {
 
-    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<Float> entrylist, float averageValue) {
+    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<Float> entrylist, float averageValue, float baseline) {
         int listSize = entrylist.size();
-        LimitLine ll1 = new LimitLine(11f, "");
+        LimitLine ll1 = new LimitLine(baseline, "");
         ll1.setLineWidth(3f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -46,12 +46,20 @@ public class LineChartUtils {
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
         leftAxis.removeAllLimitLines();
-        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
+        if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)
+                || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
+                || actionType.equals(GraphUtils.CHART_ACTION_HRV)
+                || actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
+                || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)
+                || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)
+                || actionType.equals(GraphUtils.CHART_ACTION_RESTING_SPO2)) {
             if (!chartType.equals(GraphUtils.CHART_TYPE_ALL)){
                 leftAxis.addLimitLine(ll1);
             }
             leftAxis.addLimitLine(ll2);
-        } else {
+        } else if (actionType.equals(GraphUtils.CHART_ACTION_ENERGY_LEVEL)){
+            leftAxis.addLimitLine(ll2);
+        }else {
             leftAxis.removeAllLimitLines();
         }
 
@@ -93,6 +101,13 @@ public class LineChartUtils {
                 leftAxis.setLabelCount(4, true);
                 break;
 
+            case GraphUtils.CHART_ACTION_RESTING_HR:
+                leftAxis.setAxisMinimum(40f);
+                leftAxis.setGranularity(30f);
+                leftAxis.setAxisMaximum(130f);// this replaces setStartAtZero(true)
+                leftAxis.setLabelCount(4, true);
+                break;
+
             case GraphUtils.CHART_ACTION_HRV:
                 leftAxis.setAxisMinimum(25f);
                 leftAxis.setGranularity(25f);
@@ -110,7 +125,14 @@ public class LineChartUtils {
             case GraphUtils.CHART_ACTION_BOOT_STEPS:
                 leftAxis.setAxisMinimum(0f);
                 leftAxis.setGranularity(23.3f);
-                leftAxis.setAxisMaximum(69.9f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(70f);// this replaces setStartAtZero(true)
+                leftAxis.setLabelCount(4, true);
+                break;
+
+            case GraphUtils.CHART_ACTION_ENERGY_LEVEL:
+                leftAxis.setAxisMinimum(25f);
+                leftAxis.setGranularity(25f);
+                leftAxis.setAxisMaximum(100f);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
         }
@@ -137,7 +159,7 @@ public class LineChartUtils {
                         return "";
                     }
                     return (int) value + " k";
-                } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)) {
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)) {
                     if ((int) value == 40) {
                         return "";
                     }
@@ -257,7 +279,8 @@ public class LineChartUtils {
 
         if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
                 || actionType.equals(GraphUtils.CHART_ACTION_HRV )|| actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)
-                || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
+                || actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS) || actionType.equals(GraphUtils.CHART_ACTION_ENERGY_LEVEL)
+                || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)|| actionType.equals(GraphUtils.CHART_ACTION_RESTING_SPO2)) {
             return d;
         }
 

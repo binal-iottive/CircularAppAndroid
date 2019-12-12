@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tofa.circular.R;
@@ -23,6 +24,8 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvAlertType, tvAlertFrom;
         public ImageView iv_1, iv_repeat, ivDeleteAlert;
+        public ImageView iv_dot4,iv_dot3,iv_dot2,iv_dot1, iv_dotClose;
+        public LinearLayout ll_dots;
 
         public MyViewHolder(View view) {
             super(view);
@@ -31,6 +34,12 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHold
             iv_1 = (ImageView) view.findViewById(R.id.iv_1);
             iv_repeat = (ImageView) view.findViewById(R.id.iv_repeat);
             ivDeleteAlert = (ImageView) view.findViewById(R.id.ivDeleteAlert);
+            iv_dot4 = (ImageView) view.findViewById(R.id.iv_dot4);
+            iv_dot3 = (ImageView) view.findViewById(R.id.iv_dot3);
+            iv_dot2 = (ImageView) view.findViewById(R.id.iv_dot2);
+            iv_dot1 = (ImageView) view.findViewById(R.id.iv_dot1);
+            iv_dotClose = (ImageView) view.findViewById(R.id.iv_dotClose);
+            ll_dots = (LinearLayout) view.findViewById(R.id.ll_dots);
         }
     }
 
@@ -79,6 +88,56 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHold
                 notifyDataSetChanged();
             }
         });
+
+        holder.iv_repeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.ll_dots.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.iv_dot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertList.get(position).repeatCount = 1;
+                holder.ll_dots.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
+        });
+        holder.iv_dot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertList.get(position).repeatCount = 2;
+                holder.ll_dots.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.iv_dot3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertList.get(position).repeatCount = 3;
+                holder.ll_dots.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.iv_dot4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertList.get(position).repeatCount = 4;
+                holder.ll_dots.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.iv_dotClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.ll_dots.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override
