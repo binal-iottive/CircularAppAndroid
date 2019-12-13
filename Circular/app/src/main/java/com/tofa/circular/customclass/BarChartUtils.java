@@ -104,46 +104,48 @@ public class BarChartUtils {
         });
 
         YAxis leftAxis = mChart.getAxisLeft();
+        float max = getmaxValue(entries);
+        float min = getminValue(entries);
         if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
-            leftAxis.setAxisMinimum(0f);
+            leftAxis.setAxisMinimum(min);
             leftAxis.setGranularity(50f);
-            leftAxis.setAxisMaximum(150f);
+            leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    if ((int) value==0){
+                    if ((int) value==min){
                         return "";
                     }
                     return  (int) value+"";
                 }
             });
         }else if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
-            leftAxis.setAxisMinimum(0f);
+            leftAxis.setAxisMinimum(min/1000);
             leftAxis.setGranularity(4f);
-            leftAxis.setAxisMaximum(12f);
+            leftAxis.setAxisMaximum(max/1000);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    if ((int) value==0){
+                    if (value==min/1000){
                         return "";
                     }
                     return  (int) value+"k";
                 }
             });
         }else {
-            leftAxis.setAxisMinimum(0.5f);
+            leftAxis.setAxisMinimum(min);
             leftAxis.setGranularity(0.5f);
-            leftAxis.setAxisMaximum(2f);
+            leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    if (value == 0.5){
+                    if (value == min){
                         return "";
                     }
-                    return  value+"k";
+                    return  String.format("%.01f", value)+"k";
                 }
             });
         }
@@ -218,5 +220,25 @@ public class BarChartUtils {
 
     public static float getRandom(float range, float startsfrom) {
         return (float) (Math.random() * range) + startsfrom;
+    }
+
+    public static float getmaxValue(ArrayList<Float> entries){
+        float max =0;
+        for (int i=0 ; i<entries.size();i++){
+            if (entries.get(i)>max){
+                max = entries.get(i);
+            }
+        }
+        return max;
+    }
+
+    public static float getminValue(ArrayList<Float> entries){
+        float min =0;
+        for (int i=0 ; i<entries.size();i++){
+            if (entries.get(i)<min){
+                min = entries.get(i);
+            }
+        }
+        return min;
     }
 }

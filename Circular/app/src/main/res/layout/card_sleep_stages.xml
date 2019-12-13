@@ -23,6 +23,12 @@
             android:layout_height="170dp"
             android:layout_marginBottom="10dp"/>
 
+        <com.anychart.AnyChartView
+            android:id="@+id/waterfallChart"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="170dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

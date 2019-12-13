@@ -55,8 +55,7 @@
             android:enabled="true" />
         <service
             android:name=".sqldatabase.InsertDataService"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="true"/>
     </application>
 
 </manifest>

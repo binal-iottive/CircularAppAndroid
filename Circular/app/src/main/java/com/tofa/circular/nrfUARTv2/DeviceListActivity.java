@@ -244,12 +244,10 @@ public class DeviceListActivity extends Activity {
             }
         }
 
-
         devRssiValues.put(device.getAddress(), rssi);
         if (!deviceFound) {
             deviceList.add(device);
             mEmptyList.setVisibility(View.GONE);
-
             deviceAdapter.notifyDataSetChanged();
         }
     }
@@ -267,18 +265,15 @@ public class DeviceListActivity extends Activity {
     public void onStop() {
         super.onStop();
         stopScan();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         stopScan();
-
     }
 
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             System.out.println("onItemClick");

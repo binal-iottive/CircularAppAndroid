@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.tofa.circular.customclass.Utils;
+import com.tofa.circular.ActivityAnalysisActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,16 +35,17 @@ public class InsertDataService extends Service {
             @Override
             public void run() {
                 try {
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_ACTIVE, "2019-12-05", Utils.getCurrentTime(),100));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_ACTIVE, "2019-12-05",Utils.getCurrentTime(),120));
-//                    insertDataArrayList.add(new DatabaseHelperTable(DatabaseHelperTable.TABLE_NAME_ACTIVE, "2019-12-05",Utils.getCurrentTime(),68));
-
+                    Log.d("InsertDataService==>","hourlyTask");
+                    if ( ActivityAnalysisActivity.getInstance() == null && insertDataArrayList.size()==0)
+                    {
+                        stopSelf();
+                    }
                     if (insertDataArrayList != null && insertDataArrayList.size() > 0) {
                         for (int i = 0; i < insertDataArrayList.size(); i++) {
                             if (insertDataArrayList.get(0) != null && insertDataArrayList.size() > 0) {
                                 DatabaseHelperTable model = insertDataArrayList.get(0);
                                 db.insertStepsTakenData(model.dataType, model.date, model.time, model.value);
-                                Log.d("insertData==>",model.dataType+" value: "+model.value);
+                                Log.d("insertData==>",model.dataType+" Time: "+model.date+" value: "+model.value);
                                 insertDataArrayList.remove(0);
                                 i = -1;
                             } else {

@@ -3,6 +3,11 @@ package com.tofa.circular.customclass;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Waterfall;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -10,6 +15,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.tofa.circular.R;
 
 import java.util.ArrayList;
 
@@ -64,8 +70,8 @@ public class GraphUtils {
 
         YAxis yAxis = mChart.getAxisLeft();
         yAxis.setDrawGridLines(false);
-        yAxis.setAxisMinValue(40);
-        yAxis.setAxisMaxValue(210);
+       /* yAxis.setAxisMinValue(40);
+        yAxis.setAxisMaxValue(210);*/
         yAxis.setDrawLimitLinesBehindData(false);
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawLabels(false);
@@ -74,7 +80,7 @@ public class GraphUtils {
         YAxis rightaxis = mChart.getAxisRight();
         rightaxis.setEnabled(false);
         graphMinValueHr = 40;
-       graphMaxValueHr = 210;
+        graphMaxValueHr = 210;
     }
 
     public static void addValueToChart(LineChart mChart, float graphValue, Context context) {
@@ -90,7 +96,7 @@ public class GraphUtils {
                 data.notifyDataChanged();
 
                 try {
-                    if (set.getEntryCount() >= 51) {
+                    if (set.getEntryCount() >= 101) {
                         set.removeFirst();
                         for (int i=0; i<set.getEntryCount(); i++) {
                             Entry entryToChange = set.getEntryForIndex(i);
@@ -98,9 +104,9 @@ public class GraphUtils {
                         }
                     }
                     mChart.notifyDataSetChanged();
-                    mChart.setVisibleXRangeMaximum(50);
-                    mChart.setVisibleXRangeMinimum(50);
-                    setMinMaxtoChartHr(data, mChart,graphValue);
+                    mChart.setVisibleXRangeMaximum(100);
+                    mChart.setVisibleXRangeMinimum(100);
+//                    setMinMaxtoChartHr(data, mChart,graphValue);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -149,8 +155,8 @@ public class GraphUtils {
                 }
 
                 if (i == data.getEntryCount()-1) {
-                    mChart.getAxisLeft().setAxisMaxValue(graphMaxValueHr);
-                    mChart.getAxisLeft().setAxisMinValue(graphMinValueHr);
+                    mChart.getAxisLeft().setAxisMaxValue(graphMaxValueHr+10);
+                    mChart.getAxisLeft().setAxisMinValue(graphMinValueHr-10);
                 }
             }
         }else {
@@ -161,8 +167,8 @@ public class GraphUtils {
                 graphMaxValueHr = graphValue;
             }
 
-            mChart.getAxisLeft().setAxisMaxValue(graphMaxValueHr);
-            mChart.getAxisLeft().setAxisMinValue(graphMinValueHr);
+            mChart.getAxisLeft().setAxisMaxValue(graphMaxValueHr+10);
+            mChart.getAxisLeft().setAxisMinValue(graphMinValueHr-10);
         }
     }
 
@@ -172,6 +178,50 @@ public class GraphUtils {
         int hr = Integer.parseInt(hrRawData,16);
         result1 = hr;
         return result1;
+    }
+
+    public static void loadWaterFallChart(AnyChartView waterfallChart){
+        Waterfall waterfall = AnyChart.waterfall();
+        waterfall.title("");
+        waterfall.yScale().minimum(0d);
+        waterfall.yAxis(0).labels().format("${%Value}{scale:(1000000)(1)|(mln)}");
+        waterfall.labels().enabled(true);
+        waterfall.labels().format(
+                "function() {\n" +
+                        "      if (this['isTotal']) {\n" +
+                        "        return anychart.format.number(this.absolute, {\n" +
+                        "          scale: true\n" +
+                        "        })\n" +
+                        "      }\n" +
+                        "\n" +
+                        "      return anychart.format.number(this.value, {\n" +
+                        "        scale: true\n" +
+                        "      })\n" +
+                        "    }");
+        waterfall.data(getData());
+        waterfallChart.setChart(waterfall);
+    }
+
+    public static ArrayList getData() {
+        ArrayList<DataEntry> entries = new ArrayList<>();
+        entries.add(new ValueDataEntry("Start", 23000000));
+        entries.add(new ValueDataEntry("Jan", 2200000));
+        entries.add(new ValueDataEntry("Feb", -4600000));
+        entries.add(new ValueDataEntry("Mar", -9100000));
+        entries.add(new ValueDataEntry("Apr", 3700000));
+        entries.add(new ValueDataEntry("May", -2100000));
+        entries.add(new ValueDataEntry("Jun", 5300000));
+        entries.add(new ValueDataEntry("Jul", 3100000));
+        entries.add(new ValueDataEntry("Aug", -1500000));
+        entries.add(new ValueDataEntry("Sep", 4200000));
+        entries.add(new ValueDataEntry("Oct", 5300000));
+        entries.add(new ValueDataEntry("Nov", -1500000));
+        entries.add(new ValueDataEntry("Dec", 5100000));
+        DataEntry end = new DataEntry();
+        end.setValue("x", "End");
+        end.setValue("isTotal", true);
+        entries.add(end);
+        return entries;
     }
 
 }

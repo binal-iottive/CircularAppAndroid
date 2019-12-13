@@ -16,6 +16,8 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.tofa.circular.MainActivity;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.List;
@@ -214,7 +216,7 @@ public class UartService extends Service {
 
         System.out.println(mConnectionState);
         // Previously connected device.  Try to reconnect.
-        if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
+    /*    if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
                 && mBluetoothGatt != null) {
             Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
             if (mBluetoothGatt.connect()) {
@@ -223,7 +225,7 @@ public class UartService extends Service {
             } else {
                 return false;
             }
-        }
+        }*/
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
@@ -232,7 +234,11 @@ public class UartService extends Service {
         }
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mBluetoothGatt = device.connectGatt(this, false, mGattCallback, BluetoothDevice.TRANSPORT_LE);
+        } else {
+            mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        }
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
@@ -252,7 +258,7 @@ public class UartService extends Service {
             return;
         }
         mBluetoothGatt.disconnect();
-        // mBluetoothGatt.close();
+        mBluetoothGatt = null;
     }
 
     /**

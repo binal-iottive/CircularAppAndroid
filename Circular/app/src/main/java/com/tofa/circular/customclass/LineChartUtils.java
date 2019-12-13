@@ -63,6 +63,9 @@ public class LineChartUtils {
             leftAxis.removeAllLimitLines();
         }
 
+        float max = getmaxValue(entrylist);
+        float min = getminValue(entrylist);
+
         switch (actionType) {
             case GraphUtils.CHART_ACTION_ACTITY_INTENSITY:
                 leftAxis.setAxisMinimum(0f);
@@ -72,67 +75,57 @@ public class LineChartUtils {
                 break;
 
             case GraphUtils.CHART_ACTION_CALORIES_BURN:
-                if (chartType.equals(GraphUtils.CHART_TYPE_ALL)){
-                    leftAxis.setAxisMinimum(0.5f);
-                    leftAxis.setGranularity(0.5f);
-                    leftAxis.setAxisMaximum(2f);
-                    leftAxis.setLabelCount(4, true);
-                  /*  leftAxis.setValueFormatter(new ValueFormatter() {
-                        @Override
-                        public String getFormattedValue(float value) {
-                            if (value == 0.5){
-                                return "";
-                            }
-                            return  value+"k";
-                        }
-                    });*/
-                }else {
-                    leftAxis.setAxisMinimum(0f);
-                    leftAxis.setGranularity(5f);
-                    leftAxis.setAxisMaximum(15f);// this replaces setStartAtZero(true)
-                    leftAxis.setLabelCount(4, true);
-                }
+                leftAxis.setAxisMinimum(min);
+                leftAxis.setGranularity(0.5f);
+                leftAxis.setAxisMaximum(max);
+                leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_HR_MAX:
-                leftAxis.setAxisMinimum(40f);
+                leftAxis.setAxisMinimum(min);
                 leftAxis.setGranularity(30f);
-                leftAxis.setAxisMaximum(130f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(max);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_RESTING_HR:
-                leftAxis.setAxisMinimum(40f);
+                leftAxis.setAxisMinimum(min);
                 leftAxis.setGranularity(30f);
-                leftAxis.setAxisMaximum(130f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(max);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_HRV:
-                leftAxis.setAxisMinimum(25f);
+                leftAxis.setAxisMinimum(min);
                 leftAxis.setGranularity(25f);
-                leftAxis.setAxisMaximum(100f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(max);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_ACTIVE_MINUTES:
-                leftAxis.setAxisMinimum(0f);
+                leftAxis.setAxisMinimum(min);
                 leftAxis.setGranularity(50f);
-                leftAxis.setAxisMaximum(150f);
+                leftAxis.setAxisMaximum(max);
                 leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_BOOT_STEPS:
-                leftAxis.setAxisMinimum(0f);
+                leftAxis.setAxisMinimum(min/1000);
                 leftAxis.setGranularity(23.3f);
-                leftAxis.setAxisMaximum(70f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(max/1000);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
 
             case GraphUtils.CHART_ACTION_ENERGY_LEVEL:
-                leftAxis.setAxisMinimum(25f);
+                leftAxis.setAxisMinimum(min);
                 leftAxis.setGranularity(25f);
-                leftAxis.setAxisMaximum(100f);// this replaces setStartAtZero(true)
+                leftAxis.setAxisMaximum(max);// this replaces setStartAtZero(true)
+                leftAxis.setLabelCount(4, true);
+
+            case GraphUtils.CHART_ACTION_RESTING_SPO2:
+                leftAxis.setAxisMinimum(min);
+                leftAxis.setGranularity(25f);
+                leftAxis.setAxisMaximum(max);// this replaces setStartAtZero(true)
                 leftAxis.setLabelCount(4, true);
                 break;
         }
@@ -143,36 +136,33 @@ public class LineChartUtils {
                 if (actionType.equals(GraphUtils.CHART_ACTION_ACTITY_INTENSITY)) {
                     return GraphUtils.yAxisLabelActiveMinutes[(int) value / 30];
                 } else if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)) {
-                    if (chartType.equals(GraphUtils.CHART_TYPE_ALL)){
-                        if (value == 0.5){
-                            return "";
-                        }
-                        return  value+" k";
-                    }else {
-                        if ((int) value == 0) {
-                            return "";
-                        }
-                        return (int) value + " k";
+                    if (value == min){
+                        return "";
                     }
+                    return  String.format("%.01f", value)+" k";
                 } else if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
-                    if ((int) value == 40) {
+                    if (value == min) {
                         return "";
                     }
                     return (int) value + " k";
-                } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)) {
-                    if ((int) value == 40) {
+                } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
+                        || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)
+                        || actionType.equals(GraphUtils.CHART_ACTION_HRV)) {
+                    if ((int) value == min) {
                         return "";
                     }
                     return (int) value + "";
                 }else if (actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)) {
-                    if ((int) value==0){
+                    if ((int) value==min){
                         return "";
                     }
                     return  (int) value+"";
-                } else {
-                    if ((int) value == 25) {
+                }else if (actionType.equals(GraphUtils.CHART_ACTION_RESTING_SPO2)) {
+                    if ((int) value==min){
                         return "";
                     }
+                    return  (int) value+"%";
+                } else {
                     return (int) value + "";
                 }
             }
@@ -315,4 +305,24 @@ public class LineChartUtils {
         d.addDataSet(set2);
         return d;
     }
+    public static float getmaxValue(ArrayList<Float> entries){
+        float max =0;
+        for (int i=0 ; i<entries.size();i++){
+            if (entries.get(i)>max){
+                max = entries.get(i);
+            }
+        }
+        return max;
+    }
+
+    public static float getminValue(ArrayList<Float> entries){
+        float min =0;
+        for (int i=0 ; i<entries.size();i++){
+            if (entries.get(i)<min){
+                min = entries.get(i);
+            }
+        }
+        return min;
+    }
+
 }
