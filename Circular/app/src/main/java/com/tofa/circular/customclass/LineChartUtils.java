@@ -173,17 +173,17 @@ public class LineChartUtils {
         xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
         if (chartType.equals(GraphUtils.CHART_TYPE_PAST_WEEK)) {
-            xAxis.setLabelCount(7, true);
+            xAxis.setLabelCount(8, true);
             xAxis.setDrawLabels(true);
             xAxis.setAxisMaximum(7f);
-            mChart.setVisibleXRangeMinimum(7);
-            mChart.setVisibleXRangeMaximum(7);
+            mChart.setVisibleXRangeMinimum(8);
+            mChart.setVisibleXRangeMaximum(8);
         } else if (chartType.equals(GraphUtils.CHART_TYPE_PAST_MONTH)) {
-            xAxis.setAxisMaximum(3.5f);
+            xAxis.setAxisMaximum(4f);
             xAxis.setDrawLabels(true);
-            xAxis.setLabelCount(4, true);
-            mChart.setVisibleXRangeMinimum(4);
-            mChart.setVisibleXRangeMaximum(4);
+            xAxis.setLabelCount(5, true);
+            mChart.setVisibleXRangeMinimum(5);
+            mChart.setVisibleXRangeMaximum(5);
         } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
             xAxis.setDrawLabels(true);
             xAxis.setAxisMaximum(90f);
@@ -242,9 +242,9 @@ public class LineChartUtils {
         }*/
         for (int index = 0; index < entrylist.size(); index++) {
             if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
-                entries.add(new Entry(index + 0.5f, (entrylist.get(index))/1000));
+                entries.add(new Entry(index+1f, (entrylist.get(index))/1000));
             }else {
-                entries.add(new Entry(index + 0.5f, (entrylist.get(index))));
+                entries.add(new Entry(index+1f, (entrylist.get(index))));
             }
         }
 
@@ -276,7 +276,7 @@ public class LineChartUtils {
 
         ArrayList<Entry> entries1 = new ArrayList<Entry>();
         for (int index = 0; index < itemcount; index++)
-            entries1.add(new Entry(index + 0.5f, getRandom(30, 30)));
+            entries1.add(new Entry(index + 1f, getRandom(30, 30)));
         LineDataSet set1 = new LineDataSet(entries1, "");
         set1.setColor(Color.parseColor("#FC551A"));
         set1.setLineWidth(2.5f);
@@ -291,7 +291,7 @@ public class LineChartUtils {
 
         ArrayList<Entry> entries2 = new ArrayList<Entry>();
         for (int index = 0; index < itemcount; index++)
-            entries2.add(new Entry(index + 0.5f, getRandom(30, 60)));
+            entries2.add(new Entry(index + 1f, getRandom(30, 60)));
         LineDataSet set2 = new LineDataSet(entries2, "");
         set2.setColor(Color.parseColor("#FAD505"));
         set2.setLineWidth(2.5f);

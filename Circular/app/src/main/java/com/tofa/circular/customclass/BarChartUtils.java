@@ -84,7 +84,7 @@ public class BarChartUtils {
             addValueToChart(mChart,90,100, "Todays",chartAction,entries);
         }
         if (type.equals(GraphUtils.CHART_TYPE_PAST_WEEK)){
-            mChart.setVisibleXRangeMinimum(7);
+//            mChart.setVisibleXRangeMinimum(7);
             setAxisLabelsWeeks(mChart,chartAction,type,entries,averageValue, baselinevalue);
             addValueToChart(mChart,7,2, "week",chartAction,entries);
         }
@@ -94,8 +94,12 @@ public class BarChartUtils {
 
     public static void setAxisLabelsWeeks(BarChart mChart, String chartAction, String type, ArrayList<Float> entries, float averageValue, float baselinevalue){
         XAxis xAxis = mChart.getXAxis();
+        xAxis.setAxisMinimum(0f);
+        xAxis.setGranularity(1f);
         xAxis.setAxisMaximum(7f);
-        xAxis.setLabelCount(7,true);
+        xAxis.setLabelCount(8,true);
+        mChart.setVisibleXRangeMinimum(8);
+        mChart.setVisibleXRangeMaximum(8);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -108,7 +112,7 @@ public class BarChartUtils {
         float min = getminValue(entries);
         if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
             leftAxis.setAxisMinimum(min);
-            leftAxis.setGranularity(50f);
+            leftAxis.setGranularity(0f);
             leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
@@ -121,7 +125,7 @@ public class BarChartUtils {
                 }
             });
         }else if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
-            leftAxis.setAxisMinimum(min/1000);
+            leftAxis.setAxisMinimum(0f);
             leftAxis.setGranularity(4f);
             leftAxis.setAxisMaximum(max/1000);
             leftAxis.setLabelCount(4, true);
@@ -135,7 +139,7 @@ public class BarChartUtils {
                 }
             });
         }else {
-            leftAxis.setAxisMinimum(min);
+            leftAxis.setAxisMinimum(0f);
             leftAxis.setGranularity(0.5f);
             leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
@@ -183,9 +187,9 @@ public class BarChartUtils {
 //            yVals1.add(new BarEntry(index + 0.3f, getRandom(range, 1)));
 
             if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
-                yVals1.add(new BarEntry(index + 0.3f, (entries.get(index))/1000));
+                yVals1.add(new BarEntry(index+1f , (entries.get(index))/1000));
             }else {
-                yVals1.add(new BarEntry(index + 0.5f, (entries.get(index))));
+                yVals1.add(new BarEntry(index+1f , (entries.get(index))));
             }
         }
 

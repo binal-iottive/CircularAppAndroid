@@ -33,8 +33,8 @@ public class GraphUtils {
     public static final String CHART_TYPE_PAST_MONTH = "CHART_TYPE_PAST_MONTH";
     public static final String CHART_TYPE_TODAYS = "CHART_TYPE_TODAYS";
     public static final String CHART_TYPE_ALL = "CHART_TYPE_ALL";
-    public static final String[] weeksLabel = new String[] {"S", "M", "T", "W", "T", "F", "S"};
-    public static final String[] monthsLabel = new String[] {"week1", "week2", "week3", "week4"};
+    public static final String[] weeksLabel = new String[] {"","S", "M", "T", "W", "T", "F", "S"};
+    public static final String[] monthsLabel = new String[] {"","week1", "week2", "week3", "week4"};
     public static String[] yAxisLabelActiveMinutes= new String[]{"","30min","1h","1h 30"};
     public static String[] xAxisLabel= new String[]{"10h","12h","14h","16h","18h","20h","22h"};
 
