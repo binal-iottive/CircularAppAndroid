@@ -37,6 +37,7 @@ public class GraphUtils {
     public static final String[] monthsLabel = new String[] {"","week1", "week2", "week3", "week4"};
     public static String[] yAxisLabelActiveMinutes= new String[]{"","30min","1h","1h 30"};
     public static String[] xAxisLabel= new String[]{"10h","12h","14h","16h","18h","20h","22h"};
+    public static String[] xAxisLabelAll= new String[]{"First day with Circular","Today"};
 
     private static float graphMinValueHr = 0;
     private static float graphMaxValueHr = 0;
@@ -174,7 +175,7 @@ public class GraphUtils {
 
     public static float convertHrRawDataToChartData(String hrRawData){
         float result1 =0;
-        hrRawData = hrRawData.replace("LVhr","");
+        hrRawData = hrRawData.replace("LVhr","").trim();
         int hr = Integer.parseInt(hrRawData,16);
         result1 = hr;
         return result1;

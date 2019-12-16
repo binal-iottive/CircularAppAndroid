@@ -3,6 +3,7 @@ package com.tofa.circular.customclass;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -17,6 +18,7 @@ import static com.tofa.circular.customclass.BarChartUtils.getRandom;
 import static com.tofa.circular.customclass.GraphUtils.monthsLabel;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
 import static com.tofa.circular.customclass.GraphUtils.xAxisLabel;
+import static com.tofa.circular.customclass.GraphUtils.xAxisLabelAll;
 
 public class LineChartUtils {
 
@@ -65,6 +67,7 @@ public class LineChartUtils {
 
         float max = getmaxValue(entrylist);
         float min = getminValue(entrylist);
+        max = max+5;
 
         switch (actionType) {
             case GraphUtils.CHART_ACTION_ACTITY_INTENSITY:
@@ -190,9 +193,11 @@ public class LineChartUtils {
             xAxis.setLabelCount(7, true);
         }else if (chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
             xAxis.setAxisMaximum(listSize);
-            xAxis.setDrawLabels(false);
-            mChart.setVisibleXRangeMinimum(5);
-            mChart.setVisibleXRangeMaximum(100);
+            mChart.setVisibleXRangeMinimum(1);
+            mChart.setVisibleXRangeMaximum(listSize);
+            xAxis.setDrawLabels(true);
+            xAxis.setLabelCount(2, true);
+            xAxis.setAvoidFirstLastClipping(true);
         }
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -205,6 +210,13 @@ public class LineChartUtils {
                     return monthsLabel[(int) value];
                 } else if (chartType.equals(GraphUtils.CHART_TYPE_TODAYS)) {
                     return xAxisLabel[(int) value / (90 / 6)];
+                } else if (chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
+                    if (((int) value)==0){
+                        return xAxisLabelAll[0];
+                    }else if (((int) value)==listSize){
+                        return xAxisLabelAll[1];
+                    }
+                    return "";
                 } else {
                    return "";
                 }
@@ -259,9 +271,7 @@ public class LineChartUtils {
         set.setDrawIcons(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         if ((actionType.equals(GraphUtils.CHART_ACTION_HR_MAX) && chartType.equals(GraphUtils.CHART_TYPE_TODAYS))
-                || (actionType.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES) && chartType.equals(GraphUtils.CHART_TYPE_ALL))
-                || (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) && chartType.equals(GraphUtils.CHART_TYPE_ALL))
-                || (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS) && chartType.equals(GraphUtils.CHART_TYPE_ALL))) {
+                || chartType.equals(GraphUtils.CHART_TYPE_ALL)) {
             set.setDrawCircles(false);
             set.enableDashedLine(5f, 5f, 0f);
         }

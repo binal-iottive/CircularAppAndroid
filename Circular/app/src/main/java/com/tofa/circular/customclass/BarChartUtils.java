@@ -110,6 +110,7 @@ public class BarChartUtils {
         YAxis leftAxis = mChart.getAxisLeft();
         float max = getmaxValue(entries);
         float min = getminValue(entries);
+        max = max+5;
         if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
             leftAxis.setAxisMinimum(min);
             leftAxis.setGranularity(0f);
@@ -207,11 +208,11 @@ public class BarChartUtils {
             data.setBarWidth(0.3f);
             data.setDrawValues(true);
             data.setValueTextColor(Color.parseColor("#E00A0A"));
-            if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)) {
+            if (chartAction.equals(GraphUtils.CHART_ACTION_CALORIES_BURN) || chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
                 data.setValueFormatter(new ValueFormatter() {
                     @Override
                     public String getFormattedValue(float value) {
-                        return String.format("%.1f", value) + " k";
+                        return String.format("%.1f", value) + "k";
                     }
                 });
             }

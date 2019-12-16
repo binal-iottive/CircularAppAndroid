@@ -605,7 +605,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             float averageValue = getAverageValue(monthData);
             LineChartUtils.loadLineChart(lineChart, chartAction, clickedtype, monthData, averageValue, 121f);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Daily average", (int) Math.round(averageValue) + "", R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Weekly average", (int) Math.round(averageValue) + "", R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline", "121", R.color.colorAlphaBlue));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this, modelArrayList, chartAction);
             lv_chart_detail.setAdapter(mAdapter);
@@ -616,7 +616,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             float averageValue = getAverageValue(allData);
             LineChartUtils.loadLineChart(lineChart, chartAction, clickedtype, allData, averageValue, 121f);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Daily average", (int) Math.round(averageValue) + "", R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Monthly average", (int) Math.round(averageValue) + "", R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline", "121", R.color.colorAlphaBlue));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this, modelArrayList, chartAction);
             lv_chart_detail.setAdapter(mAdapter);
@@ -711,7 +711,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             float averageValue = getAverageValue(weekData);
             LineChartUtils.loadLineChart(lineChart, chartAction, clickedtype, weekData, averageValue, 92f);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Daily average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Day average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline", "92 %", R.color.colorAlphaBlue));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this, modelArrayList, chartAction);
             lv_chart_detail.setAdapter(mAdapter);
@@ -722,7 +722,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             float averageValue = getAverageValue(monthData);
             LineChartUtils.loadLineChart(lineChart, chartAction, clickedtype, monthData, averageValue, 92f);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Weekly average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Daily average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
             modelArrayList.add(new DetailGraphDescriptionModel("Baseline", "92 %", R.color.colorAlphaBlue));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this, modelArrayList, chartAction);
             lv_chart_detail.setAdapter(mAdapter);
@@ -733,7 +733,7 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
             float averageValue = getAverageValue(allData);
             LineChartUtils.loadLineChart(lineChart, chartAction, clickedtype, allData, averageValue, -1f);
             ArrayList<DetailGraphDescriptionModel> modelArrayList = new ArrayList<>();
-            modelArrayList.add(new DetailGraphDescriptionModel("Monthly average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
+            modelArrayList.add(new DetailGraphDescriptionModel("Weekly average", (int) Math.round(averageValue)+" %", R.color.colorAlphaRed));
             ActivityDetailGraphDescriptionAdapter mAdapter = new ActivityDetailGraphDescriptionAdapter(ActivityAnalysisActivity.this, modelArrayList, chartAction);
             lv_chart_detail.setAdapter(mAdapter);
         }

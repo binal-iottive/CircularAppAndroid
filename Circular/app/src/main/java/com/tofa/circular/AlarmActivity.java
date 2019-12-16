@@ -221,7 +221,7 @@ public class AlarmActivity extends AppCompatActivity {
         */
 
         //new AsyncCaller().execute();
-        //pullAlarmList();
+        pullAlarmList();
     }
 
     private void pullAlarmList()
