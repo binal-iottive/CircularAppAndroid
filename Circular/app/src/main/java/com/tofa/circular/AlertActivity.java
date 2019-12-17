@@ -21,7 +21,6 @@ public class AlertActivity extends AppCompatActivity implements View.OnClickList
     private RecyclerView rlAlerts;
     private TextView tv_addAlert;
     private AlertsAdapter mAdapter;
-    private ArrayList<AppAlertModel> alertList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

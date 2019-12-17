@@ -272,7 +272,7 @@ public class UartService extends Service {
         Log.w(TAG, "mBluetoothGatt closed");
         mBluetoothDeviceAddress = null;
         mBluetoothGatt.close();
-        mBluetoothGatt = null;
+//        mBluetoothGatt = null;
     }
 
     /**
@@ -309,6 +309,9 @@ public class UartService extends Service {
     		return;
     	}
     		*/
+        if (mBluetoothGatt == null){
+            return;
+        }
         BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);
         if (RxService == null) {
             showMessage("Rx service not found!");
@@ -346,6 +349,9 @@ public class UartService extends Service {
 
     public void writeRXCharacteristic(byte[] value)
     {
+        if (mBluetoothGatt == null){
+            return;
+        }
         BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);
         showMessage("mBluetoothGatt null"+ mBluetoothGatt);
         if (RxService == null) {

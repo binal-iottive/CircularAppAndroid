@@ -1,4 +1,5 @@
 package com.tofa.circular.customclass;
+import android.content.Context;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -10,6 +11,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.tofa.circular.R;
 import com.tofa.circular.renderer.BarChartCustomRenderer;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import static com.tofa.circular.customclass.GraphUtils.weeksLabel;
 
 public class BarChartUtils {
-    public static void loadBarChart(BarChart mChart, String type, String chartAction, ArrayList<Float> entries, float averageValue, float baselinevalue) {
+    public static void loadBarChart(Context context, BarChart mChart, String type, String chartAction, ArrayList<Float> entries, float averageValue, float baselinevalue) {
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.setFocusable(false);
@@ -41,6 +43,7 @@ public class BarChartUtils {
         xAxis.setAxisMaximum(90f);
         xAxis.setGranularityEnabled(true);
         xAxis.setLabelCount(6,true);
+        xAxis.setTextColor(context.getResources().getColor(R.color.colorBlack));
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -69,6 +72,7 @@ public class BarChartUtils {
         leftAxis.setAxisMaximum(100f);
         leftAxis.setStartAtZero(true);
         leftAxis.setLabelCount(5, true);
+        leftAxis.setTextColor(context.getResources().getColor(R.color.colorBlack));
         leftAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {

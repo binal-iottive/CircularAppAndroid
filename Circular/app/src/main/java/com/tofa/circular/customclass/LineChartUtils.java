@@ -1,9 +1,9 @@
 package com.tofa.circular.customclass;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.tofa.circular.ActivityAnalysisActivity;
+import com.tofa.circular.R;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ import static com.tofa.circular.customclass.GraphUtils.xAxisLabelAll;
 
 public class LineChartUtils {
 
-    public static void loadLineChart(LineChart mChart, String actionType, String chartType, ArrayList<Float> entrylist, float averageValue, float baseline) {
+    public static void loadLineChart(Context context, LineChart mChart, String actionType, String chartType, ArrayList<Float> entrylist, float averageValue, float baseline) {
         int listSize = entrylist.size();
         LimitLine ll1 = new LimitLine(baseline, "");
         ll1.setLineWidth(3f);
@@ -48,6 +50,7 @@ public class LineChartUtils {
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawAxisLine(false);
         leftAxis.removeAllLimitLines();
+        leftAxis.setTextColor(context.getResources().getColor(R.color.colorBlack));
         if (actionType.equals(GraphUtils.CHART_ACTION_CALORIES_BURN)
                 || actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
                 || actionType.equals(GraphUtils.CHART_ACTION_HRV)
@@ -201,6 +204,7 @@ public class LineChartUtils {
         }
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(context.getResources().getColor(R.color.colorBlack));
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
