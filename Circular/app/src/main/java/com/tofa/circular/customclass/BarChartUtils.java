@@ -67,8 +67,7 @@ public class BarChartUtils {
         leftAxis.setDrawLabels(true);
         leftAxis.setDrawGridLines(true);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setAxisMaximum(0f);
-        leftAxis.setGranularity(1f);
+        leftAxis.setAxisMinimum(0f);
         leftAxis.setAxisMaximum(100f);
         leftAxis.setStartAtZero(true);
         leftAxis.setLabelCount(5, true);
@@ -99,7 +98,6 @@ public class BarChartUtils {
     public static void setAxisLabelsWeeks(BarChart mChart, String chartAction, String type, ArrayList<Float> entries, float averageValue, float baselinevalue){
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAxisMinimum(0f);
-        xAxis.setGranularity(1f);
         xAxis.setAxisMaximum(7f);
         xAxis.setLabelCount(8,true);
         mChart.setVisibleXRangeMinimum(8);
@@ -117,7 +115,6 @@ public class BarChartUtils {
         max = max+5;
         if (chartAction.equals(GraphUtils.CHART_ACTION_ACTIVE_MINUTES)){
             leftAxis.setAxisMinimum(min);
-            leftAxis.setGranularity(0f);
             leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
@@ -131,7 +128,6 @@ public class BarChartUtils {
             });
         }else if (chartAction.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)){
             leftAxis.setAxisMinimum(0f);
-            leftAxis.setGranularity(4f);
             leftAxis.setAxisMaximum(max/1000);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {
@@ -140,12 +136,11 @@ public class BarChartUtils {
                     if (value==min/1000){
                         return "";
                     }
-                    return  (int) value+"k";
+                    return  String.format("%.01f", value)+"k";
                 }
             });
         }else {
             leftAxis.setAxisMinimum(0f);
-            leftAxis.setGranularity(0.5f);
             leftAxis.setAxisMaximum(max);
             leftAxis.setLabelCount(4, true);
             leftAxis.setValueFormatter(new ValueFormatter() {

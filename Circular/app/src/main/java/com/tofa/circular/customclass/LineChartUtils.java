@@ -145,12 +145,12 @@ public class LineChartUtils {
                     if (value == min){
                         return "";
                     }
-                    return  String.format("%.01f", value)+" k";
+                    return  String.format("%.01f", value)+"k";
                 } else if (actionType.equals(GraphUtils.CHART_ACTION_BOOT_STEPS)) {
                     if (value == min) {
                         return "";
                     }
-                    return (int) value + " k";
+                    return  String.format("%.01f", value)+"k";
                 } else if (actionType.equals(GraphUtils.CHART_ACTION_HR_MAX)
                         || actionType.equals(GraphUtils.CHART_ACTION_RESTING_HR)
                         || actionType.equals(GraphUtils.CHART_ACTION_HRV)) {

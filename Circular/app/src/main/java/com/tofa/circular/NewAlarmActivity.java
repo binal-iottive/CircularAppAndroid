@@ -203,8 +203,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                 if (Build.VERSION.SDK_INT >= 23 ){
                     hour = picker.getHour();
                     minute = picker.getMinute();
-                }
-                else{
+                } else{
                     hour = picker.getCurrentHour();
                     minute = picker.getCurrentMinute();
                 }
@@ -216,7 +215,6 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
 
                 if ( MainActivity.mService != null && MainActivity.mDevice != null )
                 {
-
                     try {
                         byte[] value = strTx.getBytes("UTF-8");
                         MainActivity.mService.writeRXCharacteristic(value);
@@ -224,13 +222,10 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-
                     finish();
                     Toast.makeText(this, "New Alarm has been set", Toast.LENGTH_SHORT).show();
-                }
-                else
+                } else
                 {
-
                     Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
                 }
                 break;

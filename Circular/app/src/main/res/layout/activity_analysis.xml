@@ -140,7 +140,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     app:labelText="Steps taken (nb)"
-                    app:labelValue="9.200"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_shoes_red" />
 
                 <com.tofa.circular.customclass.StatusCardView
@@ -149,7 +149,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     app:labelText="Walking equivalency (km)"
-                    app:labelValue="5.4"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_km" />
 
                 <com.tofa.circular.customclass.StatusCardView
@@ -158,7 +158,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     app:labelText="Calories burned (kcal)"
-                    app:labelValue="1010"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_fire_red" />
 
                 <com.tofa.circular.customclass.StatusCardView
@@ -167,7 +167,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     app:labelText="Active minutes (min)"
-                    app:labelValue="157"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_sport_red" />
 
                 <com.tofa.circular.customclass.StatusCardView
@@ -176,7 +176,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     app:labelText="VO2 max (ml/kg/min)"
-                    app:labelValue="35"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_lung" />
 
                 <com.tofa.circular.customclass.StatusCardView
@@ -184,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:labelText="HR max (bpm)"
-                    app:labelValue="123"
+                    app:labelValue="0"
                     app:statusIcon="@mipmap/ic_heart_red" />
             </LinearLayout>
 

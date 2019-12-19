@@ -166,20 +166,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (int i=0;i<4;i++){
             long date1 = Utils.dateToMS(lastWeek[i],0);
             long date2 = Utils.dateToMS(lastWeek[i+1],1);
-            String selectQuery = "SELECT MAX(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
+            String nextDate = Utils.getPreviousDate(lastWeek[i+1]);
+            String selectQuery = "SELECT AVG(" + DatabaseHelperTable.COLUMN_ACTIVE_VALUE + ") from "
                     + tableName
                     + " WHERE "
                     +  DatabaseHelperTable.COLUMN_ACTIVE_DATE
                     +" BETWEEN '"
                     + lastWeek[i]
                     + "' AND '"
-                    + lastWeek[i+1]
+                    + nextDate
                     +"'";
 
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    float avgValue =cursor.getFloat(cursor.getColumnIndex("MAX(value)"));
+                    float avgValue =cursor.getFloat(cursor.getColumnIndex("AVG(value)"));
                     weekData.add(avgValue);
                 } while (cursor.moveToNext());
             }

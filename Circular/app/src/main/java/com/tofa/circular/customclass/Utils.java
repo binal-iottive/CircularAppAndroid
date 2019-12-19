@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.tofa.circular.model.AlarmModel;
 import com.tofa.circular.model.AppAlertModel;
 import com.tofa.circular.sqldatabase.DatabaseHelperTable;
 import com.tofa.circular.sqldatabase.InsertDataService;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Random;
 
 public class Utils {
     public static ArrayList<AppAlertModel> appAlertArraylist = new ArrayList<>();
@@ -24,6 +26,8 @@ public class Utils {
     public static final int REQUEST_ADD_ALERT = 1;
     public static final int REQUEST_CONTACT_PICKER = 2;
     public static final String dateFormate = "yyyy-MM-dd";
+    public static String[] alarmColorList = new String[]{"#C15AE5" ,"#68D5E2", "#A44C4C", "#000000","#2B3039", "#485993" ,"#E7E7EC" ,"#B0E55F","#757575"};
+    public static ArrayList<AlarmModel> alarmModelArrayList = new ArrayList<>();
 
     public static String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
@@ -86,7 +90,7 @@ public class Utils {
         String[] datesList = new String[5];
         Calendar c = GregorianCalendar.getInstance();
         System.out.println("Current week = " + Calendar.DAY_OF_WEEK);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+//        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         System.out.println("Current week = " + Calendar.DAY_OF_WEEK);
         DateFormat df = new SimpleDateFormat(dateFormate, Locale.getDefault());
 
@@ -94,12 +98,12 @@ public class Utils {
         previousWeekCalendar.add(Calendar.DAY_OF_YEAR, -28);
         String startPreviousWeekDate = df.format(previousWeekCalendar.getTime());
         datesList[0] = startPreviousWeekDate;
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 5; i++) {
             previousWeekCalendar.add(Calendar.DATE, 7);
             String endPreviousWeekDate = df.format(previousWeekCalendar.getTime());
             datesList[i] = endPreviousWeekDate;
         }
-        datesList[4] = getCurrentDate();
+//        datesList[4] = getCurrentDate();
         Log.d("getLastMonthWeekDate==>", Arrays.toString(datesList));
         return datesList;
     }
@@ -108,7 +112,7 @@ public class Utils {
         String[] datesList = new String[28];
         Calendar c = GregorianCalendar.getInstance();
         System.out.println("Current week = " + Calendar.DAY_OF_WEEK);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+//        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         System.out.println("Current week = " + Calendar.DAY_OF_WEEK);
         DateFormat df = new SimpleDateFormat(dateFormate, Locale.getDefault());
 
@@ -143,11 +147,28 @@ public class Utils {
         return System.currentTimeMillis();
     }
 
+    public static String getPreviousDate(String givenDateString){
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormate);
+        Date mDate = null;
+        try {
+            mDate = sdf.parse(givenDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mDate = (subtractDays(mDate, -1));
+        return sdf.format(mDate);
+    }
+
     public static Date subtractDays(Date date, int days) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
         cal.add(Calendar.DATE, days);
 
         return cal.getTime();
+    }
+
+    public static String generateColor() {
+        int newColor = new Random().nextInt(0x1000000);
+        return String.format("#%06X", newColor);
     }
 }

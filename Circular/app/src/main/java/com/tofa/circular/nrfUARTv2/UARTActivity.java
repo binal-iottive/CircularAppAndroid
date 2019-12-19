@@ -106,7 +106,7 @@ public class UARTActivity extends Activity implements RadioGroup.OnCheckedChange
         btnSend=(Button) findViewById(R.id.sendButton);
         edtMessage = (EditText) findViewById(R.id.sendText);
 
-        if (MainActivity.mService != null && MainActivity.mDevice != null) {
+        if (MainActivity.mService != null && MainActivity.mDevice != null && UartService.mBluetoothGatt!=null) {
             UARTActivity.getInstance().getBtnConnectDisconnect().setText("Disconnect");
         }
         // Handle Disconnect & Connect button

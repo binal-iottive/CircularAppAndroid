@@ -467,15 +467,15 @@ public class MainActivity extends AppCompatActivity
                                     //String id = text.substring(5,2);
                                     //System.out.println("id="+id);
                                     String data = text.substring(8);
-                                    String[] arrData = data.split("-");
-                                    String sRep = arrData[0];
+                                    String[] arrData = text.split("-");
+                                    String sRep = arrData[0].replace("alrm","").trim();
                                     String sTime = arrData[1];
                                     String sVibrate = arrData[2];
                                     String sTitle = "Alarm";
                                     if ( arrData.length > 3 )
                                         sTitle = arrData[3];
 
-                                    AlarmActivity.getInstance().AddAlarm("1",sTime,sTitle,sRep,sVibrate);
+                                    AlarmActivity.getInstance().addAlarmList("1",sTime,sTitle,sRep,sVibrate);
                                 }
                             }
                         } catch (Exception e) {

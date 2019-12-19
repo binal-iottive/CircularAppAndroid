@@ -33,7 +33,7 @@ public class UartService extends Service {
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private String mBluetoothDeviceAddress;
-    private BluetoothGatt mBluetoothGatt;
+    public static BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
 
     private static final int STATE_DISCONNECTED = 0;
@@ -266,13 +266,13 @@ public class UartService extends Service {
      * released properly.
      */
     public void close() {
-        if (mBluetoothGatt == null) {
+        /*if (mBluetoothGatt == null) {
             return;
         }
         Log.w(TAG, "mBluetoothGatt closed");
         mBluetoothDeviceAddress = null;
         mBluetoothGatt.close();
-//        mBluetoothGatt = null;
+        mBluetoothGatt = null;*/
     }
 
     /**
