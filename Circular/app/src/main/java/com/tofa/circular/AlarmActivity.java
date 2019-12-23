@@ -196,11 +196,11 @@ public class AlarmActivity extends AppCompatActivity {
         if (((LinearLayout) layoutAlarms).getChildCount() > 0)
             ((LinearLayout) layoutAlarms).removeAllViews();
 
-        alarmModelArrayList = SharedPref.getAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST);
-        for (int i=0;i<alarmModelArrayList.size();i++){
-            AddAlarm(i);
-        }
-        createWeekData();
+//        alarmModelArrayList = SharedPref.getAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST);
+//        for (int i=0;i<alarmModelArrayList.size();i++){
+//            AddAlarm(i);
+//        }
+//        createWeekData();
 
         /*
         for ( int i=0; i<2; i++ )
@@ -219,7 +219,7 @@ public class AlarmActivity extends AppCompatActivity {
         */
 
         //new AsyncCaller().execute();
-//        pullAlarmList();
+        pullAlarmList();
     }
 
     private void pullAlarmList() {
@@ -317,7 +317,7 @@ public class AlarmActivity extends AppCompatActivity {
         alarmModelArrayList.add(new AlarmModel(idAlarm,time, title, sRep, randomColor, vibrationLvl, true));
         AddAlarm(alarmModelArrayList.size()-1);
         createWeekData();
-        SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
+//        SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
     }
 
     public void AddAlarm(int position) {
@@ -386,7 +386,7 @@ public class AlarmActivity extends AppCompatActivity {
                     alarmModelArrayList.get(Integer.parseInt(btnOnOff.getTag() + "")).isActive = false;
                 }
                 createWeekData();
-                SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
+//                SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
             }
         });
         layoutAlarms.addView(alarmview);

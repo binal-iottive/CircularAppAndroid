@@ -105,8 +105,8 @@ public class GraphUtils {
                         }
                     }
                     mChart.notifyDataSetChanged();
-                    mChart.setVisibleXRangeMaximum(100);
-                    mChart.setVisibleXRangeMinimum(100);
+                    mChart.setVisibleXRangeMaximum(20);
+                    mChart.setVisibleXRangeMinimum(20);
 //                    setMinMaxtoChartHr(data, mChart,graphValue);
                 } catch (Exception e) {
                     e.printStackTrace();
