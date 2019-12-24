@@ -38,6 +38,16 @@ public class Utils {
         return formattedDate;
     }
 
+    public static String getCalenderSyncCommand() {
+        String timeFormate = "yyyy/MM/dd-hh:mm:ss";
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat(timeFormate);
+        String formattedDate = df.format(c);
+        return "CAL"+formattedDate;
+    }
+
     public static long getCurrentTime() {
         return System.currentTimeMillis();
     }

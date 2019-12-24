@@ -15,11 +15,15 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tofa.circular.MainActivity;
+import com.tofa.circular.R;
+import com.tofa.circular.customclass.Utils;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,6 +123,12 @@ public class UartService extends Service {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 gatt.requestMtu(512);
             }
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+            writeLiveOnOff();
         }
     };
 
@@ -331,6 +341,23 @@ public class UartService extends Service {
         mBluetoothGatt.writeDescriptor(descriptor);
         Log.w(TAG, "enableTXNotification");
 
+    }
+
+    public boolean writeLiveOnOff() {
+        String command = Utils.getCalenderSyncCommand();
+        if (MainActivity.mService != null && MainActivity.mDevice != null) {
+            byte[] value = new byte[0];
+            try {
+                value = command.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            MainActivity.mService.writeRXCharacteristic(value);
+            return true;
+        }else {
+            Toast.makeText(getBaseContext(), getString(R.string.please_connect_device), Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     public  void enableNotifyHeartRateMeasurement() {

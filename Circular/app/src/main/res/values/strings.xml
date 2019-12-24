@@ -153,7 +153,7 @@
     <string name="wake_up_score">Wake up score</string>
     <string name="_96">96</string>
     <string name="excellent">Excellent</string>
-    <string name="programed_alarms">Programed alarms</string>
+    <string name="programed_alarms">Programmed alarms</string>
     <string name="_07_00">07:00</string>
     <string name="weekdays">Weekdays</string>
     <string name="s">S</string>
@@ -194,7 +194,7 @@
     <string name="d_smart_alarm">Maximum time window for smart alarm to ring before selected wake up time. More time means more chances to get the lightest wake up.</string>
     <string name="edit_alarm">Edit alarm</string>
     <string name="delete_alarm">Delete alarm</string>
-    <string name="sleep_qualuty_score">Sleep qualuty score</string>
+    <string name="sleep_qualuty_score">Sleep quality score</string>
     <string name="good">Good</string>
     <string name="sleep_duration">Sleep duration</string>
     <string name="sleep_quality_details">Sleep quality details</string>
