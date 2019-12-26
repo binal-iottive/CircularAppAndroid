@@ -39,7 +39,7 @@ public class Utils {
     }
 
     public static String getCalenderSyncCommand() {
-        String timeFormate = "yyyy/MM/dd-hh:mm:ss";
+        String timeFormate = "yyyy/MM/dd-HH:mm:ss";
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 

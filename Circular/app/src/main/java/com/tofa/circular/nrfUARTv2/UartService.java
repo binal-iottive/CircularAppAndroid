@@ -128,7 +128,7 @@ public class UartService extends Service {
         @Override
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);
-            writeLiveOnOff();
+            writeCalenderSync();
         }
     };
 
@@ -343,7 +343,7 @@ public class UartService extends Service {
 
     }
 
-    public boolean writeLiveOnOff() {
+    public boolean writeCalenderSync() {
         String command = Utils.getCalenderSyncCommand();
         if (MainActivity.mService != null && MainActivity.mDevice != null) {
             byte[] value = new byte[0];
