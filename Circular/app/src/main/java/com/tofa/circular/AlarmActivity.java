@@ -1,5 +1,6 @@
 package com.tofa.circular;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -28,7 +29,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.tofa.circular.adapter.WeekAdapter;
-import com.tofa.circular.customclass.SharedPref;
 import com.tofa.circular.customclass.Utils;
 import com.tofa.circular.customclass.WeekData;
 import com.tofa.circular.model.AlarmModel;
@@ -46,7 +46,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     static AlarmActivity instance;
     private  GridView gridview;
-    private static ArrayList<AlarmModel> alarmModelArrayList = new ArrayList<>();
+    public static ArrayList<AlarmModel> alarmModelArrayList = new ArrayList<>();
     private ArrayList<WeekData> weekData = new ArrayList<>();
     private  WeekAdapter adapter;
 
@@ -54,7 +54,7 @@ public class AlarmActivity extends AppCompatActivity {
         return instance;
     }
 
-    LinearLayout layoutAlarms = null;
+    LinearLayout layoutAlarms;
 
     @Override
     protected void onDestroy() {
@@ -66,10 +66,7 @@ public class AlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
-
         setContentView(R.layout.activity_alarm);
-
-
 
         weekData.add(createWeekData("S", null));
         weekData.add(createWeekData("M", null));
@@ -219,6 +216,7 @@ public class AlarmActivity extends AppCompatActivity {
         */
 
         //new AsyncCaller().execute();
+        alarmModelArrayList = new ArrayList<>();
         pullAlarmList();
     }
 
@@ -307,15 +305,23 @@ public class AlarmActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public void addAlarmList(String idAlarm, String time, String title, String sRep, String vibrationLvl){
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    public void addAlarmList(int idAlarm, String time, String title, String sRep, String vibrationLvl){
         String randomColor = "";
         if (alarmModelArrayList.size()>=8){
             randomColor = Utils.generateColor();
         }else {
             randomColor = alarmColorList[alarmModelArrayList.size()];
         }
-        alarmModelArrayList.add(new AlarmModel(idAlarm,time, title, sRep, randomColor, vibrationLvl, true));
-        AddAlarm(alarmModelArrayList.size()-1);
+        AlarmModel model = new AlarmModel(idAlarm,time, title, sRep, randomColor, vibrationLvl, true);
+//        if (!isContaimList(idAlarm)) {
+            alarmModelArrayList.add(model);
+            AddAlarm(alarmModelArrayList.size()-1);
+//        }
         createWeekData();
 //        SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
     }
@@ -323,7 +329,7 @@ public class AlarmActivity extends AppCompatActivity {
     public void AddAlarm(int position) {
         AlarmModel model = alarmModelArrayList.get(position);
         View alarmview = LayoutInflater.from(this).inflate(R.layout.alarm_cardview, null);
-        alarmview.setOnClickListener(view -> editAlarm(model.alarmId, model.alrmTime, model.alrmTitle, model.alrmRepeatDays, model.VibrationLevel));
+        alarmview.setOnClickListener(view -> editAlarm(position,model.alarmId, model.alrmTime, model.alrmTitle, model.alrmRepeatDays, model.VibrationLevel));
 
         CardView cardView = alarmview.findViewById(R.id.crdAlarm);
         cardView.setCardBackgroundColor(Color.parseColor(model.alrmColor));
@@ -507,8 +513,7 @@ public class AlarmActivity extends AppCompatActivity {
                 }
             }
         }
-
-       weekData = new ArrayList<>();
+        weekData = new ArrayList<>();
         weekData.add(createWeekData("S", getColorsForWeekOverview(7,hashMapWeekOverView)));
         weekData.add(createWeekData("M",getColorsForWeekOverview(1,hashMapWeekOverView)));
         weekData.add(createWeekData("T", getColorsForWeekOverview(2,hashMapWeekOverView)));
@@ -519,6 +524,7 @@ public class AlarmActivity extends AppCompatActivity {
         adapter = new WeekAdapter(AlarmActivity.this, weekData);
         gridview.setAdapter(adapter);
     }
+
     private void addColorsToWeekOverview(int key, String color, HashMap<Integer, ArrayList<String>> hashMapWeekOverView){
         ArrayList<String> colors = hashMapWeekOverView.get(key);
         colors.add(color);
@@ -546,9 +552,10 @@ public class AlarmActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void editAlarm(String id, String time, String title, String rep, String vibrationLvl) {
+    private void editAlarm(int position, int id, String time, String title, String rep, String vibrationLvl) {
         Intent intent = new Intent(this, NewAlarmActivity.class);
-        intent.putExtra("id", "id");
+        intent.putExtra("id", id);
+        intent.putExtra("position", position);
         intent.putExtra("mode", "edit");
         intent.putExtra("time", time);
         intent.putExtra("title", title);
@@ -556,6 +563,40 @@ public class AlarmActivity extends AppCompatActivity {
         Integer vibLvl = Integer.parseInt(vibrationLvl);
         System.out.println("viblvl=" + vibLvl);//
         intent.putExtra("vibrationlvl", vibLvl);
-        startActivity(intent);
+        startActivityForResult(intent,Utils.REQUEST_EDIT_ALARM);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Utils.REQUEST_EDIT_ALARM){
+            if (data==null) {
+                return;
+            }else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (((LinearLayout) layoutAlarms).getChildCount() > 0) {
+                            ((LinearLayout) layoutAlarms).removeAllViews();
+                        }
+                        weekData = new ArrayList<>();
+                        adapter = new WeekAdapter(AlarmActivity.this, weekData);
+                        gridview.setAdapter(adapter);
+                        for (int i = 0; i < alarmModelArrayList.size(); i++) {
+                            AddAlarm(i);
+                        }
+                        createWeekData();
+                    }
+                });
+            }
+        }
+    }
+    private boolean isContaimList(int alarmID){
+        for (int i=0;i<alarmModelArrayList.size();i++){
+            if (alarmModelArrayList.get(i).alarmId == alarmID){
+                return true;
+            }
+        }
+        return false;
     }
 }

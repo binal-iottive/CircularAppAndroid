@@ -1,22 +1,23 @@
 package com.tofa.circular;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tofa.circular.customclass.DialogType;
+import com.tofa.circular.customclass.SharedPref;
+import com.tofa.circular.customclass.Utils;
 import com.tofa.circular.dialog.CheckListDialog;
 import com.tofa.circular.dialog.InputDialog;
-import com.tofa.circular.nrfUARTv2.UartService;
+import com.tofa.circular.model.AlarmModel;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormatSymbols;
@@ -24,9 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import static androidx.core.view.GravityCompat.START;
 
 public class NewAlarmActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,7 +34,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
     private int selectedSmartAlarm;
     private String mode = "";
     public static int vibrationlvl = 0;
-    private String alarmid = "";
+    private int alarmid, position;
     private String rep = "";
     Button btnDelete;
     List<Boolean> booleans;
@@ -60,6 +58,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.btnNewAlarmSmartAlarm).setOnClickListener(this);
 
         btnDelete = findViewById(R.id.btnNewAlarmDelete);
+        btnDelete.setOnClickListener(this);
 
 
         TextView txtViewTitle = findViewById(R.id.txtNewAlarmTitle);
@@ -68,7 +67,8 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         vibrationlvl = intent.getIntExtra("vibrationlvl", 0);
         rep = intent.getStringExtra("rep");
-        alarmid = intent.getStringExtra("id");
+        alarmid = intent.getIntExtra("id",1);
+        position = intent.getIntExtra("position",1);
         mode = intent.getStringExtra("mode");
         if ( mode.equals("edit") )
         {
@@ -83,8 +83,8 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
 
             String time = intent.getStringExtra("time");
             String[] timeHourMinute = time.split(":");
-            timePick.setCurrentHour(Integer.valueOf(timeHourMinute[0]));
-            timePick.setCurrentMinute(Integer.valueOf(timeHourMinute[1]));
+            timePick.setCurrentHour(Integer.valueOf(timeHourMinute[0].trim()));
+            timePick.setCurrentMinute(Integer.valueOf(timeHourMinute[1].trim()));
 
             String sRepet = "";
             for ( int i=0; i<rep.length(); i++ )
@@ -105,16 +105,13 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                     break;
                 }
             }
-
             txtViewRepeat.setText(sRepet);
         }
         else
         {
             txtViewTitle.setText("New Alarm");
             btnDelete.setVisibility(View.GONE);
-
         }
-
 
         list = new ArrayList<>(Arrays.asList(days));
         int idx = list.indexOf("");
@@ -122,8 +119,6 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
             list.remove(idx);
         }
         list.add(0, getString(R.string.every_day));
-
-
         booleans = new ArrayList<>();
         for ( int i=0; i<list.size(); i++ )
         {
@@ -170,7 +165,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                     viblvl = vibrationlvl;
                 System.out.println("mode="+mode+" vibrate3="+vibrationlvl);
 
-                Intent intent = new Intent(NewAlarmActivity.this, EditVibrationActivity.class);;
+                Intent intent = new Intent(NewAlarmActivity.this, EditVibrationActivity.class);
                 intent.putExtra("viblvl",viblvl);
 
                 startActivity(intent);
@@ -207,25 +202,79 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                     hour = picker.getCurrentHour();
                     minute = picker.getCurrentMinute();
                 }
-                System.out.println("strTx="+rep);
+                if (rep == null){
+                    rep = "0";
+                }
+                Log.d("strTx=",rep);
 
                 vibrationlvl = EditVibrationActivity.vibrationLvl;
-                String strTx = "alrm"+rep+"-"+hour+":"+minute+"-"+vibrationlvl+"-"+txtlabel.getText();
-                System.out.println("strTx="+strTx);
+
+                String strTx;
+                if ( mode.equals("edit") ){
+                    strTx = "alrm["+alarmid+"]"+rep+"-"+hour+":"+minute+"-"+vibrationlvl+"-"+txtlabel.getText();
+                }else {
+                    strTx = "alrm"+rep+"-"+hour+":"+minute+"-"+vibrationlvl+"-"+txtlabel.getText();
+                }
+                Log.d("strTx=",strTx);
 
                 if ( MainActivity.mService != null && MainActivity.mDevice != null )
                 {
                     try {
                         byte[] value = strTx.getBytes("UTF-8");
-                        MainActivity.mService.writeRXCharacteristic(value);
+                        boolean isWrite = MainActivity.mService.writeRXCharacteristic(value);
+                        if (isWrite){
+                            if ( mode.equals("edit") ){
+                                AlarmModel model = AlarmActivity.alarmModelArrayList.get(position);
+                                model.alrmRepeatDays = rep;
+                                model.alrmTime = hour+":"+minute;
+                                model.alrmTitle = txtlabel.getText().toString();
+                                model.VibrationLevel = vibrationlvl+"";
+                                Toast.makeText(this, "Alarm editted", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(this, "New Alarm has been set", Toast.LENGTH_SHORT).show();
+                            }
+                            Intent intent1=new Intent();
+                            intent1.putExtra("MESSAGE","OK");
+                            setResult(Utils.REQUEST_EDIT_ALARM,intent1);
+                            finish();
+                        }else {
+                            Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
+                        }
                     } catch (UnsupportedEncodingException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
+                        Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
                     }
-                    finish();
-                    Toast.makeText(this, "New Alarm has been set", Toast.LENGTH_SHORT).show();
-                } else
+                } else {
+                    Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.btnNewAlarmDelete:
+                String strTxDelete = "alrm["+alarmid+"]";
+                if ( MainActivity.mService != null && MainActivity.mDevice != null )
                 {
+                    try {
+                        byte[] value = strTxDelete.getBytes("UTF-8");
+                        boolean isWrite = MainActivity.mService.writeRXCharacteristic(value);
+                        if (isWrite) {
+                            Toast.makeText(this, "Alarm Deleted", Toast.LENGTH_SHORT).show();
+                            if (AlarmActivity.alarmModelArrayList.size() > 0 && AlarmActivity.alarmModelArrayList.size() > position) {
+                                AlarmActivity.alarmModelArrayList.remove(position);
+                            }
+                            Intent intent1 = new Intent();
+                            intent1.putExtra("MESSAGE", "OK");
+                            setResult(Utils.REQUEST_EDIT_ALARM, intent1);
+                            finish();
+                        }else {
+                            Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
                 }
                 break;

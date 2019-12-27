@@ -127,10 +127,12 @@ public class UARTActivity extends Activity implements RadioGroup.OnCheckedChange
                         startActivityForResult(newIntent, REQUEST_SELECT_DEVICE);
                     } else {
                         //Disconnect button pressed
-                        if (MainActivity.mDevice!=null)
+                        if (MainActivity.mDevice!=null && MainActivity.mService.mBluetoothGatt!=null)
                         {
                             MainActivity.mService.disconnect();
 
+                        }else {
+                            btnConnectDisconnect.setText("Connect");
                         }
                     }
                 }

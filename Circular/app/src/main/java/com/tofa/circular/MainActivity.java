@@ -464,18 +464,20 @@ public class MainActivity extends AppCompatActivity
                                 if ( command.equals("alrm") )
                                 {
                                     System.out.println("command="+command);
-                                    //String id = text.substring(5,2);
-                                    //System.out.println("id="+id);
-                                    String data = text.substring(8);
                                     String[] arrData = text.split("-");
-                                    String sRep = arrData[0].replace("alrm","").trim();
+
+                                    String sRepSub = arrData[0].replace("alrm","").trim();
+                                    String[] sRepSubData = sRepSub.split("]");
+                                    int alarmId = Integer.parseInt(sRepSubData[0].replace("[","").trim());
+                                    String sRep = sRepSubData[1];
+
                                     String sTime = arrData[1];
                                     String sVibrate = arrData[2];
                                     String sTitle = "Alarm";
                                     if ( arrData.length > 3 )
                                         sTitle = arrData[3];
 
-                                    AlarmActivity.getInstance().addAlarmList("1",sTime,sTitle,sRep,sVibrate);
+                                    AlarmActivity.getInstance().addAlarmList(alarmId,sTime,sTitle,sRep,sVibrate);
                                 }
                             }
                         } catch (Exception e) {

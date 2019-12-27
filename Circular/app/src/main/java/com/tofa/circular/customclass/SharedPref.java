@@ -23,7 +23,6 @@ public class SharedPref {
     public final static String ALARM_LIST= "alarm_list";
 
 
-
     public static void openPref(@NonNull Context context) {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

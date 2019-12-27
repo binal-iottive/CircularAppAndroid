@@ -25,9 +25,9 @@ public class Utils {
     public static ArrayList<DatabaseHelperTable> insertDataArrayList = new ArrayList<>();
     public static final int REQUEST_ADD_ALERT = 1;
     public static final int REQUEST_CONTACT_PICKER = 2;
+    public static final int REQUEST_EDIT_ALARM = 3;
     public static final String dateFormate = "yyyy-MM-dd";
     public static String[] alarmColorList = new String[]{"#C15AE5" ,"#68D5E2", "#A44C4C", "#000000","#2B3039", "#485993" ,"#E7E7EC" ,"#B0E55F","#757575"};
-    public static ArrayList<AlarmModel> alarmModelArrayList = new ArrayList<>();
 
     public static String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
