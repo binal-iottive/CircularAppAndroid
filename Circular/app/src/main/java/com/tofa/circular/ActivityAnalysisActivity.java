@@ -220,8 +220,16 @@ public class ActivityAnalysisActivity extends AppCompatActivity implements FlexR
         return false;
     }
 
+    float firstHrValue = -1;
     public void addDataToChart(float hrValue) {
-        GraphUtils.addValueToChart(mHRChart, hrValue, ActivityAnalysisActivity.this);
+        if (firstHrValue == -1){
+            firstHrValue = hrValue;
+        }else {
+            hrValue = (firstHrValue + hrValue)/2;
+            firstHrValue = -1;
+            GraphUtils.addValueToChart(mHRChart, hrValue, ActivityAnalysisActivity.this);
+        }
+
       /*  new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
