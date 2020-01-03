@@ -1,5 +1,6 @@
 package com.tofa.circular;
 
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -8,8 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +21,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -53,12 +59,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.navigation.NavigationView;
 import com.ramijemli.percentagechartview.PercentageChartView;
 import com.tofa.circular.customclass.SaveSharedPreference;
+import com.tofa.circular.customclass.SharedPref;
 import com.tofa.circular.nrfUARTv2.UARTActivity;
 import com.tofa.circular.nrfUARTv2.UartService;
 import com.tofa.circular.renderer.BarChartCustomRenderer;
 import com.tofa.circular.renderer.ColoredLabelXAxisRenderer;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,6 +81,11 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "nRFUARTMain";
     LinearLayout btnCircle, btnAlarm, btnSleep, btnActivity, btnAlert;
     ImageView imgCircle, imgAlarm, imgSleep, imgActivity, imgAlert;
+    private CardView crdMainSleep, crdMainActivity;
+    private RelativeLayout rl_activity_analysis_details, rl_sleep_analysis_detail;
+    private LinearLayout ll_yesterday, llMainAlarm;
+    private Button btn_yes_activity_recommand, btn_no_activity_recommand;
+    private TextView tv_alarmTime, tv_alrm_toggle;
 
     public static UartService mService = null;
     public static BluetoothDevice mDevice = null;
@@ -243,11 +256,53 @@ public class MainActivity extends AppCompatActivity
         imgSleep = findViewById(R.id.imgMainSleepAnalysis);
         imgActivity = findViewById(R.id.imgMainActivityAnalysis);
         imgAlert = findViewById(R.id.imgMainAlert);
+        crdMainSleep = findViewById(R.id.crdMainSleep);
+        crdMainActivity = findViewById(R.id.crdMainActivity);
+        rl_activity_analysis_details = findViewById(R.id.rl_activity_analysis_details);
+        rl_sleep_analysis_detail = findViewById(R.id.rl_sleep_analysis_detail);
+        ll_yesterday = findViewById(R.id.ll_yesterday);
+        btn_yes_activity_recommand = findViewById(R.id.btn_yes_activity_recommand);
+        btn_no_activity_recommand = findViewById(R.id.btn_no_activity_recommand);
 
         final LinearLayout lytWeather = findViewById(R.id.lytMainWeather);
 
-        ToggleButton btnSleepToggle = findViewById(R.id.tglMainSleep);
-        btnSleepToggle.setOnCheckedChangeListener((compoundButton, b) -> {
+        LinearLayout llMainSleep = findViewById(R.id.llMainSleep);
+        TextView tv_sleepmode = findViewById(R.id.tv_sleepmode);
+        TextView tv_sleepmode_toggle = findViewById(R.id.tv_sleepmode_toggle);
+        llMainSleep.setOnClickListener(view -> {
+            int tag = Integer.parseInt(llMainSleep.getTag()+"") ;
+            Drawable dwCircle = getResources().getDrawable(R.mipmap.ic_gear);
+            Drawable dwAlarm = getResources().getDrawable(R.mipmap.ic_alarm);
+            Drawable dwSleep = getResources().getDrawable(R.mipmap.ic_sleep);
+            Drawable dwActivity = getResources().getDrawable(R.mipmap.ic_activity);
+            Drawable dwAlert = getResources().getDrawable(R.mipmap.ic_alert);
+            if (tag == 1){
+                imgCircle.setImageDrawable(setSaturation(dwCircle, 1));
+//                imgAlarm.setImageDrawable(setSaturation(dwAlarm, 1));
+                imgSleep.setImageDrawable(setSaturation(dwSleep, 1));
+                imgActivity.setImageDrawable(setSaturation(dwActivity, 1));
+                imgAlert.setImageDrawable(setSaturation(dwAlert, 1));
+                lytWeather.setBackgroundResource(R.drawable.bg_orange_gd_rounded);
+                llMainSleep.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                tv_sleepmode_toggle.setTextColor(getResources().getColor(R.color.colorBlack));
+                tv_sleepmode.setTextColor(getResources().getColor(R.color.colorBlack));
+                tv_sleepmode_toggle.setText("off");
+                llMainSleep.setTag(0);
+            }else {
+                imgCircle.setImageDrawable(setSaturation(dwCircle, 0));
+//                imgAlarm.setImageDrawable(setSaturation(dwAlarm, 0));
+                imgSleep.setImageDrawable(setSaturation(dwSleep, 0));
+                imgActivity.setImageDrawable(setSaturation(dwActivity, 0));
+                imgAlert.setImageDrawable(setSaturation(dwAlert, 0));
+                lytWeather.setBackgroundResource(R.drawable.bg_ble_gd_rounded);
+                llMainSleep.setBackgroundColor(getResources().getColor(R.color.colorDark));
+                tv_sleepmode_toggle.setTextColor(getResources().getColor(R.color.white));
+                tv_sleepmode.setTextColor(getResources().getColor(R.color.white));
+                tv_sleepmode_toggle.setText("on");
+                llMainSleep.setTag(1);
+            }
+        });
+      /*  btnSleepToggle.setOnCheckedChangeListener((compoundButton, b) -> {
             Drawable dwCircle = getResources().getDrawable(R.mipmap.ic_gear);
             Drawable dwAlarm = getResources().getDrawable(R.mipmap.ic_alarm);
             Drawable dwSleep = getResources().getDrawable(R.mipmap.ic_sleep);
@@ -268,6 +323,13 @@ public class MainActivity extends AppCompatActivity
                 imgAlert.setImageDrawable(setSaturation(dwAlert, 1));
                 lytWeather.setBackgroundResource(R.drawable.bg_orange_gd_rounded);
             }
+        });*/
+
+        llMainAlarm = findViewById(R.id.llMainAlarm);
+        tv_alarmTime = findViewById(R.id.tv_alarmTime);
+        tv_alrm_toggle = findViewById(R.id.tv_alrm_toggle);
+        llMainAlarm.setOnClickListener(view -> {
+            AlarmClockDialog(tv_alarmTime.getText().toString().trim()+"\n"+tv_alrm_toggle.getText().toString().trim());
         });
 
         btnCircle.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, AddCircleActivity.class)));
@@ -280,10 +342,150 @@ public class MainActivity extends AppCompatActivity
 
         btnAlert.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, AlertActivity.class)));
 
+        btn_no_activity_recommand.setOnClickListener(view -> {
+            int tag = Integer.parseInt(btn_no_activity_recommand.getTag()+"") ;
+            if (tag == 1){
+              /*  btn_no_activity_recommand.setTextColor(getResources().getColor(R.color.colorOrange));
+                btn_no_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange_border));
+                btn_no_activity_recommand.setTag(0);
+
+                btn_yes_activity_recommand.setTextColor(getResources().getColor(R.color.white));
+                btn_yes_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange));
+                btn_yes_activity_recommand.setTag(1);*/
+            }else {
+                btn_no_activity_recommand.setTextColor(getResources().getColor(R.color.white));
+                btn_no_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange));
+                btn_no_activity_recommand.setTag(1);
+
+                btn_yes_activity_recommand.setTextColor(getResources().getColor(R.color.colorOrange));
+                btn_yes_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange_border));
+                btn_yes_activity_recommand.setTag(0);
+            }
+        });
+
+        btn_yes_activity_recommand.setOnClickListener(view -> {
+            int tag = Integer.parseInt(btn_yes_activity_recommand.getTag()+"") ;
+            if (tag == 1){
+               /* btn_yes_activity_recommand.setTextColor(getResources().getColor(R.color.colorOrange));
+                btn_yes_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange_border));
+                btn_yes_activity_recommand.setTag(0);
+
+                btn_no_activity_recommand.setTextColor(getResources().getColor(R.color.white));
+                btn_no_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange));
+                btn_no_activity_recommand.setTag(1);*/
+            }else {
+                btn_yes_activity_recommand.setTextColor(getResources().getColor(R.color.white));
+                btn_yes_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange));
+                btn_yes_activity_recommand.setTag(1);
+
+                btn_no_activity_recommand.setTextColor(getResources().getColor(R.color.colorOrange));
+                btn_no_activity_recommand.setBackground(getResources().getDrawable(R.drawable.btn_small_orange_border));
+                btn_no_activity_recommand.setTag(0);
+            }
+        });
         Button btnCloseWeather = findViewById(R.id.btnMainCloseWeather);
         btnCloseWeather.setOnClickListener(view -> lytWeather.setVisibility(View.GONE));
 
         service_init();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCircleOnOFf();
+    }
+
+    public void setCircleOnOFf(){
+        if(!SharedPref.getValue(MainActivity.this,SharedPref.PREF_IS_ALARM_CLOCK_CIRCLE)){
+            btnAlarm.setVisibility(View.GONE);
+        }else {
+            btnAlarm.setVisibility(View.VISIBLE);
+        }
+        if(!SharedPref.getValue(MainActivity.this,SharedPref.PREF_IS_ALERT_CIRCLE)){
+            btnAlert.setVisibility(View.GONE);
+        }else {
+            btnAlert.setVisibility(View.VISIBLE);
+        }
+        if(!SharedPref.getValue(MainActivity.this,SharedPref.PREF_IS_SLEEP_ANALYSIS_CIRCLE)){
+            btnSleep.setVisibility(View.GONE);
+            rl_sleep_analysis_detail.setVisibility(View.GONE);
+        }else {
+            btnSleep.setVisibility(View.VISIBLE);
+            rl_sleep_analysis_detail.setVisibility(View.VISIBLE);
+        }
+        if(!SharedPref.getValue(MainActivity.this,SharedPref.PREF_IS_ACTIVITY_ANALYSIS_CIRCLE)){
+            btnActivity.setVisibility(View.GONE);
+            rl_activity_analysis_details.setVisibility(View.GONE);
+            ll_yesterday.setVisibility(View.GONE);
+        }else {
+            btnActivity.setVisibility(View.VISIBLE);
+            rl_activity_analysis_details.setVisibility(View.VISIBLE);
+            ll_yesterday.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void AlarmClockDialog(String time) {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.dialog_alarm);
+
+        TimePicker timePick = (TimePicker) dialog.findViewById(R.id.timePickerNewAlarm);
+        ToggleButton tgOnOff = (ToggleButton) dialog.findViewById(R.id.tgOnOff);
+        TextView tv_back = (TextView) dialog.findViewById(R.id.tv_back);
+        TextView tv_ok = (TextView) dialog.findViewById(R.id.tv_ok);
+        if (!time.equals("")) {
+            String[] timeHour = time.split(":");
+            int hour = Integer.valueOf(timeHour[0].trim());
+
+            String[] timeMinute = timeHour[1].trim().split(" ");
+            String[] timeAMPM = timeMinute[1].trim().split("\n");
+
+            if (timeAMPM[0].trim().equals("PM")){
+                hour = hour+12;
+            }
+            if (timeAMPM[1].trim().equals("off")){
+                tgOnOff.setChecked(false);
+            }else {
+                tgOnOff.setChecked(true);
+            }
+            timePick.setCurrentHour(hour);
+            timePick.setCurrentMinute(Integer.valueOf(timeMinute[0].trim()));
+        }
+
+        tv_back.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        tv_ok.setOnClickListener(view -> {
+            int hour, minute;
+            String ONOff = "off";
+            String AM_PM ;
+            if (tgOnOff.isChecked()){
+                ONOff = "on";
+            }
+            if (Build.VERSION.SDK_INT >= 23 ){
+                hour = timePick.getHour();
+                minute = timePick.getMinute();
+            } else{
+                hour = timePick.getCurrentHour();
+                minute = timePick.getCurrentMinute();
+            }
+
+            if(hour < 12) {
+                AM_PM = "AM";
+            } else {
+                AM_PM = "PM";
+                hour=hour-12;
+            }
+            dialog.dismiss();
+            tv_alarmTime.setText(hour +":"+new DecimalFormat("00").format(minute)+" "+AM_PM);
+            tv_alrm_toggle.setText(ONOff);
+        });
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
     @Override
@@ -295,7 +497,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
     private PercentageChartView batteryChargeView;
     @Override
@@ -325,7 +526,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_ring) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -334,8 +534,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_uart:
-
-                    Intent i = new Intent(MainActivity.this, UARTActivity.class);
+                Intent i = new Intent(MainActivity.this, UARTActivity.class);
                     startActivity(i);
                 break;
         }
@@ -511,8 +710,8 @@ public class MainActivity extends AppCompatActivity
         return drawable;
     }
 
+
     private void showIntro(){
-        CardView crdMainSleep = findViewById(R.id.crdMainSleep);
         BubbleShowCaseBuilder showCase1 = new BubbleShowCaseBuilder(this)
                 .backgroundColorResourceId(R.color.colorOrange)
                 .arrowPosition(BubbleShowCase.ArrowPosition.TOP)

@@ -315,11 +315,11 @@
                 <RadioButton
                     android:id="@+id/rbSleepStages"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_size"
+                    android:layout_height="@dimen/radiobutton_size"
                     android:layout_margin="5dp"
-                    android:background="@drawable/btn_large_toggle"
                     android:button="@drawable/btn_toggle_moon"
+                    android:background="@android:color/transparent"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:textColor="@color/btn_toggle_blue_txt" />
@@ -327,11 +327,11 @@
                 <RadioButton
                     android:id="@+id/rbHeartRate"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_size"
+                    android:layout_height="@dimen/radiobutton_size"
                     android:layout_margin="5dp"
-                    android:background="@drawable/btn_large_toggle"
                     android:button="@drawable/btn_toggle_heart"
+                    android:background="@android:color/transparent"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:textColor="@color/btn_toggle_blue_txt" />
@@ -339,8 +339,8 @@
                 <RadioButton
                     android:id="@+id/rbHRV"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_text_size"
+                    android:layout_height="@dimen/radiobutton_text_size"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_large_toggle"
                     android:button="@android:color/transparent"
@@ -352,11 +352,11 @@
                 <RadioButton
                     android:id="@+id/rbSleepQualityScore"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_size"
+                    android:layout_height="@dimen/radiobutton_size"
                     android:layout_margin="5dp"
-                    android:background="@drawable/btn_large_toggle"
                     android:button="@drawable/btn_toggle_wave"
+                    android:background="@android:color/transparent"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:textColor="@color/btn_toggle_blue_txt" />
@@ -364,8 +364,8 @@
                 <RadioButton
                     android:id="@+id/rbHRS"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_text_size"
+                    android:layout_height="@dimen/radiobutton_text_size"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_large_toggle"
                     android:button="@android:color/transparent"
@@ -377,8 +377,8 @@
                 <RadioButton
                     android:id="@+id/rbO2"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/radiobutton_text_size"
+                    android:layout_height="@dimen/radiobutton_text_size"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_large_toggle"
                     android:button="@android:color/transparent"

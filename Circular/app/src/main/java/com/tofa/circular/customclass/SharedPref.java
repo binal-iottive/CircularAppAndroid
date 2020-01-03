@@ -21,6 +21,10 @@ public class SharedPref {
     private static SharedPreferences sharedPreferences = null;
 
     public final static String ALARM_LIST= "alarm_list";
+    public final static String PREF_IS_ALARM_CLOCK_CIRCLE= "pref_is_alarm_clock_circle";
+    public final static String PREF_IS_ALERT_CIRCLE= "pref_is_alert_circle";
+    public final static String PREF_IS_SLEEP_ANALYSIS_CIRCLE= "pref_is_sleep_analysis_circle";
+    public final static String PREF_IS_ACTIVITY_ANALYSIS_CIRCLE= "pref_is_activity_analysis_circle";
 
 
     public static void openPref(@NonNull Context context) {
@@ -56,9 +60,9 @@ public class SharedPref {
     }
 
     @Nullable
-    public static Long getValue(@NonNull Context context, String key, Long defaultValue) {
+    public static boolean getValue(@NonNull Context context, String key) {
         SharedPref.openPref(context);
-        Long result = SharedPref.sharedPreferences.getLong(key, defaultValue);
+        boolean result = SharedPref.sharedPreferences.getBoolean(key, true);
         SharedPref.sharedPreferences = null;
         return result;
     }
@@ -89,11 +93,11 @@ public class SharedPref {
         }
     }
 
-    public static void setValue(@NonNull Context context, String key, Long value) {
+    public static void setValue(@NonNull Context context, String key, boolean value) {
         try {
             SharedPref.openPref(context);
             Editor prefsPrivateEditor = SharedPref.sharedPreferences.edit();
-            prefsPrivateEditor.putLong(key, value);
+            prefsPrivateEditor.putBoolean(key, value);
             prefsPrivateEditor.commit();
             prefsPrivateEditor = null;
             SharedPref.sharedPreferences = null;

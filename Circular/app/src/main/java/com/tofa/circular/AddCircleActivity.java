@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.ramijemli.percentagechartview.PercentageChartView;
 import com.tofa.circular.adapter.AddCircleAdapter;
 import com.tofa.circular.customclass.AddCircleItem;
+import com.tofa.circular.customclass.SharedPref;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,16 +57,16 @@ public class AddCircleActivity extends AppCompatActivity {
         List<AddCircleItem> list = new ArrayList<>();
         list.add(createHeader(getRString(R.string.title_add_circle)));
         list.add(createHeader(getRString(R.string.vibration)));
-        list.add(createItem(R.mipmap.ic_alarm, getRString(R.string.alarm_clock), getRString(R.string.d_alarm)));
-        list.add(createItem(R.mipmap.ic_alert, getRString(R.string.alert), getRString(R.string.d_alert)));
+        list.add(createItem(R.mipmap.ic_alarm, getRString(R.string.alarm_clock), getRString(R.string.d_alarm), SharedPref.getValue(AddCircleActivity.this,SharedPref.PREF_IS_ALARM_CLOCK_CIRCLE)));
+        list.add(createItem(R.mipmap.ic_alert, getRString(R.string.alerts), getRString(R.string.d_alert), SharedPref.getValue(AddCircleActivity.this,SharedPref.PREF_IS_ALERT_CIRCLE)));
         list.add(createItem(R.mipmap.ic_medication, getRString(R.string.medication), getRString(R.string.s_medication), soon, later));
         list.add(createItem(R.mipmap.ic_phone, getRString(R.string.t_phone), getRString(R.string.tt_phone), soon, later));
         list.add(createItem(R.mipmap.ic_reminder, getRString(R.string.reminders), getRString(R.string.t_reminder), soon, later));
 
         list.add(createHeader(getRString(R.string.wellness)));
-        list.add(createItem(R.mipmap.ic_sleep, getRString(R.string.sleep_analysis), getRString(R.string.d_sleep)));
-        list.add(createItem(R.mipmap.ic_activity, getRString(R.string.activity_analysis), getRString(R.string.d_activity)));
-        list.add(createItem(R.mipmap.ic_program, getRString(R.string.programs), getRString(R.string.d_program)));
+        list.add(createItem(R.mipmap.ic_sleep, getRString(R.string.sleep_analysis), getRString(R.string.d_sleep),SharedPref.getValue(AddCircleActivity.this,SharedPref.PREF_IS_SLEEP_ANALYSIS_CIRCLE)));
+        list.add(createItem(R.mipmap.ic_activity, getRString(R.string.activity_analysis), getRString(R.string.d_activity),SharedPref.getValue(AddCircleActivity.this,SharedPref.PREF_IS_ACTIVITY_ANALYSIS_CIRCLE)));
+        list.add(createItem(R.mipmap.ic_program, getRString(R.string.programs), getRString(R.string.d_program),true));
 
         list.add(createHeader(getRString(R.string.health)));
         list.add(createItem(R.mipmap.ic_aryth, getRString(R.string.arrhythmia), getRString(R.string.d_arryth), soon, later));
@@ -104,12 +105,13 @@ public class AddCircleActivity extends AppCompatActivity {
         return model;
     }
 
-    private AddCircleItem createItem(int icon, String title, String desc){
+    private AddCircleItem createItem(int icon, String title, String desc, boolean isSelected){
         AddCircleItem model = new AddCircleItem();
         model.setIcon(getResources().getDrawable(icon));
         model.setTitle(title);
         model.setDesc(desc);
         model.setHeader(false);
+        model.setSelected(isSelected);
         return model;
     }
 

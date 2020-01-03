@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerHamburgerStyle</item>
         <item name="android:actionMenuTextColor">@color/colorBlack</item>
+        <item name="android:textColorPrimary">@color/colorBlack</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
     </style>
@@ -47,6 +48,11 @@
 
     <style name="NumberPickerStyle">
         <item name="android:textSize">@dimen/number_picker_text_size</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/number_picker_text_size_alarm_clock</item>
     </style>
 
 </resources>

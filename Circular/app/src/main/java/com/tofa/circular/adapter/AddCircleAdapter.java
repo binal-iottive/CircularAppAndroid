@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 
 import com.tofa.circular.R;
 import com.tofa.circular.customclass.AddCircleItem;
+import com.tofa.circular.customclass.SharedPref;
 
 public class AddCircleAdapter extends ArrayAdapter<AddCircleItem> {
     private final List<AddCircleItem> list;
@@ -83,18 +84,34 @@ public class AddCircleAdapter extends ArrayAdapter<AddCircleItem> {
                 ((ViewHolder) view.getTag()).btnToggle.setTag(list.get(i));
             }
         }
+        ViewHolder holder = (ViewHolder) view.getTag();
         if(circleItem.isHeaderItem()) {
-            ViewHolder header = (ViewHolder) view.getTag();
-            header.txtTitle.setText(circleItem.getTitle());
+            holder.txtTitle.setText(circleItem.getTitle());
         } else {
-            ViewHolder holder = (ViewHolder) view.getTag();
+
             holder.imgIcon.setImageDrawable(circleItem.getIcon());
             holder.txtTitle.setText(circleItem.getTitle());
             holder.txtDesc.setText(circleItem.getDesc());
-            holder.btnToggle.setChecked(circleItem.getSelected());
             holder.btnToggle.setText(circleItem.getToggleon());
             holder.btnToggle.setTextOn(circleItem.getToggleon());
             holder.btnToggle.setTextOff(circleItem.getToggleoff());
+            holder.btnToggle.setChecked(circleItem.getSelected());
+        }
+        if(!circleItem.isHeaderItem()) {
+            holder.btnToggle.setOnCheckedChangeListener((compoundButton, checked) -> {
+                String title = list.get(i).getTitle();
+                if (title.equals(context.getResources().getString(R.string.alarm_clock))) {
+                    SharedPref.setValue(context, SharedPref.PREF_IS_ALARM_CLOCK_CIRCLE, checked);
+                } else if (title.equals(context.getResources().getString(R.string.alert))) {
+                    SharedPref.setValue(context, SharedPref.PREF_IS_ALERT_CIRCLE, checked);
+                } else if (title.equals(context.getResources().getString(R.string.sleep_analysis))) {
+                    SharedPref.setValue(context, SharedPref.PREF_IS_SLEEP_ANALYSIS_CIRCLE, checked);
+                } else if (title.equals(context.getResources().getString(R.string.activity_analysis))) {
+                    SharedPref.setValue(context, SharedPref.PREF_IS_ACTIVITY_ANALYSIS_CIRCLE, checked);
+                }
+                list.get(i).setSelected(checked);
+                notifyDataSetChanged();
+            });
         }
         return view;
     }

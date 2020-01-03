@@ -320,4 +320,5 @@
     <string name="resting_heart_rate">Resting heart rate</string>
     <string name="blood_oxygen_level">Blood oxygen level</string>
     <string name="please_connect_device">Please connect device</string>
+
 </resources>

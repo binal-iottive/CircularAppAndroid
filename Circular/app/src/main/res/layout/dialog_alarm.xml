@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:background="@drawable/back_alarm_clock_lower">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm_clock"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:background="@drawable/back_alarm_clock_upper"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <TimePicker
+        android:id="@+id/timePickerNewAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:theme="@style/TimePickerTheme"
+        android:timePickerMode="spinner"
+        tools:ignore="UnusedAttribute" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:orientation="horizontal">
+        <ToggleButton
+            android:id="@+id/tgOnOff"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/btn_toggle_alrm_clock"
+            android:background="@drawable/back_alarm_clock_toggle_btn"
+            android:textOff="@string/off"
+            android:textOn="@string/on" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tglsnooze"
+            android:layout_toRightOf="@+id/tgOnOff"
+            android:gravity="center_horizontal">
+            <ToggleButton
+                android:id="@+id/tgls"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:textAllCaps="false"
+                android:checked="false"
+                android:textSize="16sp"
+                android:textColor="@color/btn_toggle_alrm_clock"
+                android:background="@drawable/back_alarm_clock_toggle_btn"
+                android:textOff="S"
+                android:textOn="S" />
+        </LinearLayout>
+        <ToggleButton
+            android:id="@+id/tglsnooze"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAllCaps="true"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/btn_toggle_alrm_clock"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/back_alarm_clock_toggle_btn"
+            android:textOff="@string/snooze"
+            android:textOn="@string/snooze" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:weightSum="2"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/back"
+            android:textColor="@color/colorDivider"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/back_alarm_clock_dialog_btn"/>
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorDivider"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/back_alarm_clock_dialog_btn"/>
+
+    </LinearLayout>
+</LinearLayout>
