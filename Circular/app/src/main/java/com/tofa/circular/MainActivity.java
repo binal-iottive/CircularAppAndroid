@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     public static BluetoothAdapter mBtAdapter = null;
 
     private static MainActivity instance;
+    private DrawerLayout drawer;
 
     public static MainActivity getInstance()
     {
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView lblClose = headerView.findViewById(R.id.lblHeaderMainClose);
@@ -148,6 +149,25 @@ public class MainActivity extends AppCompatActivity
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+
+        btnCircle = findViewById(R.id.btnMainAddCircle);
+        btnAlarm = findViewById(R.id.btnMainAlarm);
+        btnSleep = findViewById(R.id.btnMainSleepAnalysis);
+        btnActivity = findViewById(R.id.btnMainActivityAnalysis);
+        btnAlert = findViewById(R.id.btnMainAlert);
+
+        imgCircle = findViewById(R.id.imgMainAddCircle);
+        imgAlarm = findViewById(R.id.imgMainAlarm);
+        imgSleep = findViewById(R.id.imgMainSleepAnalysis);
+        imgActivity = findViewById(R.id.imgMainActivityAnalysis);
+        imgAlert = findViewById(R.id.imgMainAlert);
+        crdMainSleep = findViewById(R.id.crdMainSleep);
+        crdMainActivity = findViewById(R.id.crdMainActivity);
+        rl_activity_analysis_details = findViewById(R.id.rl_activity_analysis_details);
+        rl_sleep_analysis_detail = findViewById(R.id.rl_sleep_analysis_detail);
+        ll_yesterday = findViewById(R.id.ll_yesterday);
+        btn_yes_activity_recommand = findViewById(R.id.btn_yes_activity_recommand);
+        btn_no_activity_recommand = findViewById(R.id.btn_no_activity_recommand);
 
         if(!SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
             showIntro();
@@ -245,24 +265,6 @@ public class MainActivity extends AppCompatActivity
         barChart.invalidate();
         barChart.getDescription().setText("");
 
-        btnCircle = findViewById(R.id.btnMainAddCircle);
-        btnAlarm = findViewById(R.id.btnMainAlarm);
-        btnSleep = findViewById(R.id.btnMainSleepAnalysis);
-        btnActivity = findViewById(R.id.btnMainActivityAnalysis);
-        btnAlert = findViewById(R.id.btnMainAlert);
-
-        imgCircle = findViewById(R.id.imgMainAddCircle);
-        imgAlarm = findViewById(R.id.imgMainAlarm);
-        imgSleep = findViewById(R.id.imgMainSleepAnalysis);
-        imgActivity = findViewById(R.id.imgMainActivityAnalysis);
-        imgAlert = findViewById(R.id.imgMainAlert);
-        crdMainSleep = findViewById(R.id.crdMainSleep);
-        crdMainActivity = findViewById(R.id.crdMainActivity);
-        rl_activity_analysis_details = findViewById(R.id.rl_activity_analysis_details);
-        rl_sleep_analysis_detail = findViewById(R.id.rl_sleep_analysis_detail);
-        ll_yesterday = findViewById(R.id.ll_yesterday);
-        btn_yes_activity_recommand = findViewById(R.id.btn_yes_activity_recommand);
-        btn_no_activity_recommand = findViewById(R.id.btn_no_activity_recommand);
 
         final LinearLayout lytWeather = findViewById(R.id.lytMainWeather);
 
@@ -288,6 +290,16 @@ public class MainActivity extends AppCompatActivity
                 tv_sleepmode.setTextColor(getResources().getColor(R.color.colorBlack));
                 tv_sleepmode_toggle.setText("off");
                 llMainSleep.setTag(0);
+
+                btnCircle.setClickable(true);
+                btnSleep.setClickable(true);
+                btnActivity.setClickable(true);
+                btnAlert.setClickable(true);
+                btn_yes_activity_recommand.setClickable(true);
+                btn_no_activity_recommand.setClickable(true);
+                llMainAlarm.setClickable(true);
+                ringView.setClickable(true);
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }else {
                 imgCircle.setImageDrawable(setSaturation(dwCircle, 0));
 //                imgAlarm.setImageDrawable(setSaturation(dwAlarm, 0));
@@ -300,6 +312,16 @@ public class MainActivity extends AppCompatActivity
                 tv_sleepmode.setTextColor(getResources().getColor(R.color.white));
                 tv_sleepmode_toggle.setText("on");
                 llMainSleep.setTag(1);
+
+                btnCircle.setClickable(false);
+                btnSleep.setClickable(false);
+                btnActivity.setClickable(false);
+                btnAlert.setClickable(false);
+                btn_yes_activity_recommand.setClickable(false);
+                btn_no_activity_recommand.setClickable(false);
+                llMainAlarm.setClickable(false);
+                ringView.setClickable(false);
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
         });
       /*  btnSleepToggle.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -499,24 +521,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     private PercentageChartView batteryChargeView;
+    private View ringView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem menuItem = menu.getItem(0);
         menuItem.setActionView(R.layout.my_ring);
-        View view = menuItem.getActionView();
-         batteryChargeView = view.findViewById(R.id.pbMyRing);
-        TextView lblProgress = view.findViewById(R.id.lblMyRingProgress);
+        ringView = menuItem.getActionView();
+         batteryChargeView = ringView.findViewById(R.id.pbMyRing);
+        TextView lblProgress = ringView.findViewById(R.id.lblMyRingProgress);
         lblProgress.setText(String.format("%s", (int) batteryChargeView.getProgress()));
 
 
-        TextView lblTextMyRing = view.findViewById(R.id.txtMyring);
+        TextView lblTextMyRing = ringView.findViewById(R.id.txtMyring);
         lblTextMyRing.setText(String.format("%s", (int) batteryChargeView.getProgress()));
 
         batteryChargeView.setOnProgressChangeListener(progress -> lblProgress.setText(String.format("%s", (int) progress)));
 
-        view.setOnClickListener(view1 -> startActivity(new Intent(MainActivity.this, MyRingActivity.class)));
+        ringView.setOnClickListener(view1 -> startActivity(new Intent(MainActivity.this, MyRingActivity.class)));
         return true;
     }
 

@@ -53,9 +53,13 @@
     <string name="my_ring">My ring</string>
     <string name="my_circles">My circles</string>
     <string name="add_circle">Add a circle</string>
+    <string name="add_circle_n">Add a\ncircle</string>
     <string name="alarm_clock">Alarm clock</string>
+    <string name="alarm_clock_n">Alarm\nclock</string>
     <string name="sleep_analysis">Sleep analysis</string>
+    <string name="sleep_analysis_n">Sleep\nanalysis</string>
     <string name="activity_analysis">Activity analysis</string>
+    <string name="activity_analysis_n">Activity\nanalysis</string>
     <string name="alarm">Alarm</string>
     <string name="sleep_mode_off">Sleep mode\noff</string>
     <string name="sleep_mode_on">Sleep mode\non</string>
@@ -91,7 +95,7 @@
     <string name="activate_step">Do you want to activate daily step tracking?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="alert">Alert</string>
+    <string name="alert">Alerts</string>
     <string name="batterry">Batterry</string>
     <string name="kate_s_us_10">Kate\'s US 10</string>
     <string name="sleep_mode">Sleep mode</string>

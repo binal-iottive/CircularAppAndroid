@@ -25,7 +25,7 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHold
         public TextView tvAlertType, tvAlertFrom;
         public ImageView iv_1, iv_repeat, ivDeleteAlert;
         public ImageView iv_dot4,iv_dot3,iv_dot2,iv_dot1, iv_dotClose;
-        public LinearLayout ll_dots;
+        public LinearLayout ll_dots, ll_2;
 
         public MyViewHolder(View view) {
             super(view);
@@ -89,54 +89,37 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHold
             }
         });
 
-        holder.iv_repeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.ll_dots.setVisibility(View.VISIBLE);
-            }
+        holder.iv_repeat.setOnClickListener(view -> holder.ll_dots.setVisibility(View.VISIBLE));
+
+        holder.iv_1.setOnClickListener(view -> holder.ll_dots.setVisibility(View.VISIBLE));
+
+        holder.tvAlertType.setOnClickListener(view -> holder.ll_dots.setVisibility(View.VISIBLE));
+        holder.tvAlertFrom.setOnClickListener(view -> holder.ll_dots.setVisibility(View.VISIBLE));
+
+        holder.iv_dot1.setOnClickListener(view -> {
+            alertList.get(position).repeatCount = 1;
+            holder.ll_dots.setVisibility(View.GONE);
+            notifyDataSetChanged();
+        });
+        holder.iv_dot2.setOnClickListener(view -> {
+            alertList.get(position).repeatCount = 2;
+            holder.ll_dots.setVisibility(View.GONE);
+            notifyDataSetChanged();
         });
 
-        holder.iv_dot1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertList.get(position).repeatCount = 1;
-                holder.ll_dots.setVisibility(View.GONE);
-                notifyDataSetChanged();
-            }
-        });
-        holder.iv_dot2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertList.get(position).repeatCount = 2;
-                holder.ll_dots.setVisibility(View.GONE);
-                notifyDataSetChanged();
-            }
+        holder.iv_dot3.setOnClickListener(view -> {
+            alertList.get(position).repeatCount = 3;
+            holder.ll_dots.setVisibility(View.GONE);
+            notifyDataSetChanged();
         });
 
-        holder.iv_dot3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertList.get(position).repeatCount = 3;
-                holder.ll_dots.setVisibility(View.GONE);
-                notifyDataSetChanged();
-            }
+        holder.iv_dot4.setOnClickListener(view -> {
+            alertList.get(position).repeatCount = 4;
+            holder.ll_dots.setVisibility(View.GONE);
+            notifyDataSetChanged();
         });
 
-        holder.iv_dot4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertList.get(position).repeatCount = 4;
-                holder.ll_dots.setVisibility(View.GONE);
-                notifyDataSetChanged();
-            }
-        });
-
-        holder.iv_dotClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.ll_dots.setVisibility(View.GONE);
-            }
-        });
+        holder.iv_dotClose.setOnClickListener(view -> holder.ll_dots.setVisibility(View.GONE));
 
     }
 

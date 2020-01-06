@@ -318,17 +318,23 @@ public class AlarmActivity extends AppCompatActivity {
             randomColor = alarmColorList[alarmModelArrayList.size()];
         }
         AlarmModel model = new AlarmModel(idAlarm,time, title, sRep, randomColor, vibrationLvl, true);
-//        if (!isContaimList(idAlarm)) {
+        int isContainItemInt = isContaimList(idAlarm,model);
+        if (isContainItemInt == -1) {
             alarmModelArrayList.add(model);
-            AddAlarm(alarmModelArrayList.size()-1);
-//        }
+            AddAlarm(alarmModelArrayList.size()-1, false);
+        }else {
+            AddAlarm(isContainItemInt, true);
+        }
         createWeekData();
 //        SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
     }
 
-    public void AddAlarm(int position) {
+    public void AddAlarm(int position, boolean isEdit) {
         AlarmModel model = alarmModelArrayList.get(position);
         View alarmview = LayoutInflater.from(this).inflate(R.layout.alarm_cardview, null);
+        if (isEdit){
+            alarmview = layoutAlarms.getChildAt(position);
+        }
         alarmview.setOnClickListener(view -> editAlarm(position,model.alarmId, model.alrmTime, model.alrmTitle, model.alrmRepeatDays, model.VibrationLevel));
 
         CardView cardView = alarmview.findViewById(R.id.crdAlarm);
@@ -395,7 +401,9 @@ public class AlarmActivity extends AppCompatActivity {
 //                SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
             }
         });
-        layoutAlarms.addView(alarmview);
+        if (!isEdit) {
+            layoutAlarms.addView(alarmview);
+        }
     }
 
    /* public void AddAlarm(String idAlarm, String time, String title, String sRep, String vibrationLvl) {
@@ -583,7 +591,7 @@ public class AlarmActivity extends AppCompatActivity {
                         adapter = new WeekAdapter(AlarmActivity.this, weekData);
                         gridview.setAdapter(adapter);
                         for (int i = 0; i < alarmModelArrayList.size(); i++) {
-                            AddAlarm(i);
+                            AddAlarm(i, false);
                         }
                         createWeekData();
                     }
@@ -591,12 +599,14 @@ public class AlarmActivity extends AppCompatActivity {
             }
         }
     }
-    private boolean isContaimList(int alarmID){
+    private int isContaimList(int alarmID, AlarmModel model){
         for (int i=0;i<alarmModelArrayList.size();i++){
             if (alarmModelArrayList.get(i).alarmId == alarmID){
-                return true;
+                model.alrmColor = alarmModelArrayList.get(i).alrmColor;
+                alarmModelArrayList.set(i,model);
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 }

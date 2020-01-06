@@ -264,9 +264,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_toggle"
                     android:button="@android:color/transparent"
-                    android:minHeight="30dp"
                     android:text="@string/today"
                     android:textAllCaps="false"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/btn_toggle_blue_txt" />
 
                 <RadioButton
@@ -277,7 +277,6 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_toggle"
                     android:button="@android:color/transparent"
-                    android:minHeight="30dp"
                     android:text="@string/past_week"
                     android:textAllCaps="false"
                     android:textColor="@color/btn_toggle_blue_txt" />
@@ -292,7 +291,6 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_toggle"
                     android:button="@android:color/transparent"
-                    android:minHeight="30dp"
                     android:text="@string/past_month"
                     android:textAllCaps="false"
                     android:textColor="@color/btn_toggle_blue_txt" />
@@ -347,6 +345,7 @@
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:text="@string/hrv"
+                    android:textSize="12sp"
                     android:textColor="@color/btn_toggle_blue_txt" />
 
                 <RadioButton
@@ -372,6 +371,7 @@
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:text="@string/hrs"
+                    android:textSize="12sp"
                     android:textColor="@color/btn_toggle_blue_txt" />
 
                 <RadioButton
@@ -385,6 +385,7 @@
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:text="@string/spo2"
+                    android:textSize="12sp"
                     android:textColor="@color/btn_toggle_blue_txt" />
             </RadioGroup>
 

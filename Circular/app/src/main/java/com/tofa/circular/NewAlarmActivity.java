@@ -21,6 +21,7 @@ import com.tofa.circular.model.AlarmModel;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -194,13 +195,13 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                 final TextView txtlabel = findViewById(R.id.txtNewAlarmLabel);
 
                 TimePicker picker = (TimePicker)findViewById(R.id.timePickerNewAlarm);
-                int hour, minute;
+                int hourInt, minuteInt;
                 if (Build.VERSION.SDK_INT >= 23 ){
-                    hour = picker.getHour();
-                    minute = picker.getMinute();
+                    hourInt = picker.getHour();
+                    minuteInt = picker.getMinute();
                 } else{
-                    hour = picker.getCurrentHour();
-                    minute = picker.getCurrentMinute();
+                    hourInt = picker.getCurrentHour();
+                    minuteInt = picker.getCurrentMinute();
                 }
                 if (rep == null){
                     rep = "0";
@@ -210,6 +211,8 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                 vibrationlvl = EditVibrationActivity.vibrationLvl;
 
                 String strTx;
+                String hour = new DecimalFormat("00").format(hourInt);
+                String minute = new DecimalFormat("00").format(minuteInt);
                 if ( mode.equals("edit") ){
                     strTx = "alrm["+alarmid+"]"+rep+"-"+hour+":"+minute+"-"+vibrationlvl+"-"+txtlabel.getText();
                 }else {

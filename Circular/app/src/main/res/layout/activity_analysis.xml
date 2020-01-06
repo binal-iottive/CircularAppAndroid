@@ -328,8 +328,8 @@
                         android:background="@drawable/btn_toggle_red"
                         android:button="@android:color/transparent"
                         android:checked="true"
-                        android:minHeight="30dp"
                         android:text="@string/today"
+                        android:layout_gravity="center_vertical"
                         android:textAllCaps="false"
                         android:textColor="@color/btn_toggle_red_txt" />
 
@@ -341,7 +341,6 @@
                         android:layout_weight="1"
                         android:background="@drawable/btn_toggle_red"
                         android:button="@android:color/transparent"
-                        android:minHeight="30dp"
                         android:text="@string/past_week"
                         android:textAllCaps="false"
                         android:textColor="@color/btn_toggle_red_txt" />
@@ -356,7 +355,6 @@
                         android:layout_weight="1"
                         android:background="@drawable/btn_toggle_red"
                         android:button="@android:color/transparent"
-                        android:minHeight="30dp"
                         android:text="@string/past_month"
                         android:textAllCaps="false"
                         android:textColor="@color/btn_toggle_red_txt" />
