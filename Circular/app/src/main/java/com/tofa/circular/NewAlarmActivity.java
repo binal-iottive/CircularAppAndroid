@@ -3,6 +3,7 @@ package com.tofa.circular;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -236,10 +237,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                             }else {
                                 Toast.makeText(this, "New Alarm has been set", Toast.LENGTH_SHORT).show();
                             }
-                            Intent intent1=new Intent();
-                            intent1.putExtra("MESSAGE","OK");
-                            setResult(Utils.REQUEST_EDIT_ALARM,intent1);
-                            finish();
+                            finishActivity();
                         }else {
                             Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
                         }
@@ -265,10 +263,7 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                             if (AlarmActivity.alarmModelArrayList.size() > 0 && AlarmActivity.alarmModelArrayList.size() > position) {
                                 AlarmActivity.alarmModelArrayList.remove(position);
                             }
-                            Intent intent1 = new Intent();
-                            intent1.putExtra("MESSAGE", "OK");
-                            setResult(Utils.REQUEST_EDIT_ALARM, intent1);
-                            finish();
+                            finishActivity();
                         }else {
                             Toast.makeText(this, "Please connect first", Toast.LENGTH_SHORT).show();
                         }
@@ -282,6 +277,18 @@ public class NewAlarmActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
         }
+    }
+
+    private void finishActivity(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent1 = new Intent();
+                intent1.putExtra("MESSAGE", "OK");
+                setResult(Utils.REQUEST_EDIT_ALARM, intent1);
+                finish();
+            }
+        }, 700);
     }
 
     private void showSmartAlarmDialog(){

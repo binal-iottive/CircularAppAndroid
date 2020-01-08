@@ -34,6 +34,7 @@ import com.tofa.circular.customclass.WeekData;
 import com.tofa.circular.model.AlarmModel;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -310,7 +311,15 @@ public class AlarmActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    private String gettimeInTwoDigits(String time){
+        String[] splitime = time.split(":");
+        String hour = new DecimalFormat("00").format(Integer.parseInt(splitime[0].trim()));
+        String minute = new DecimalFormat("00").format(Integer.parseInt(splitime[1].trim()));
+        return hour.trim()+":"+minute.trim();
+    }
+
     public void addAlarmList(int idAlarm, String time, String title, String sRep, String vibrationLvl){
+        time = gettimeInTwoDigits(time);
         String randomColor = "";
         if (alarmModelArrayList.size()>=8){
             randomColor = Utils.generateColor();
@@ -318,13 +327,15 @@ public class AlarmActivity extends AppCompatActivity {
             randomColor = alarmColorList[alarmModelArrayList.size()];
         }
         AlarmModel model = new AlarmModel(idAlarm,time, title, sRep, randomColor, vibrationLvl, true);
-        int isContainItemInt = isContaimList(idAlarm,model);
+      /*  int isContainItemInt = isContaimList(idAlarm,model);
         if (isContainItemInt == -1) {
             alarmModelArrayList.add(model);
             AddAlarm(alarmModelArrayList.size()-1, false);
         }else {
             AddAlarm(isContainItemInt, true);
-        }
+        }*/
+        alarmModelArrayList.add(model);
+        AddAlarm(alarmModelArrayList.size()-1, false);
         createWeekData();
 //        SharedPref.setAlarmList(AlarmActivity.this,SharedPref.ALARM_LIST, alarmModelArrayList);
     }
@@ -557,7 +568,7 @@ public class AlarmActivity extends AppCompatActivity {
     private void newAlarm() {
         Intent intent = new Intent(this, NewAlarmActivity.class);
         intent.putExtra("mode", "new");
-        startActivity(intent);
+        startActivityForResult(intent,Utils.REQUEST_EDIT_ALARM);
     }
 
     private void editAlarm(int position, int id, String time, String title, String rep, String vibrationLvl) {
@@ -587,13 +598,15 @@ public class AlarmActivity extends AppCompatActivity {
                         if (((LinearLayout) layoutAlarms).getChildCount() > 0) {
                             ((LinearLayout) layoutAlarms).removeAllViews();
                         }
+                        alarmModelArrayList = new ArrayList<>();
                         weekData = new ArrayList<>();
                         adapter = new WeekAdapter(AlarmActivity.this, weekData);
                         gridview.setAdapter(adapter);
-                        for (int i = 0; i < alarmModelArrayList.size(); i++) {
+                        pullAlarmList();
+                        /*for (int i = 0; i < alarmModelArrayList.size(); i++) {
                             AddAlarm(i, false);
                         }
-                        createWeekData();
+                        createWeekData();*/
                     }
                 });
             }
